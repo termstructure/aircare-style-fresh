@@ -9,6 +9,14 @@ import { Search, Filter, Star, Truck, Shield, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+// Import filter images
+import filtreteM11 from "@/assets/filtrete-merv11.jpg";
+import filtreteM13 from "@/assets/filtrete-merv13.jpg";
+import filtreteM16 from "@/assets/filtrete-merv16.jpg";
+import filtreteCarbon from "@/assets/filtrete-carbon.jpg";
+import hdxM8 from "@/assets/hdx-merv8.jpg";
+import hdxM13 from "@/assets/hdx-merv13.jpg";
+
 interface AirFilter {
   id: string;
   name: string;
@@ -38,10 +46,11 @@ const AirFilters = () => {
 
   const [sortBy, setSortBy] = useState("popular");
 
-  // Sample data based on the existing product
+  // Comprehensive 3M Filtrete and HDX product lineup
   const airFilters: AirFilter[] = [
+    // 3M Filtrete MERV 11 Series
     {
-      id: "1",
+      id: "f11-16x20",
       name: "3M Filtrete MERV 11 Premium Allergen Filter",
       size: "16x20x1",
       mervRating: 11,
@@ -49,13 +58,57 @@ const AirFilters = () => {
       price: 24.99,
       brand: "3M Filtrete",
       category: "Premium Allergen",
-      features: ["Captures 93% of particles", "Pet dander", "Pollen", "Dust mites"],
-      image: "/placeholder.svg",
+      features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
+      image: filtreteM11,
       subscription: true,
       popular: true
     },
     {
-      id: "2",
+      id: "f11-20x25",
+      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      size: "20x25x1",
+      mervRating: 11,
+      fprRating: 7,
+      price: 32.99,
+      brand: "3M Filtrete",
+      category: "Premium Allergen",
+      features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
+      image: filtreteM11,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "f11-24x24",
+      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      size: "24x24x1",
+      mervRating: 11,
+      fprRating: 7,
+      price: 36.99,
+      brand: "3M Filtrete",
+      category: "Premium Allergen",
+      features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
+      image: filtreteM11,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "f11-16x25",
+      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      size: "16x25x1",
+      mervRating: 11,
+      fprRating: 7,
+      price: 28.99,
+      brand: "3M Filtrete",
+      category: "Premium Allergen",
+      features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
+      image: filtreteM11,
+      subscription: true,
+      popular: false
+    },
+
+    // 3M Filtrete MERV 13 Series
+    {
+      id: "f13-16x20",
       name: "3M Filtrete MERV 13 Ultra Allergen Filter",
       size: "16x20x1",
       mervRating: 13,
@@ -64,35 +117,228 @@ const AirFilters = () => {
       originalPrice: 36.99,
       brand: "3M Filtrete",
       category: "Ultra Allergen",
-      features: ["Captures 97% of particles", "Bacteria", "Viruses", "Smoke"],
-      image: "/placeholder.svg",
+      features: ["Captures 97% of particles", "Bacteria & viruses", "Smoke particles", "Smog & cough/sneeze debris"],
+      image: filtreteM13,
+      subscription: true,
+      popular: true
+    },
+    {
+      id: "f13-20x25",
+      name: "3M Filtrete MERV 13 Ultra Allergen Filter",
+      size: "20x25x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 42.99,
+      originalPrice: 47.99,
+      brand: "3M Filtrete",
+      category: "Ultra Allergen",
+      features: ["Captures 97% of particles", "Bacteria & viruses", "Smoke particles", "Smog & cough/sneeze debris"],
+      image: filtreteM13,
       subscription: true,
       popular: false
     },
     {
-      id: "3",
-      name: "Nordic Pure MERV 8 Basic Protection Filter",
+      id: "f13-24x24",
+      name: "3M Filtrete MERV 13 Ultra Allergen Filter",
+      size: "24x24x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 48.99,
+      originalPrice: 52.99,
+      brand: "3M Filtrete",
+      category: "Ultra Allergen",
+      features: ["Captures 97% of particles", "Bacteria & viruses", "Smoke particles", "Smog & cough/sneeze debris"],
+      image: filtreteM13,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "f13-16x25",
+      name: "3M Filtrete MERV 13 Ultra Allergen Filter",
+      size: "16x25x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 38.99,
+      originalPrice: 42.99,
+      brand: "3M Filtrete",
+      category: "Ultra Allergen",
+      features: ["Captures 97% of particles", "Bacteria & viruses", "Smoke particles", "Smog & cough/sneeze debris"],
+      image: filtreteM13,
+      subscription: true,
+      popular: false
+    },
+
+    // 3M Filtrete MERV 16 Hospital Grade
+    {
+      id: "f16-16x20",
+      name: "3M Filtrete MERV 16 Hospital Grade Filter",
+      size: "16x20x1",
+      mervRating: 16,
+      price: 52.99,
+      brand: "3M Filtrete",
+      category: "Hospital Grade",
+      features: ["99.97% particle capture", "Medical grade filtration", "Antimicrobial coating", "Superior air quality"],
+      image: filtreteM16,
+      subscription: false,
+      popular: false
+    },
+    {
+      id: "f16-20x25",
+      name: "3M Filtrete MERV 16 Hospital Grade Filter",
+      size: "20x25x1",
+      mervRating: 16,
+      price: 68.99,
+      brand: "3M Filtrete",
+      category: "Hospital Grade",
+      features: ["99.97% particle capture", "Medical grade filtration", "Antimicrobial coating", "Superior air quality"],
+      image: filtreteM16,
+      subscription: false,
+      popular: false
+    },
+
+    // 3M Filtrete Carbon Odor Reduction
+    {
+      id: "fc-16x20",
+      name: "3M Filtrete Carbon Odor Reduction Filter",
+      size: "16x20x1",
+      mervRating: 11,
+      fprRating: 7,
+      price: 34.99,
+      brand: "3M Filtrete",
+      category: "Carbon Odor",
+      features: ["Activated carbon layer", "Reduces household odors", "Pet & cooking smells", "Premium allergen protection"],
+      image: filtreteCarbon,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "fc-20x25",
+      name: "3M Filtrete Carbon Odor Reduction Filter",
+      size: "20x25x1",
+      mervRating: 11,
+      fprRating: 7,
+      price: 44.99,
+      brand: "3M Filtrete",
+      category: "Carbon Odor",
+      features: ["Activated carbon layer", "Reduces household odors", "Pet & cooking smells", "Premium allergen protection"],
+      image: filtreteCarbon,
+      subscription: true,
+      popular: false
+    },
+
+    // HDX Basic Protection Series (MERV 8)
+    {
+      id: "hdx8-16x20",
+      name: "HDX Basic Protection Pleated Filter",
+      size: "16x20x1",
+      mervRating: 8,
+      fprRating: 4,
+      price: 12.99,
+      brand: "HDX",
+      category: "Basic Protection",
+      features: ["Captures large particles", "Lint & dust", "Pet hair", "Budget-friendly option"],
+      image: hdxM8,
+      subscription: true,
+      popular: true
+    },
+    {
+      id: "hdx8-20x25",
+      name: "HDX Basic Protection Pleated Filter",
       size: "20x25x1",
       mervRating: 8,
+      fprRating: 4,
       price: 18.99,
-      brand: "Nordic Pure",
+      brand: "HDX",
       category: "Basic Protection",
-      features: ["Captures large particles", "Lint", "Dust", "Pet hair"],
-      image: "/placeholder.svg",
+      features: ["Captures large particles", "Lint & dust", "Pet hair", "Budget-friendly option"],
+      image: hdxM8,
       subscription: true,
       popular: false
     },
     {
-      id: "4",
-      name: "Honeywell MERV 16 Hospital Grade Filter",
+      id: "hdx8-24x24",
+      name: "HDX Basic Protection Pleated Filter",
+      size: "24x24x1",
+      mervRating: 8,
+      fprRating: 4,
+      price: 22.99,
+      brand: "HDX",
+      category: "Basic Protection",
+      features: ["Captures large particles", "Lint & dust", "Pet hair", "Budget-friendly option"],
+      image: hdxM8,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "hdx8-16x25",
+      name: "HDX Basic Protection Pleated Filter",
       size: "16x25x1",
-      mervRating: 16,
-      price: 45.99,
-      brand: "Honeywell",
-      category: "Hospital Grade",
-      features: ["Medical grade filtration", "99.97% efficiency", "Antimicrobial coating"],
-      image: "/placeholder.svg",
-      subscription: false,
+      mervRating: 8,
+      fprRating: 4,
+      price: 15.99,
+      brand: "HDX",
+      category: "Basic Protection",
+      features: ["Captures large particles", "Lint & dust", "Pet hair", "Budget-friendly option"],
+      image: hdxM8,
+      subscription: true,
+      popular: false
+    },
+
+    // HDX Premium Series (MERV 13)
+    {
+      id: "hdx13-16x20",
+      name: "HDX Premium Pleated Filter FPR 10",
+      size: "16x20x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 24.99,
+      brand: "HDX",
+      category: "Premium Allergen",
+      features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
+      image: hdxM13,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "hdx13-20x25",
+      name: "HDX Premium Pleated Filter FPR 10",
+      size: "20x25x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 32.99,
+      brand: "HDX",
+      category: "Premium Allergen",
+      features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
+      image: hdxM13,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "hdx13-24x24",
+      name: "HDX Premium Pleated Filter FPR 10",
+      size: "24x24x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 38.99,
+      brand: "HDX",
+      category: "Premium Allergen",
+      features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
+      image: hdxM13,
+      subscription: true,
+      popular: false
+    },
+    {
+      id: "hdx13-16x25",
+      name: "HDX Premium Pleated Filter FPR 10",
+      size: "16x25x1",
+      mervRating: 13,
+      fprRating: 10,
+      price: 28.99,
+      brand: "HDX",
+      category: "Premium Allergen",
+      features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
+      image: hdxM13,
+      subscription: true,
       popular: false
     }
   ];
@@ -100,7 +346,7 @@ const AirFilters = () => {
   const sizes = ["16x20x1", "16x25x1", "20x25x1", "24x24x1", "20x20x1", "16x24x1"];
   const mervRatings = [8, 11, 13, 16];
   const fprRatings = [4, 7, 10];
-  const brands = ["3M Filtrete", "Nordic Pure", "Honeywell", "Lennox"];
+  const brands = ["3M Filtrete", "HDX"];
   const categories = ["Basic Protection", "Premium Allergen", "Ultra Allergen", "Hospital Grade", "Carbon Odor"];
 
   const FilterCard = ({ filter }: { filter: AirFilter }) => (
