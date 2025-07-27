@@ -59,17 +59,12 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-background/90">123 Industrial Blvd</p>
-                  <p className="text-background/70">Atlanta, GA 30309</p>
+                  <p className="text-background/90">Charlotte, NC</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-background/90">(555) 123-4567</p>
-              </div>
-              <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-background/90">info@aircaresupply.com</p>
+                <p className="text-background/90">support@aircaresupplyco.com</p>
               </div>
             </div>
           </div>
