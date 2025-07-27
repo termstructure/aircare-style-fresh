@@ -1,11 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, Users, Clock, Trophy } from "lucide-react";
+import { CheckCircle, Leaf, Target, Zap } from "lucide-react";
 
 const stats = [
-  { icon: Users, label: "Happy Customers", value: "10,000+" },
-  { icon: Clock, label: "Years Experience", value: "25+" },
-  { icon: Trophy, label: "Industry Awards", value: "15+" },
-  { icon: CheckCircle, label: "Products Delivered", value: "1M+" }
+  { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
+  { icon: Target, label: "Customer Satisfaction", value: "98%" },
+  { icon: Zap, label: "Same-Day Processing", value: "24hr" },
+  { icon: CheckCircle, label: "Quality Guarantee", value: "30-Day" }
 ];
 
 const About = () => {
@@ -25,15 +25,15 @@ const About = () => {
             </h2>
             
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              For over 25 years, AirCare Supply Co has been the leading provider of premium 
-              HVAC supplies and air filtration solutions. We understand that clean air isn't 
-              just a luxury—it's essential for health, comfort, and productivity.
+              AirCare Supply Co is a fresh, innovative company dedicated to transforming 
+              indoor air quality. We believe that everyone deserves clean, healthy air in 
+              their homes and workplaces—and we're here to make that a reality.
             </p>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Our commitment to quality means every product we offer meets the highest 
-              industry standards. From residential homes to large commercial facilities, 
-              we provide the expertise and products needed to create optimal indoor environments.
+              Built on a foundation of quality, sustainability, and customer focus, we're 
+              bringing modern solutions to air filtration. Our curated selection of premium 
+              products ensures you get the best performance and value for your investment.
             </p>
             
             <div className="space-y-4">
