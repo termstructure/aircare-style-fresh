@@ -49,9 +49,6 @@ const Header = () => {
             
             {user ? (
               <div className="flex items-center space-x-2">
-                <Button variant="hero" size="sm">
-                  Get Quote
-                </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" className="flex items-center space-x-1">
@@ -69,9 +66,6 @@ const Header = () => {
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button variant="hero" size="sm">
-                  Get Quote
-                </Button>
                 <Button variant="outline" size="sm" asChild>
                   <Link to="/auth">Sign In</Link>
                 </Button>
