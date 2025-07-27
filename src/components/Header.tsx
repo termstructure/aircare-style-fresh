@@ -28,10 +28,6 @@ const Header = () => {
           <div className="flex items-center space-x-3">
             <div className="hidden lg:flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
-                <Phone className="w-4 h-4" />
-                <span>(555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-1">
                 <Mail className="w-4 h-4" />
                 <span>info@aircaresupply.com</span>
               </div>
