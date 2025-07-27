@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Shield, Award, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
@@ -32,8 +33,8 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button variant="accent" size="lg" className="text-lg px-8 py-6">
-              Shop Products
+            <Button variant="accent" size="lg" className="text-lg px-8 py-6" asChild>
+              <Link to="/air-filters">Shop Products</Link>
             </Button>
             <Button variant="outline" size="lg" className="text-lg px-8 py-6 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20">
               Learn More
