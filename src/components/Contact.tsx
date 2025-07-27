@@ -14,7 +14,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email Us",
-    content: "info@aircaresupply.com",
+    content: "support@aircaresupplyco.com",
     subtitle: "24/7 response"
   },
   {

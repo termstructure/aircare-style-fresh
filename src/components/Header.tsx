@@ -29,7 +29,7 @@ const Header = () => {
             <div className="hidden lg:flex items-center space-x-4 text-sm text-muted-foreground">
               <div className="flex items-center space-x-1">
                 <Mail className="w-4 h-4" />
-                <span>info@aircaresupply.com</span>
+                <span>support@aircaresupplyco.com</span>
               </div>
             </div>
             <Button variant="hero" size="sm">
