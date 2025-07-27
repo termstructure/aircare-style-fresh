@@ -3,6 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const contactInfo = [
   {
@@ -31,7 +37,54 @@ const contactInfo = [
   }
 ];
 
+const contactSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(1, "Phone number is required"),
+  message: z.string().min(10, "Message must be at least 10 characters long"),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
+
 const Contact = () => {
+  const { toast } = useToast();
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const { error } = await supabase.functions.invoke('send-contact-email', {
+        body: data
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      form.reset();
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <section id="contact" className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-4">
@@ -80,50 +133,94 @@ const Contact = () => {
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
               
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      First Name
-                    </label>
-                    <Input placeholder="Your first name" />
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your first name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your last name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Last Name
-                    </label>
-                    <Input placeholder="Your last name" />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Email Address
-                  </label>
-                  <Input type="email" placeholder="your.email@company.com" />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Phone Number
-                  </label>
-                  <Input type="tel" placeholder="(555) 123-4567" />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Message
-                  </label>
-                  <Textarea 
-                    placeholder="Tell us about your HVAC supply needs..."
-                    className="min-h-[120px]"
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Address</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="your.email@company.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                
-                <Button variant="hero" size="lg" className="w-full">
-                  Send Message
-                </Button>
-              </form>
+                  
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input type="tel" placeholder="(555) 123-4567" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Tell us about your HVAC supply needs..."
+                            className="min-h-[120px]"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button 
+                    type="submit" 
+                    variant="hero" 
+                    size="lg" 
+                    className="w-full"
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {form.formState.isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>
