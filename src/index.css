@@ -8,42 +8,42 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 215 25% 15%;
+    --background: 30 14% 97%;
+    --foreground: 25 5% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 25 5% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 25 5% 15%;
 
-    --primary: 210 95% 45%;
+    --primary: 25 15% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 210 85% 65%;
+    --primary-glow: 25 25% 65%;
 
-    --secondary: 215 15% 92%;
-    --secondary-foreground: 215 25% 25%;
+    --secondary: 30 8% 94%;
+    --secondary-foreground: 25 5% 25%;
 
-    --muted: 215 15% 95%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 30 12% 96%;
+    --muted-foreground: 25 10% 50%;
 
-    --accent: 25 95% 60%;
+    --accent: 30 85% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 30 14% 97%;
 
-    --border: 215 20% 88%;
-    --input: 215 20% 90%;
-    --ring: 210 95% 45%;
+    --border: 30 12% 90%;
+    --input: 30 12% 92%;
+    --ring: 25 15% 45%;
 
     /* Custom gradients and effects */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
-    --shadow-elegant: 0 10px 40px -10px hsl(var(--primary) / 0.15);
-    --shadow-card: 0 4px 20px -4px hsl(var(--foreground) / 0.08);
-    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
+    --shadow-elegant: 0 20px 40px -12px hsl(var(--primary) / 0.12);
+    --shadow-card: 0 4px 20px -4px hsl(var(--foreground) / 0.06);
+    --shadow-glow: 0 0 30px hsl(var(--accent) / 0.2);
 
     --radius: 0.5rem;
 

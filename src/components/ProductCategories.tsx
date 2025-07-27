@@ -36,12 +36,12 @@ const ProductCategories = () => {
             <span className="text-primary font-medium">Our Products</span>
             <div className="w-12 h-1 bg-primary rounded-full" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Professional HVAC Solutions
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+            Sophisticated Air Solutions
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            From high-efficiency air filters to complete HVAC systems, we provide everything 
-            you need for optimal indoor air quality and climate control.
+          <p className="text-xl font-body text-muted-foreground max-w-3xl mx-auto">
+            Curated collection of premium air purification and climate solutions designed 
+            for the discerning homeowner who values both performance and aesthetics.
           </p>
         </div>
 

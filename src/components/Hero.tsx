@@ -21,14 +21,14 @@ const Hero = () => {
             <span className="text-primary-foreground/90 font-medium">Premium HVAC Solutions</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
-            Clean Air
-            <span className="block text-accent">Made Simple</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground mb-6 leading-tight">
+            Pure Air
+            <span className="block text-accent">Refined Living</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-2xl leading-relaxed">
-            Professional-grade air filters and HVAC supplies delivered to your door. 
-            Trust AirCare Supply Co for cleaner, healthier indoor environments.
+          <p className="text-xl md:text-2xl font-body text-primary-foreground/90 mb-8 max-w-2xl leading-relaxed">
+            Elevate your home's air quality with premium filters and HVAC solutions. 
+            Experience the perfect blend of comfort, elegance, and pristine indoor air.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
