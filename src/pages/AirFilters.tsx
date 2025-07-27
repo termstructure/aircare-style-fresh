@@ -343,6 +343,71 @@ const AirFilters = () => {
     }
   ];
 
+  // Filter and sort products
+  const getFilteredAndSortedProducts = () => {
+    let filtered = airFilters.filter(filter => {
+      // Search filter
+      if (filters.search && !filter.name.toLowerCase().includes(filters.search.toLowerCase()) && 
+          !filter.brand.toLowerCase().includes(filters.search.toLowerCase()) &&
+          !filter.category.toLowerCase().includes(filters.search.toLowerCase())) {
+        return false;
+      }
+
+      // Size filter
+      if (filters.size && filter.size !== filters.size) {
+        return false;
+      }
+
+      // MERV rating filter
+      if (filters.mervRating && filter.mervRating.toString() !== filters.mervRating) {
+        return false;
+      }
+
+      // FPR rating filter
+      if (filters.fprRating && (!filter.fprRating || filter.fprRating.toString() !== filters.fprRating)) {
+        return false;
+      }
+
+      // Brand filter
+      if (filters.brand && filter.brand !== filters.brand) {
+        return false;
+      }
+
+      // Category filter
+      if (filters.category && filter.category !== filters.category) {
+        return false;
+      }
+
+      return true;
+    });
+
+    // Sort products
+    switch (sortBy) {
+      case "popular":
+        filtered.sort((a, b) => (b.popular ? 1 : 0) - (a.popular ? 1 : 0));
+        break;
+      case "price-low":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "merv-rating":
+        filtered.sort((a, b) => b.mervRating - a.mervRating);
+        break;
+      case "brand":
+        filtered.sort((a, b) => a.brand.localeCompare(b.brand));
+        break;
+      default:
+        break;
+    }
+
+    return filtered;
+  };
+
+  const filteredProducts = getFilteredAndSortedProducts();
+
+
   const sizes = ["16x20x1", "16x25x1", "20x25x1", "24x24x1", "20x20x1", "16x24x1"];
   const mervRatings = [8, 11, 13, 16];
   const fprRatings = [4, 7, 10];
@@ -578,7 +643,7 @@ const AirFilters = () => {
             {/* Sort and Results */}
             <div className="flex justify-between items-center mb-6">
               <p className="text-muted-foreground">
-                Showing {airFilters.length} results
+                Showing {filteredProducts.length} of {airFilters.length} results
               </p>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
@@ -596,17 +661,40 @@ const AirFilters = () => {
 
             {/* Products Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {airFilters.map((filter) => (
-                <FilterCard key={filter.id} filter={filter} />
-              ))}
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((filter) => (
+                  <FilterCard key={filter.id} filter={filter} />
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-muted-foreground text-lg">No filters match your criteria</p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4"
+                    onClick={() => setFilters({
+                      size: "",
+                      mervRating: "",
+                      fprRating: "",
+                      brand: "",
+                      category: "",
+                      priceRange: "",
+                      search: ""
+                    })}
+                  >
+                    Clear All Filters
+                  </Button>
+                </div>
+              )}
             </div>
 
-            {/* Load More */}
-            <div className="text-center mt-12">
-              <Button variant="outline" size="lg">
-                Load More Products
-              </Button>
-            </div>
+            {/* Load More - only show if there are results */}
+            {filteredProducts.length > 0 && (
+              <div className="text-center mt-12">
+                <Button variant="outline" size="lg">
+                  Load More Products
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
