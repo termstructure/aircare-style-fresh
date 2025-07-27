@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import filtersImg from "@/assets/filters.jpg";
 import hvacSystemsImg from "@/assets/hvac-systems.jpg";
 import accessoriesImg from "@/assets/accessories.jpg";
@@ -73,10 +74,19 @@ const ProductCategories = () => {
                     ))}
                   </div>
                   
-                  <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    Explore Products
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                  {category.title === "Air Filters" ? (
+                    <Link to="/air-filters">
+                      <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        Explore Products
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      Explore Products
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
