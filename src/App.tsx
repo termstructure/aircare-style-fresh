@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import AirFilters from "./pages/AirFilters";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ThankYou from "./pages/ThankYou";
 import FAQ from "./pages/FAQ";
 import Support from "./pages/Support";
 import Blog from "./pages/Blog";
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/air-filters" element={<AirFilters />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/support" element={<Support />} />
             <Route path="/blog" element={<Blog />} />
