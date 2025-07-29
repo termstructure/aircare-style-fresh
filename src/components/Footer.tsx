@@ -62,15 +62,23 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Brands */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Products</h3>
+            <h3 className="text-lg font-semibold mb-4">Brands</h3>
             <ul className="space-y-2">
-              {["Air Filters", "HVAC Systems", "Parts & Accessories", "Custom Solutions", "Bulk Orders", "Commercial Grade"].map((product) => (
-                <li key={product}>
-                  <a href="#products" className="text-background/70 hover:text-primary transition-colors">
-                    {product}
-                  </a>
+              {[
+                { name: "3M", param: "3M" },
+                { name: "HDX", param: "HDX" },
+                { name: "Honeywell", param: "Honeywell" },
+                { name: "FilterBuy", param: "FilterBuy" }
+              ].map((brand) => (
+                <li key={brand.name}>
+                  <Link 
+                    to={`/air-filters?brand=${encodeURIComponent(brand.param)}`} 
+                    className="text-background/70 hover:text-primary transition-colors"
+                  >
+                    {brand.name}
+                  </Link>
                 </li>
               ))}
             </ul>
