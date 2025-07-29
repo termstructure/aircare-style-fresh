@@ -67,7 +67,7 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Brands</h3>
             <ul className="space-y-2">
               {[
-                { name: "3M", param: "3M" },
+                { name: "3M Filtrete", param: "3M Filtrete" },
                 { name: "HDX", param: "HDX" },
                 { name: "Honeywell", param: "Honeywell" },
                 { name: "FilterBuy", param: "FilterBuy" }

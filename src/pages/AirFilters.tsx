@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,8 @@ interface AirFilter {
 }
 
 const AirFilters = () => {
+  const [searchParams] = useSearchParams();
+  
   const [filters, setFilters] = useState({
     size: "",
     mervRating: "",
@@ -45,6 +48,24 @@ const AirFilters = () => {
   });
 
   const [sortBy, setSortBy] = useState("popular");
+
+  // Initialize filters from URL parameters
+  useEffect(() => {
+    const brandParam = searchParams.get("brand");
+    const sizeParam = searchParams.get("size");
+    const mervParam = searchParams.get("merv");
+    const categoryParam = searchParams.get("category");
+    
+    if (brandParam || sizeParam || mervParam || categoryParam) {
+      setFilters(prev => ({
+        ...prev,
+        brand: brandParam || "",
+        size: sizeParam || "",
+        mervRating: mervParam || "",
+        category: categoryParam || ""
+      }));
+    }
+  }, [searchParams]);
 
   // Comprehensive 3M Filtrete and HDX product lineup
   const airFilters: AirFilter[] = [
