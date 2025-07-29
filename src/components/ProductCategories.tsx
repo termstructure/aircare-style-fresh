@@ -1,33 +1,66 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCollections } from "@/hooks/useShopify";
 import filtersImg from "@/assets/filters.jpg";
 import hvacSystemsImg from "@/assets/hvac-systems.jpg";
 import accessoriesImg from "@/assets/accessories.jpg";
 
-const categories = [
+// Fallback categories for when Shopify is loading or unavailable
+const fallbackCategories = [
   {
+    id: "air-filters",
     title: "Air Filters",
     description: "Premium HEPA, pleated, and specialty filters for all HVAC systems. Available in all standard sizes.",
     image: filtersImg,
+    handle: "air-filters",
     features: ["HEPA Certified", "Custom Sizes", "Bulk Pricing"]
   },
   {
+    id: "hvac-systems", 
     title: "HVAC Systems",
     description: "Complete heating, ventilation, and air conditioning systems for residential and commercial use.",
     image: hvacSystemsImg,
+    handle: "hvac-systems",
     features: ["Energy Efficient", "Professional Grade", "Full Warranty"]
   },
   {
-    title: "Parts & Accessories",
+    id: "accessories",
+    title: "Parts & Accessories", 
     description: "Quality replacement parts, tools, and accessories to keep your HVAC systems running smoothly.",
     image: accessoriesImg,
+    handle: "accessories",
     features: ["OEM Quality", "Fast Shipping", "Expert Support"]
   }
 ];
 
 const ProductCategories = () => {
+  const { data: shopifyCollections, isLoading, error } = useCollections();
+  
+  // Use Shopify collections if available, otherwise fallback to static data
+  const categories = shopifyCollections?.length ? shopifyCollections.map(collection => ({
+    id: collection.id,
+    title: collection.title,
+    description: collection.description || fallbackCategories.find(cat => cat.handle === collection.handle)?.description || "Premium quality products for your needs.",
+    image: collection.image?.src || fallbackCategories.find(cat => cat.handle === collection.handle)?.image || filtersImg,
+    handle: collection.handle,
+    features: fallbackCategories.find(cat => cat.handle === collection.handle)?.features || ["Premium Quality", "Fast Shipping", "Expert Support"]
+  })) : fallbackCategories;
+
+  if (isLoading) {
+    return (
+      <section id="products" className="py-20 bg-gradient-subtle">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+            <p className="text-muted-foreground">Loading products...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="products" className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-4">
@@ -48,7 +81,7 @@ const ProductCategories = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category, index) => (
-            <Card key={index} className="group hover:shadow-elegant transition-all duration-300 border-0 bg-card">
+            <Card key={category.id || index} className="group hover:shadow-elegant transition-all duration-300 border-0 bg-card">
               <CardContent className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <img 
@@ -74,7 +107,7 @@ const ProductCategories = () => {
                     ))}
                   </div>
                   
-                  {category.title === "Air Filters" ? (
+                  {(category.handle === "air-filters" || category.title === "Air Filters") ? (
                     <Link to="/air-filters">
                       <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                         Explore Products
