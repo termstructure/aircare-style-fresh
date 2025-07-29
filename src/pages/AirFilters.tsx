@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -436,78 +436,87 @@ const AirFilters = () => {
   const categories = ["Basic Protection", "Premium Allergen", "Ultra Allergen", "Hospital Grade", "Carbon Odor"];
 
   const FilterCard = ({ filter }: { filter: AirFilter }) => (
-    <Card className="hover:shadow-lg transition-shadow duration-300">
-      <CardHeader className="pb-4">
-        <div className="aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
-          <img 
-            src={filter.image} 
-            alt={filter.name}
-            className="w-full h-full object-contain p-4"
-          />
-        </div>
-        <div className="flex items-start justify-between">
-          <div>
-            {filter.popular && (
-              <Badge variant="secondary" className="mb-2">
-                <Star className="w-3 h-3 mr-1" />
-                Popular
-              </Badge>
-            )}
-            <CardTitle className="text-lg leading-tight">{filter.name}</CardTitle>
-            <p className="text-muted-foreground text-sm mt-1">{filter.brand}</p>
+    <Link to={`/product/${filter.id}`}>
+      <Card className="hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+        <CardHeader className="pb-4">
+          <div className="aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
+            <img 
+              src={filter.image} 
+              alt={filter.name}
+              className="w-full h-full object-contain p-4"
+            />
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">
-              Size: {filter.size}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              MERV {filter.mervRating}
-            </Badge>
-            {filter.fprRating && (
-              <Badge variant="outline" className="text-xs">
-                FPR {filter.fprRating}
-              </Badge>
-            )}
-          </div>
-          
-          <div>
-            <Badge className="mb-2">{filter.category}</Badge>
-            <ul className="text-sm text-muted-foreground space-y-1">
-              {filter.features.slice(0, 3).map((feature, index) => (
-                <li key={index} className="flex items-center">
-                  <Shield className="w-3 h-3 mr-2 text-primary" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold">${filter.price}</span>
-                {filter.originalPrice && (
-                  <span className="text-sm text-muted-foreground line-through">
-                    ${filter.originalPrice}
-                  </span>
-                )}
-              </div>
-              {filter.subscription && (
-                <p className="text-xs text-muted-foreground flex items-center mt-1">
-                  <Truck className="w-3 h-3 mr-1" />
-                  Subscribe & Save 10%
-                </p>
+              {filter.popular && (
+                <Badge variant="secondary" className="mb-2">
+                  <Star className="w-3 h-3 mr-1" />
+                  Popular
+                </Badge>
+              )}
+              <CardTitle className="text-lg leading-tight">{filter.name}</CardTitle>
+              <p className="text-muted-foreground text-sm mt-1">{filter.brand}</p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-xs">
+                Size: {filter.size}
+              </Badge>
+              <Badge variant="outline" className="text-xs">
+                MERV {filter.mervRating}
+              </Badge>
+              {filter.fprRating && (
+                <Badge variant="outline" className="text-xs">
+                  FPR {filter.fprRating}
+                </Badge>
               )}
             </div>
-            <Button>Add to Cart</Button>
+            
+            <div>
+              <Badge className="mb-2">{filter.category}</Badge>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                {filter.features.slice(0, 3).map((feature, index) => (
+                  <li key={index} className="flex items-center">
+                    <Shield className="w-3 h-3 mr-2 text-primary" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold">${filter.price}</span>
+                  {filter.originalPrice && (
+                    <span className="text-sm text-muted-foreground line-through">
+                      ${filter.originalPrice}
+                    </span>
+                  )}
+                </div>
+                {filter.subscription && (
+                  <p className="text-xs text-muted-foreground flex items-center mt-1">
+                    <Truck className="w-3 h-3 mr-1" />
+                    Subscribe & Save 10%
+                  </p>
+                )}
+              </div>
+              <Button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Add to cart functionality would go here
+                }}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 
   return (
