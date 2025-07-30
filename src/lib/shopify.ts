@@ -14,7 +14,7 @@ export const shopifyClient = Client.buildClient({
 // Create Storefront API client for more advanced queries
 export const storefrontClient = createStorefrontApiClient({
   storeDomain: 'aircaresupplyco.myshopify.com',
-  apiVersion: '2025-01',
+  apiVersion: '2025-07',
   publicAccessToken: STOREFRONT_ACCESS_TOKEN,
 });
 
