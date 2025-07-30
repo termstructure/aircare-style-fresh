@@ -7,14 +7,14 @@ const STOREFRONT_ACCESS_TOKEN = '5cbbba0740deb6023c3f3e36a613e33d'; // You'll ne
 
 // Create Shopify Buy SDK client
 export const shopifyClient = Client.buildClient({
-  domain: SHOP_DOMAIN,
+  domain: 'aircaresupplyco.myshopify.com',
   storefrontAccessToken: STOREFRONT_ACCESS_TOKEN,
 });
 
 // Create Storefront API client for more advanced queries
 export const storefrontClient = createStorefrontApiClient({
-  storeDomain: SHOP_DOMAIN,
-  apiVersion: '2024-01',
+  storeDomain: 'aircaresupplyco.myshopify.com',
+  apiVersion: '2025-01',
   publicAccessToken: STOREFRONT_ACCESS_TOKEN,
 });
 
