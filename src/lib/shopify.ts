@@ -2,8 +2,8 @@ import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 import Client from 'shopify-buy';
 
 // Shopify store configuration
-const SHOP_DOMAIN = 'aircaresupplyco.myshopify.com';
-const STOREFRONT_ACCESS_TOKEN = 'your-storefront-access-token'; // You'll need to provide this
+const SHOP_DOMAIN = 'aircaresupplyco.com';
+const STOREFRONT_ACCESS_TOKEN = '5cbbba0740deb6023c3f3e36a613e33d'; // You'll need to provide this
 
 // Create Shopify Buy SDK client
 export const shopifyClient = Client.buildClient({
