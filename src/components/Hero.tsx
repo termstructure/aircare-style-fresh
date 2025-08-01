@@ -25,8 +25,8 @@ const Hero = () => {
             <Button variant="hero" size="lg" className="text-lg font-bold" asChild>
               <Link to="/air-filters">Shop Air Filters</Link>
             </Button>
-            <Button variant="outline" size="lg" className="text-lg font-semibold">
-              Learn More
+            <Button variant="outline" size="lg" className="text-lg font-semibold" asChild>
+              <Link to="/faq">Learn More</Link>
             </Button>
           </div>
           
