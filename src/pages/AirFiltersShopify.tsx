@@ -10,8 +10,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { useProductsByCollection, useCart } from "@/hooks/useShopify";
+import { useProductsByCollection } from "@/hooks/useShopify";
 import { useProductsByCollectionWithFallback } from "@/hooks/useShopifyWithFallback";
+import { useCart } from "@/contexts/CartContext";
 import { ShopifyProduct } from "@/lib/shopify";
 import { formatPrice, getProductImageUrl } from "@/lib/shopify";
 import ShopifyTest from "@/components/ShopifyTest";
@@ -37,7 +38,7 @@ const AirFiltersShopify = () => {
   });
 
   const { toast } = useToast();
-  const { cart, addToCart, isLoading: cartLoading } = useCart();
+  const { addToCart } = useCart();
   
   // Fetch products from Shopify air-filters collection with fallback
   const { data: productsWithFallback, isLoading: isLoadingFallback, error: errorFallback } = useProductsByCollectionWithFallback("air-filters");
@@ -189,19 +190,11 @@ const AirFiltersShopify = () => {
       return;
     }
 
-    try {
-      addToCart({ variantId: availableVariant.id, quantity: 1 });
-      toast({
-        title: "Added to Cart",
-        description: `${product.title} has been added to your cart.`,
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to add item to cart. Please try again.",
-        variant: "destructive",
-      });
-    }
+    addToCart(product, availableVariant.id, 1);
+    toast({
+      title: "Added to Cart",
+      description: `${product.title} has been added to your cart.`,
+    });
   };
 
   if (isLoading) {
@@ -442,10 +435,10 @@ const AirFiltersShopify = () => {
                           
                           <Button
                             onClick={() => handleAddToCart(product)}
-                            disabled={!isAvailable || cartLoading}
+                            disabled={!isAvailable}
                             size="sm"
                           >
-                            {cartLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Add to Cart"}
+                            Add to Cart
                           </Button>
                         </div>
                       </div>

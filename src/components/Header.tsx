@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Phone, Mail, User, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import Cart from "@/components/Cart";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,6 +47,8 @@ const Header = () => {
                 <span>support@aircaresupplyco.com</span>
               </div>
             </div>
+            
+            <Cart />
             
             {user ? (
               <div className="flex items-center space-x-2">
