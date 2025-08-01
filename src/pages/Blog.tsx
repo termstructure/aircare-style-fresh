@@ -6,13 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, User, Tag, ArrowRight } from "lucide-react";
 
-// Import blog images
-import mervGuideImage from '@/assets/blog-merv-guide.jpg';
-import filterSignsImage from '@/assets/blog-filter-signs.jpg';
-import hepaComparisonImage from '@/assets/blog-hepa-comparison.jpg';
-import springAllergiesImage from '@/assets/blog-spring-allergies.jpg';
-import petOwnersImage from '@/assets/blog-pet-owners.jpg';
-
 const blogPosts = [
   {
     id: 1,
@@ -23,8 +16,7 @@ const blogPosts = [
     date: "2024-01-15",
     category: "Education",
     readTime: "8 min read",
-    featured: true,
-    image: mervGuideImage
+    featured: true
   },
   {
     id: 2,
@@ -35,8 +27,7 @@ const blogPosts = [
     date: "2024-01-12",
     category: "Maintenance",
     readTime: "6 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 3,
@@ -47,8 +38,7 @@ const blogPosts = [
     date: "2024-01-10",
     category: "Product Guide",
     readTime: "10 min read",
-    featured: true,
-    image: hepaComparisonImage
+    featured: true
   },
   {
     id: 4,
@@ -59,8 +49,7 @@ const blogPosts = [
     date: "2024-01-08",
     category: "Seasonal Tips",
     readTime: "7 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 5,
@@ -71,8 +60,7 @@ const blogPosts = [
     date: "2024-01-05",
     category: "Cost Analysis",
     readTime: "12 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 6,
@@ -83,8 +71,7 @@ const blogPosts = [
     date: "2024-01-03",
     category: "Pet Owners",
     readTime: "9 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 7,
@@ -95,8 +82,7 @@ const blogPosts = [
     date: "2023-12-28",
     category: "Commercial",
     readTime: "11 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 8,
@@ -107,8 +93,7 @@ const blogPosts = [
     date: "2023-12-25",
     category: "DIY Guide",
     readTime: "5 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   // Additional Education posts
   {
@@ -120,8 +105,7 @@ const blogPosts = [
     date: "2024-01-20",
     category: "Education",
     readTime: "6 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 10,
@@ -132,8 +116,7 @@ const blogPosts = [
     date: "2024-01-18",
     category: "Education",
     readTime: "9 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 11,
@@ -144,8 +127,7 @@ const blogPosts = [
     date: "2024-01-16",
     category: "Education",
     readTime: "8 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 12,
@@ -156,8 +138,7 @@ const blogPosts = [
     date: "2024-01-14",
     category: "Education",
     readTime: "7 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 13,
@@ -168,8 +149,7 @@ const blogPosts = [
     date: "2024-01-11",
     category: "Education",
     readTime: "10 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 14,
@@ -180,8 +160,7 @@ const blogPosts = [
     date: "2024-01-09",
     category: "Education",
     readTime: "6 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 15,
@@ -192,8 +171,7 @@ const blogPosts = [
     date: "2024-01-07",
     category: "Education",
     readTime: "8 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 16,
@@ -204,8 +182,7 @@ const blogPosts = [
     date: "2024-01-04",
     category: "Education",
     readTime: "7 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 17,
@@ -216,8 +193,7 @@ const blogPosts = [
     date: "2024-01-02",
     category: "Education",
     readTime: "9 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 18,
@@ -228,8 +204,7 @@ const blogPosts = [
     date: "2023-12-30",
     category: "Education",
     readTime: "11 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   // Additional Maintenance posts
   {
@@ -241,8 +216,7 @@ const blogPosts = [
     date: "2024-01-19",
     category: "Maintenance",
     readTime: "6 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 20,
@@ -253,8 +227,7 @@ const blogPosts = [
     date: "2024-01-17",
     category: "Maintenance",
     readTime: "8 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 21,
@@ -265,8 +238,7 @@ const blogPosts = [
     date: "2024-01-13",
     category: "Maintenance",
     readTime: "5 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 22,
@@ -277,8 +249,7 @@ const blogPosts = [
     date: "2024-01-06",
     category: "Maintenance",
     readTime: "7 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 23,
@@ -289,8 +260,7 @@ const blogPosts = [
     date: "2024-01-01",
     category: "Maintenance",
     readTime: "6 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 24,
@@ -301,8 +271,7 @@ const blogPosts = [
     date: "2023-12-29",
     category: "Maintenance",
     readTime: "4 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 25,
@@ -313,8 +282,7 @@ const blogPosts = [
     date: "2023-12-27",
     category: "Maintenance",
     readTime: "9 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 26,
@@ -325,8 +293,7 @@ const blogPosts = [
     date: "2023-12-24",
     category: "Maintenance",
     readTime: "5 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 27,
@@ -337,8 +304,7 @@ const blogPosts = [
     date: "2023-12-22",
     category: "Maintenance",
     readTime: "7 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 28,
@@ -349,8 +315,7 @@ const blogPosts = [
     date: "2023-12-20",
     category: "Maintenance",
     readTime: "8 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   // Additional Product Guide posts
   {
@@ -362,8 +327,7 @@ const blogPosts = [
     date: "2024-01-21",
     category: "Product Guide",
     readTime: "10 min read",
-    featured: true,
-    image: hepaComparisonImage
+    featured: true
   },
   {
     id: 30,
@@ -374,8 +338,7 @@ const blogPosts = [
     date: "2024-01-15",
     category: "Product Guide",
     readTime: "8 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 31,
@@ -386,8 +349,7 @@ const blogPosts = [
     date: "2024-01-10",
     category: "Product Guide",
     readTime: "12 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 32,
@@ -398,8 +360,7 @@ const blogPosts = [
     date: "2024-01-05",
     category: "Product Guide",
     readTime: "7 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 33,
@@ -410,8 +371,7 @@ const blogPosts = [
     date: "2023-12-31",
     category: "Product Guide",
     readTime: "9 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 34,
@@ -422,8 +382,7 @@ const blogPosts = [
     date: "2023-12-26",
     category: "Product Guide",
     readTime: "6 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 35,
@@ -434,8 +393,7 @@ const blogPosts = [
     date: "2023-12-23",
     category: "Product Guide",
     readTime: "8 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 36,
@@ -446,8 +404,7 @@ const blogPosts = [
     date: "2023-12-21",
     category: "Product Guide",
     readTime: "7 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 37,
@@ -458,8 +415,7 @@ const blogPosts = [
     date: "2023-12-19",
     category: "Product Guide",
     readTime: "10 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 38,
@@ -470,8 +426,7 @@ const blogPosts = [
     date: "2023-12-17",
     category: "Product Guide",
     readTime: "9 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   // Continue with more posts for other categories...
   // Seasonal Tips posts
@@ -484,8 +439,7 @@ const blogPosts = [
     date: "2024-01-22",
     category: "Seasonal Tips",
     readTime: "8 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 40,
@@ -496,8 +450,7 @@ const blogPosts = [
     date: "2024-01-18",
     category: "Seasonal Tips",
     readTime: "7 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 41,
@@ -508,8 +461,7 @@ const blogPosts = [
     date: "2024-01-14",
     category: "Seasonal Tips",
     readTime: "9 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 42,
@@ -520,8 +472,7 @@ const blogPosts = [
     date: "2024-01-09",
     category: "Seasonal Tips",
     readTime: "10 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 43,
@@ -532,8 +483,7 @@ const blogPosts = [
     date: "2024-01-03",
     category: "Seasonal Tips",
     readTime: "6 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 44,
@@ -544,8 +494,7 @@ const blogPosts = [
     date: "2023-12-28",
     category: "Seasonal Tips",
     readTime: "5 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 45,
@@ -556,8 +505,7 @@ const blogPosts = [
     date: "2023-12-25",
     category: "Seasonal Tips",
     readTime: "8 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 46,
@@ -568,8 +516,7 @@ const blogPosts = [
     date: "2023-12-22",
     category: "Seasonal Tips",
     readTime: "7 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 47,
@@ -580,8 +527,7 @@ const blogPosts = [
     date: "2023-12-20",
     category: "Seasonal Tips",
     readTime: "6 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 48,
@@ -592,8 +538,7 @@ const blogPosts = [
     date: "2023-12-18",
     category: "Seasonal Tips",
     readTime: "9 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   // Additional Cost Analysis posts
   {
@@ -605,8 +550,7 @@ const blogPosts = [
     date: "2024-01-23",
     category: "Cost Analysis",
     readTime: "10 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 50,
@@ -617,8 +561,7 @@ const blogPosts = [
     date: "2024-01-17",
     category: "Cost Analysis",
     readTime: "8 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 51,
@@ -629,8 +572,7 @@ const blogPosts = [
     date: "2024-01-12",
     category: "Cost Analysis",
     readTime: "9 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 52,
@@ -641,8 +583,7 @@ const blogPosts = [
     date: "2024-01-08",
     category: "Cost Analysis",
     readTime: "11 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 53,
@@ -653,8 +594,7 @@ const blogPosts = [
     date: "2024-01-04",
     category: "Cost Analysis",
     readTime: "12 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 54,
@@ -665,8 +605,7 @@ const blogPosts = [
     date: "2023-12-30",
     category: "Cost Analysis",
     readTime: "10 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 55,
@@ -677,8 +616,7 @@ const blogPosts = [
     date: "2023-12-26",
     category: "Cost Analysis",
     readTime: "9 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 56,
@@ -689,8 +627,7 @@ const blogPosts = [
     date: "2023-12-23",
     category: "Cost Analysis",
     readTime: "8 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 57,
@@ -701,8 +638,7 @@ const blogPosts = [
     date: "2023-12-21",
     category: "Cost Analysis",
     readTime: "7 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 58,
@@ -713,8 +649,7 @@ const blogPosts = [
     date: "2023-12-19",
     category: "Cost Analysis",
     readTime: "13 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   // Additional Pet Owners posts
   {
@@ -726,8 +661,7 @@ const blogPosts = [
     date: "2024-01-24",
     category: "Pet Owners",
     readTime: "9 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 60,
@@ -738,8 +672,7 @@ const blogPosts = [
     date: "2024-01-19",
     category: "Pet Owners",
     readTime: "7 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 61,
@@ -750,8 +683,7 @@ const blogPosts = [
     date: "2024-01-15",
     category: "Pet Owners",
     readTime: "8 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 62,
@@ -762,8 +694,7 @@ const blogPosts = [
     date: "2024-01-11",
     category: "Pet Owners",
     readTime: "6 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 63,
@@ -774,8 +705,7 @@ const blogPosts = [
     date: "2024-01-06",
     category: "Pet Owners",
     readTime: "10 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 64,
@@ -786,8 +716,7 @@ const blogPosts = [
     date: "2024-01-02",
     category: "Pet Owners",
     readTime: "9 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 65,
@@ -798,8 +727,7 @@ const blogPosts = [
     date: "2023-12-29",
     category: "Pet Owners",
     readTime: "8 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 66,
@@ -810,8 +738,7 @@ const blogPosts = [
     date: "2023-12-27",
     category: "Pet Owners",
     readTime: "7 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 67,
@@ -822,8 +749,7 @@ const blogPosts = [
     date: "2023-12-24",
     category: "Pet Owners",
     readTime: "6 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 68,
@@ -834,8 +760,7 @@ const blogPosts = [
     date: "2023-12-22",
     category: "Pet Owners",
     readTime: "5 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   // Additional Commercial posts
   {
@@ -847,8 +772,7 @@ const blogPosts = [
     date: "2024-01-25",
     category: "Commercial",
     readTime: "12 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 70,
@@ -859,8 +783,7 @@ const blogPosts = [
     date: "2024-01-20",
     category: "Commercial",
     readTime: "10 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 71,
@@ -871,8 +794,7 @@ const blogPosts = [
     date: "2024-01-16",
     category: "Commercial",
     readTime: "11 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 72,
@@ -883,8 +805,7 @@ const blogPosts = [
     date: "2024-01-13",
     category: "Commercial",
     readTime: "9 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 73,
@@ -895,8 +816,7 @@ const blogPosts = [
     date: "2024-01-07",
     category: "Commercial",
     readTime: "8 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 74,
@@ -907,8 +827,7 @@ const blogPosts = [
     date: "2024-01-01",
     category: "Commercial",
     readTime: "7 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 75,
@@ -919,8 +838,7 @@ const blogPosts = [
     date: "2023-12-31",
     category: "Commercial",
     readTime: "10 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 76,
@@ -931,8 +849,7 @@ const blogPosts = [
     date: "2023-12-28",
     category: "Commercial",
     readTime: "9 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 77,
@@ -943,8 +860,7 @@ const blogPosts = [
     date: "2023-12-25",
     category: "Commercial",
     readTime: "13 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 78,
@@ -955,8 +871,7 @@ const blogPosts = [
     date: "2023-12-23",
     category: "Commercial",
     readTime: "11 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   // Additional DIY Guide posts
   {
@@ -968,8 +883,7 @@ const blogPosts = [
     date: "2024-01-26",
     category: "DIY Guide",
     readTime: "6 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 80,
@@ -980,8 +894,7 @@ const blogPosts = [
     date: "2024-01-21",
     category: "DIY Guide",
     readTime: "5 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 81,
@@ -992,8 +905,7 @@ const blogPosts = [
     date: "2024-01-18",
     category: "DIY Guide",
     readTime: "9 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 82,
@@ -1004,8 +916,7 @@ const blogPosts = [
     date: "2024-01-14",
     category: "DIY Guide",
     readTime: "7 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 83,
@@ -1016,8 +927,7 @@ const blogPosts = [
     date: "2024-01-09",
     category: "DIY Guide",
     readTime: "8 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   },
   {
     id: 84,
@@ -1028,8 +938,7 @@ const blogPosts = [
     date: "2024-01-05",
     category: "DIY Guide",
     readTime: "10 min read",
-    featured: false,
-    image: mervGuideImage
+    featured: false
   },
   {
     id: 85,
@@ -1040,8 +949,7 @@ const blogPosts = [
     date: "2023-12-30",
     category: "DIY Guide",
     readTime: "6 min read",
-    featured: false,
-    image: filterSignsImage
+    featured: false
   },
   {
     id: 86,
@@ -1052,8 +960,7 @@ const blogPosts = [
     date: "2023-12-26",
     category: "DIY Guide",
     readTime: "8 min read",
-    featured: false,
-    image: hepaComparisonImage
+    featured: false
   },
   {
     id: 87,
@@ -1064,8 +971,7 @@ const blogPosts = [
     date: "2023-12-24",
     category: "DIY Guide",
     readTime: "7 min read",
-    featured: false,
-    image: springAllergiesImage
+    featured: false
   },
   {
     id: 88,
@@ -1076,8 +982,7 @@ const blogPosts = [
     date: "2023-12-21",
     category: "DIY Guide",
     readTime: "5 min read",
-    featured: false,
-    image: petOwnersImage
+    featured: false
   }
 ];
 
@@ -1095,8 +1000,6 @@ const categories = [
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Posts");
-  const featuredPosts = blogPosts.filter(post => post.featured);
-  const recentPosts = blogPosts.filter(post => !post.featured);
 
   const filteredPosts = selectedCategory === "All Posts" 
     ? blogPosts 
@@ -1151,77 +1054,67 @@ const Blog = () => {
       </section>
 
       {/* Featured Posts */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Featured Articles</h2>
-            <Badge className="bg-primary text-primary-foreground">Editor's Choice</Badge>
-          </div>
+      {featuredFilteredPosts.length > 0 && (
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Featured Articles</h2>
+              <Badge className="bg-primary text-primary-foreground">Editor's Choice</Badge>
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {featuredFilteredPosts.map((post) => (
-              <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group overflow-hidden">
-                <Link to={`/blog/${post.slug}`}>
-                  <div className="aspect-video overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <Badge variant="outline" className="text-xs">
-                        {post.category}
-                      </Badge>
-                      <span className="text-sm text-muted-foreground">{post.readTime}</span>
-                    </div>
-                    
-                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h3>
-                    
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
-                      {post.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                        <div className="flex items-center space-x-1">
-                          <User className="w-4 h-4" />
-                          <span>{post.author}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <CalendarDays className="w-4 h-4" />
-                          <span>{new Date(post.date).toLocaleDateString()}</span>
-                        </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {featuredFilteredPosts.map((post) => (
+                <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group overflow-hidden">
+                  <Link to={`/blog/${post.slug}`}>
+                    <CardContent className="p-6">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <Badge variant="outline" className="text-xs">
+                          {post.category}
+                        </Badge>
+                        <span className="text-sm text-muted-foreground">{post.readTime}</span>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </CardContent>
-                </Link>
-              </Card>
-            ))}
+                      
+                      <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h3>
+                      
+                      <p className="text-muted-foreground mb-4 leading-relaxed">
+                        {post.excerpt}
+                      </p>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                          <div className="flex items-center space-x-1">
+                            <User className="w-4 h-4" />
+                            <span>{post.author}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <CalendarDays className="w-4 h-4" />
+                            <span>{new Date(post.date).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Link>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Recent Posts */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">Recent Articles</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
+            {featuredFilteredPosts.length > 0 ? "Recent Articles" : "All Articles"}
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recentFilteredPosts.map((post) => (
               <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group">
                 <Link to={`/blog/${post.slug}`}>
-                  <div className="aspect-video overflow-hidden rounded-t-lg">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
                   <CardContent className="p-6">
                     <div className="flex items-center space-x-3 mb-4">
                       <Badge variant="outline" className="text-xs">
