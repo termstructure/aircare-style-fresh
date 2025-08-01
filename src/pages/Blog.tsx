@@ -1,12 +1,22 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, User, Tag, ArrowRight } from "lucide-react";
 
+// Import blog images
+import mervGuideImage from '@/assets/blog-merv-guide.jpg';
+import filterSignsImage from '@/assets/blog-filter-signs.jpg';
+import hepaComparisonImage from '@/assets/blog-hepa-comparison.jpg';
+import springAllergiesImage from '@/assets/blog-spring-allergies.jpg';
+import petOwnersImage from '@/assets/blog-pet-owners.jpg';
+
 const blogPosts = [
   {
     id: 1,
+    slug: "complete-guide-merv-ratings",
     title: "The Complete Guide to MERV Ratings: Choosing the Right Filter for Your Home",
     excerpt: "Understanding MERV ratings is crucial for selecting the right air filter. Learn how different ratings affect air quality, energy efficiency, and system performance.",
     author: "Sarah Johnson",
@@ -14,77 +24,91 @@ const blogPosts = [
     category: "Education",
     readTime: "8 min read",
     featured: true,
-    image: "/api/placeholder/600/400"
+    image: mervGuideImage
   },
   {
     id: 2,
+    slug: "signs-change-air-filter",
     title: "5 Signs It's Time to Change Your Air Filter (And What Happens If You Don't)",
     excerpt: "Recognizing when to change your air filter can save you money and improve your health. Here are the key warning signs you shouldn't ignore.",
     author: "Mike Chen",
     date: "2024-01-12",
     category: "Maintenance",
     readTime: "6 min read",
-    featured: false
+    featured: false,
+    image: filterSignsImage
   },
   {
     id: 3,
+    slug: "hepa-vs-standard-filters",
     title: "HEPA vs. Standard Filters: Which One Do You Really Need?",
     excerpt: "HEPA filters promise superior air cleaning, but are they right for your HVAC system? We break down the pros, cons, and costs.",
     author: "Dr. Emily Rodriguez",
     date: "2024-01-10",
     category: "Product Guide",
     readTime: "10 min read",
-    featured: true
+    featured: true,
+    image: hepaComparisonImage
   },
   {
     id: 4,
+    slug: "spring-allergy-filter-strategy",
     title: "Seasonal Air Filter Strategies: Optimizing for Spring Allergies",
     excerpt: "Spring brings beautiful weather but also increased pollen. Learn how to adjust your air filtration strategy for allergy season.",
     author: "Sarah Johnson",
     date: "2024-01-08",
     category: "Seasonal Tips",
     readTime: "7 min read",
-    featured: false
+    featured: false,
+    image: springAllergiesImage
   },
   {
     id: 5,
+    slug: "hidden-costs-cheap-filters",
     title: "The Hidden Costs of Cheap Air Filters: A Long-Term Analysis",
     excerpt: "Budget filters might seem economical, but they could be costing you more in the long run. We analyze the true cost of air filtration.",
     author: "David Park",
     date: "2024-01-05",
     category: "Cost Analysis",
     readTime: "12 min read",
-    featured: false
+    featured: false,
+    image: filterSignsImage
   },
   {
     id: 6,
+    slug: "pet-owners-filter-guide",
     title: "Indoor Air Quality and Pet Owners: Essential Filter Selection Guide",
     excerpt: "Pet dander, hair, and odors require special filtration considerations. Here's how to keep your air clean with furry family members.",
     author: "Dr. Emily Rodriguez",
     date: "2024-01-03",
     category: "Pet Owners",
     readTime: "9 min read",
-    featured: false
+    featured: false,
+    image: petOwnersImage
   },
   {
     id: 7,
+    slug: "commercial-vs-residential-filters",
     title: "Commercial vs. Residential Air Filters: Understanding the Differences",
     excerpt: "Commercial and residential air filters serve different needs. Learn which specifications matter for your specific application.",
     author: "Mike Chen",
     date: "2023-12-28",
     category: "Commercial",
     readTime: "11 min read",
-    featured: false
+    featured: false,
+    image: hepaComparisonImage
   },
   {
     id: 8,
+    slug: "diy-filter-installation-guide",
     title: "DIY Filter Installation: Step-by-Step Guide with Common Mistakes to Avoid",
     excerpt: "Installing air filters seems simple, but small mistakes can reduce effectiveness. Follow our guide for perfect installation every time.",
     author: "Sarah Johnson",
     date: "2023-12-25",
     category: "DIY Guide",
     readTime: "5 min read",
-    featured: false
+    featured: false,
+    image: mervGuideImage
   }
 ];
 
@@ -101,8 +125,13 @@ const categories = [
 ];
 
 const Blog = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All Posts");
   const featuredPosts = blogPosts.filter(post => post.featured);
   const recentPosts = blogPosts.filter(post => !post.featured);
+
+  const filteredPosts = selectedCategory === "All Posts" 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory);
 
   return (
     <div className="min-h-screen">
@@ -138,8 +167,9 @@ const Blog = () => {
             {categories.map((category) => (
               <Badge
                 key={category}
-                variant="outline"
+                variant={selectedCategory === category ? "default" : "outline"}
                 className="px-4 py-2 cursor-pointer hover:bg-muted transition-colors"
+                onClick={() => setSelectedCategory(category)}
               >
                 {category}
               </Badge>
@@ -159,39 +189,45 @@ const Blog = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {featuredPosts.map((post) => (
               <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group overflow-hidden">
-                <div className="aspect-video bg-gradient-primary/10 flex items-center justify-center">
-                  <span className="text-muted-foreground">Featured Image</span>
-                </div>
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Badge variant="outline" className="text-xs">
-                      {post.category}
-                    </Badge>
-                    <span className="text-sm text-muted-foreground">{post.readTime}</span>
+                <Link to={`/blog/${post.slug}`}>
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
-                  
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors cursor-pointer">
-                    {post.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                      <div className="flex items-center space-x-1">
-                        <User className="w-4 h-4" />
-                        <span>{post.author}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <CalendarDays className="w-4 h-4" />
-                        <span>{new Date(post.date).toLocaleDateString()}</span>
-                      </div>
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Badge variant="outline" className="text-xs">
+                        {post.category}
+                      </Badge>
+                      <span className="text-sm text-muted-foreground">{post.readTime}</span>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform cursor-pointer" />
-                  </div>
-                </CardContent>
+                    
+                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
+                    
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                        <div className="flex items-center space-x-1">
+                          <User className="w-4 h-4" />
+                          <span>{post.author}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <CalendarDays className="w-4 h-4" />
+                          <span>{new Date(post.date).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Link>
               </Card>
             ))}
           </div>
@@ -206,31 +242,40 @@ const Blog = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recentPosts.map((post) => (
               <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Badge variant="outline" className="text-xs">
-                      {post.category}
-                    </Badge>
-                    <span className="text-sm text-muted-foreground">{post.readTime}</span>
+                <Link to={`/blog/${post.slug}`}>
+                  <div className="aspect-video overflow-hidden rounded-t-lg">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
-                  
-                  <h3 className="text-lg font-semibold text-foreground mb-3 group-hover:text-primary transition-colors cursor-pointer">
-                    {post.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                      <span>{post.author}</span>
-                      <span>•</span>
-                      <span>{new Date(post.date).toLocaleDateString()}</span>
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Badge variant="outline" className="text-xs">
+                        {post.category}
+                      </Badge>
+                      <span className="text-sm text-muted-foreground">{post.readTime}</span>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform cursor-pointer" />
-                  </div>
-                </CardContent>
+                    
+                    <h3 className="text-lg font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
+                    
+                    <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                        <span>{post.author}</span>
+                        <span>•</span>
+                        <span>{new Date(post.date).toLocaleDateString()}</span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Link>
               </Card>
             ))}
           </div>
