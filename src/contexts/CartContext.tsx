@@ -93,7 +93,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (items.length === 0) return '';
     
     const cartString = items
-      .map(item => `${item.variantId}:${item.quantity}`)
+      .map(item => {
+        // Extract numeric ID from GraphQL ID (gid://shopify/ProductVariant/ID)
+        const numericId = item.variantId.split('/').pop();
+        return `${numericId}:${item.quantity}`;
+      })
       .join(',');
     
     return `https://aircaresupplyco.myshopify.com/cart/${cartString}`;
