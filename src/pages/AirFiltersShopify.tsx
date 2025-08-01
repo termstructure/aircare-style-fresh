@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon } from "lucide-react";
+import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon, ChevronDown, ChevronUp } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import { useProductsByCollection } from "@/hooks/useShopify";
 import { useProductsByCollectionWithFallback } from "@/hooks/useShopifyWithFallback";
@@ -28,6 +29,7 @@ interface Filters {
 const AirFiltersShopify = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState("popularity");
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<Filters>({
     size: [],
@@ -250,114 +252,136 @@ const AirFiltersShopify = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="lg:w-1/4">
-            <Card className="p-6 sticky top-4">
-              <div className="flex items-center gap-2 mb-6">
-                <Filter className="w-5 h-5" />
-                <h3 className="text-lg font-semibold">Filters</h3>
-              </div>
-
-              {/* Search */}
-              <div className="mb-6">
-                <label className="text-sm font-medium mb-2 block">Search</label>
-                <Input
-                  placeholder="Search filters..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-
-              {/* Size Filter */}
-              {sizes.length > 0 && (
-                <div className="mb-6">
-                  <label className="text-sm font-medium mb-3 block">Size</label>
-                  <div className="space-y-2">
-                    {sizes.map((size) => (
-                      <div key={size} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`size-${size}`}
-                          checked={filters.size.includes(size)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setFilters(prev => ({ ...prev, size: [...prev.size, size] }));
-                            } else {
-                              setFilters(prev => ({ ...prev, size: prev.size.filter(s => s !== size) }));
-                            }
-                          }}
-                        />
-                        <label htmlFor={`size-${size}`} className="text-sm">{size}</label>
-                      </div>
-                    ))}
-                  </div>
+            <Card className="p-0 lg:p-6 sticky top-4">
+              <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="flex items-center justify-between w-full p-6 lg:hidden"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Filter className="w-5 h-5" />
+                      <h3 className="text-lg font-semibold">Filters</h3>
+                    </div>
+                    {filtersOpen ? (
+                      <ChevronUp className="w-5 h-5" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5" />
+                    )}
+                  </Button>
+                </CollapsibleTrigger>
+                
+                {/* Desktop header (always visible) */}
+                <div className="hidden lg:flex items-center gap-2 mb-6">
+                  <Filter className="w-5 h-5" />
+                  <h3 className="text-lg font-semibold">Filters</h3>
                 </div>
-              )}
 
-              {/* MERV Rating Filter */}
-              {mervRatings.length > 0 && (
-                <div className="mb-6">
-                  <label className="text-sm font-medium mb-3 block">MERV Rating</label>
-                  <div className="space-y-2">
-                    {mervRatings.map((rating) => (
-                      <div key={rating} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`merv-${rating}`}
-                          checked={filters.mervRating.includes(rating.toString())}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setFilters(prev => ({ ...prev, mervRating: [...prev.mervRating, rating.toString()] }));
-                            } else {
-                              setFilters(prev => ({ ...prev, mervRating: prev.mervRating.filter(m => m !== rating.toString()) }));
-                            }
-                          }}
-                        />
-                        <label htmlFor={`merv-${rating}`} className="text-sm">MERV {rating}</label>
-                      </div>
-                    ))}
+                <CollapsibleContent className="px-6 pb-6 lg:px-0 lg:pb-0">
+                  {/* Search */}
+                  <div className="mb-6">
+                    <label className="text-sm font-medium mb-2 block">Search</label>
+                    <Input
+                      placeholder="Search filters..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                   </div>
-                </div>
-              )}
 
-              {/* Brand Filter */}
-              {brands.length > 0 && (
-                <div className="mb-6">
-                  <label className="text-sm font-medium mb-3 block">Brand</label>
-                  <div className="space-y-2">
-                    {brands.map((brand) => (
-                      <div key={brand} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`brand-${brand}`}
-                          checked={filters.brand.includes(brand)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setFilters(prev => ({ ...prev, brand: [...prev.brand, brand] }));
-                            } else {
-                              setFilters(prev => ({ ...prev, brand: prev.brand.filter(b => b !== brand) }));
-                            }
-                          }}
-                        />
-                        <label htmlFor={`brand-${brand}`} className="text-sm">{brand}</label>
+                  {/* Size Filter */}
+                  {sizes.length > 0 && (
+                    <div className="mb-6">
+                      <label className="text-sm font-medium mb-3 block">Size</label>
+                      <div className="space-y-2">
+                        {sizes.map((size) => (
+                          <div key={size} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`size-${size}`}
+                              checked={filters.size.includes(size)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setFilters(prev => ({ ...prev, size: [...prev.size, size] }));
+                                } else {
+                                  setFilters(prev => ({ ...prev, size: prev.size.filter(s => s !== size) }));
+                                }
+                              }}
+                            />
+                            <label htmlFor={`size-${size}`} className="text-sm">{size}</label>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                    </div>
+                  )}
 
-              {/* Clear Filters */}
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setFilters({
-                    size: [],
-                    mervRating: [],
-                    brand: [],
-                    priceRange: "all",
-                    availability: "all"
-                  });
-                  setSearchTerm("");
-                }}
-                className="w-full"
-              >
-                Clear All Filters
-              </Button>
+                  {/* MERV Rating Filter */}
+                  {mervRatings.length > 0 && (
+                    <div className="mb-6">
+                      <label className="text-sm font-medium mb-3 block">MERV Rating</label>
+                      <div className="space-y-2">
+                        {mervRatings.map((rating) => (
+                          <div key={rating} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`merv-${rating}`}
+                              checked={filters.mervRating.includes(rating.toString())}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setFilters(prev => ({ ...prev, mervRating: [...prev.mervRating, rating.toString()] }));
+                                } else {
+                                  setFilters(prev => ({ ...prev, mervRating: prev.mervRating.filter(m => m !== rating.toString()) }));
+                                }
+                              }}
+                            />
+                            <label htmlFor={`merv-${rating}`} className="text-sm">MERV {rating}</label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Brand Filter */}
+                  {brands.length > 0 && (
+                    <div className="mb-6">
+                      <label className="text-sm font-medium mb-3 block">Brand</label>
+                      <div className="space-y-2">
+                        {brands.map((brand) => (
+                          <div key={brand} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`brand-${brand}`}
+                              checked={filters.brand.includes(brand)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setFilters(prev => ({ ...prev, brand: [...prev.brand, brand] }));
+                                } else {
+                                  setFilters(prev => ({ ...prev, brand: prev.brand.filter(b => b !== brand) }));
+                                }
+                              }}
+                            />
+                            <label htmlFor={`brand-${brand}`} className="text-sm">{brand}</label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Clear Filters */}
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setFilters({
+                        size: [],
+                        mervRating: [],
+                        brand: [],
+                        priceRange: "all",
+                        availability: "all"
+                      });
+                      setSearchTerm("");
+                    }}
+                    className="w-full"
+                  >
+                    Clear All Filters
+                  </Button>
+                </CollapsibleContent>
+              </Collapsible>
             </Card>
           </div>
 
