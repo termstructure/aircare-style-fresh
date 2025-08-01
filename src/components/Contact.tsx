@@ -26,9 +26,9 @@ const contactInfo = [
   },
   {
     icon: MapPin,
-    title: "Visit Us",
-    content: "123 Industrial Blvd",
-    subtitle: "Atlanta, GA 30309"
+    title: "Our Location",
+    content: "Charlotte, NC",
+    subtitle: "Online orders only"
   },
   {
     icon: Clock,
