@@ -5,62 +5,54 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-[80vh] flex items-center">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary-glow/80" />
-      </div>
+    <section id="home" className="relative min-h-[85vh] flex items-center bg-gradient-subtle">
       
       {/* Content */}
-      <div className="relative container mx-auto px-4 py-20">
-        <div className="max-w-4xl">
-          <div className="flex items-center space-x-2 mb-6">
-            <div className="w-12 h-1 bg-accent rounded-full" />
-            <span className="text-primary-foreground/90 font-medium">Premium HVAC Solutions</span>
-          </div>
+      <div className="relative container mx-auto px-6 py-24">
+        <div className="max-w-6xl mx-auto text-center">
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground mb-6 leading-tight">
-            Pure Air
-            <span className="block text-accent">Refined Living</span>
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
+            Clean Air
+            <span className="block bg-gradient-accent bg-clip-text text-transparent">Made Simple</span>
           </h1>
           
-          <p className="text-xl md:text-2xl font-body text-primary-foreground/90 mb-8 max-w-2xl leading-relaxed">
-            Elevate your home's air quality with premium filters and HVAC solutions. 
-            Experience the perfect blend of comfort, elegance, and pristine indoor air.
+          <p className="text-xl md:text-2xl font-body text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+            Premium air filters and HVAC solutions for modern homes. 
+            Breathe cleaner, live better.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button variant="accent" size="lg" className="text-lg px-8 py-6" asChild>
-              <Link to="/air-filters">Shop Products</Link>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <Button variant="hero" size="lg" className="text-lg font-bold" asChild>
+              <Link to="/air-filters">Shop Air Filters</Link>
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/20">
+            <Button variant="outline" size="lg" className="text-lg font-semibold">
               Learn More
             </Button>
           </div>
           
           {/* Trust Indicators */}
-          <div className="flex flex-wrap gap-8 text-primary-foreground/80">
-            <div className="flex items-center space-x-2">
-              <Shield className="w-6 h-6" />
-              <span className="font-medium">Certified Quality</span>
+          <div className="flex flex-wrap justify-center gap-12 text-muted-foreground">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                <Shield className="w-5 h-5 text-accent" />
+              </div>
+              <span className="font-semibold">Certified Quality</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <Award className="w-6 h-6" />
-              <span className="font-medium">Industry Leading</span>
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                <Award className="w-5 h-5 text-accent" />
+              </div>
+              <span className="font-semibold">Industry Leading</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <Zap className="w-6 h-6" />
-              <span className="font-medium">Fast Delivery</span>
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                <Zap className="w-5 h-5 text-accent" />
+              </div>
+              <span className="font-semibold">Fast Delivery</span>
             </div>
           </div>
         </div>
       </div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 };
