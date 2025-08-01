@@ -65,7 +65,7 @@ const ProductCategories = () => {
             <span className="text-primary font-medium">Our Products</span>
             <div className="w-12 h-1 bg-primary rounded-full" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
             Sophisticated Air Solutions
           </h2>
           <p className="text-xl font-body text-muted-foreground max-w-3xl mx-auto">
@@ -88,7 +88,7 @@ const ProductCategories = () => {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold text-foreground mb-3">{category.title}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">{category.title}</h3>
                   <p className="text-muted-foreground mb-4 line-clamp-3">{category.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-6">
