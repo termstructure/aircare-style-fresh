@@ -32,13 +32,13 @@ const Header = () => {
             </div>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-foreground hover:text-primary transition-colors">Home</Link>
-            <Link to="/air-filters" className="text-foreground hover:text-primary transition-colors">Air Filters</Link>
-            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">Blog</Link>
-            <Link to="/about" className="text-foreground hover:text-primary transition-colors">About</Link>
-            <Link to="/faq" className="text-foreground hover:text-primary transition-colors">FAQ</Link>
-            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">Contact</Link>
+          <nav className="hidden md:flex items-center space-x-2">
+            <Link to="/" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Home</Link>
+            <Link to="/air-filters" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Air Filters</Link>
+            <Link to="/blog" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Blog</Link>
+            <Link to="/about" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">About</Link>
+            <Link to="/faq" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">FAQ</Link>
+            <Link to="/contact" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Contact</Link>
           </nav>
 
           <div className="flex items-center space-x-3">
