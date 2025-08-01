@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import * as React from 'react';
 import { ShopifyProduct } from '@/lib/shopify';
 
 export interface CartItem {
@@ -20,10 +20,10 @@ interface CartContextType {
   getCheckoutUrl: () => string;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = React.createContext<CartContextType | undefined>(undefined);
 
 export const useCart = () => {
-  const context = useContext(CartContext);
+  const context = React.useContext(CartContext);
   if (context === undefined) {
     throw new Error('useCart must be used within a CartProvider');
   }
@@ -31,9 +31,9 @@ export const useCart = () => {
 };
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = React.useState<CartItem[]>([]);
 
-  const addToCart = useCallback((product: ShopifyProduct, variantId: string, quantity = 1) => {
+  const addToCart = React.useCallback((product: ShopifyProduct, variantId: string, quantity = 1) => {
     const variant = product.variants.find(v => v.id === variantId);
     if (!variant) return;
 
@@ -61,11 +61,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
-  const removeFromCart = useCallback((itemId: string) => {
+  const removeFromCart = React.useCallback((itemId: string) => {
     setItems(currentItems => currentItems.filter(item => item.id !== itemId));
   }, []);
 
-  const updateQuantity = useCallback((itemId: string, quantity: number) => {
+  const updateQuantity = React.useCallback((itemId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(itemId);
       return;
@@ -78,7 +78,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
   }, [removeFromCart]);
 
-  const clearCart = useCallback(() => {
+  const clearCart = React.useCallback(() => {
     setItems([]);
   }, []);
 
@@ -89,7 +89,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, 0).toFixed(2);
 
   // Generate Shopify cart permalink URL
-  const getCheckoutUrl = useCallback(() => {
+  const getCheckoutUrl = React.useCallback(() => {
     if (items.length === 0) return '';
     
     const cartString = items
@@ -110,5 +110,5 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     getCheckoutUrl,
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return React.createElement(CartContext.Provider, { value }, children);
 };
