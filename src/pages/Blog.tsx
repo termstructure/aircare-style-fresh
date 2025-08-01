@@ -133,6 +133,9 @@ const Blog = () => {
     ? blogPosts 
     : blogPosts.filter(post => post.category === selectedCategory);
 
+  const featuredFilteredPosts = filteredPosts.filter(post => post.featured);
+  const recentFilteredPosts = filteredPosts.filter(post => !post.featured);
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -187,7 +190,7 @@ const Blog = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {featuredPosts.map((post) => (
+            {featuredFilteredPosts.map((post) => (
               <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group overflow-hidden">
                 <Link to={`/blog/${post.slug}`}>
                   <div className="aspect-video overflow-hidden">
@@ -240,7 +243,7 @@ const Blog = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">Recent Articles</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recentPosts.map((post) => (
+            {recentFilteredPosts.map((post) => (
               <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group">
                 <Link to={`/blog/${post.slug}`}>
                   <div className="aspect-video overflow-hidden rounded-t-lg">
