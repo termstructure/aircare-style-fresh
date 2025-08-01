@@ -102,21 +102,19 @@ const ProductCategories = () => {
                     ))}
                   </div>
                   
-                  {(category.handle === "air-filters" || category.title === "Air Filters") ? (
-                    <Link to="/air-filters">
-                      <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                        Explore Products
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  ) : (
-                    <Link to="/air-filters">
-                      <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                        Explore Products
-                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  )}
+                  {/* Create dynamic links based on category */}
+                  <Link to={
+                    category.handle === "hvac-systems" ? "/air-filters?category=Basic Protection" :
+                    category.handle === "accessories" ? "/air-filters?category=Premium Allergen" :
+                    category.title === "HVAC Systems" ? "/air-filters?category=Basic Protection" :
+                    category.title === "Parts & Accessories" ? "/air-filters?category=Premium Allergen" :
+                    "/air-filters"
+                  }>
+                    <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      Explore Products
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
