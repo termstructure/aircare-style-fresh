@@ -6,7 +6,7 @@ const ShopifyTest = () => {
   useEffect(() => {
     const testConnection = async () => {
       try {
-        const response = await fetch('https://aircaresupplyco.myshopify.com/api/2025-01/graphql', {
+        const response = await fetch('https://aircaresupplyco.myshopify.com/api/2025-07/graphql', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
