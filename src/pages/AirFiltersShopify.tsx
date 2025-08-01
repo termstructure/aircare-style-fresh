@@ -298,24 +298,23 @@ const AirFiltersShopify = () => {
                   {sizes.length > 0 && (
                     <div className="mb-6">
                       <label className="text-sm font-medium mb-3 block">Size</label>
-                      <div className="space-y-2">
-                        {sizes.map((size) => (
-                          <div key={size} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`size-${size}`}
-                              checked={filters.size.includes(size)}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  setFilters(prev => ({ ...prev, size: [...prev.size, size] }));
-                                } else {
-                                  setFilters(prev => ({ ...prev, size: prev.size.filter(s => s !== size) }));
-                                }
-                              }}
-                            />
-                            <label htmlFor={`size-${size}`} className="text-sm">{size}</label>
-                          </div>
-                        ))}
-                      </div>
+                      <Select value={filters.size[0] || "all"} onValueChange={(value) => {
+                        if (value === "all") {
+                          setFilters(prev => ({ ...prev, size: [] }));
+                        } else {
+                          setFilters(prev => ({ ...prev, size: [value] }));
+                        }
+                      }}>
+                        <SelectTrigger className="w-full bg-background border-border">
+                          <SelectValue placeholder="Select size" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border-border z-50">
+                          <SelectItem value="all">All Sizes</SelectItem>
+                          {sizes.map((size) => (
+                            <SelectItem key={size} value={size}>{size}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   )}
 
@@ -323,24 +322,23 @@ const AirFiltersShopify = () => {
                   {mervRatings.length > 0 && (
                     <div className="mb-6">
                       <label className="text-sm font-medium mb-3 block">MERV Rating</label>
-                      <div className="space-y-2">
-                        {mervRatings.map((rating) => (
-                          <div key={rating} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`merv-${rating}`}
-                              checked={filters.mervRating.includes(rating.toString())}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  setFilters(prev => ({ ...prev, mervRating: [...prev.mervRating, rating.toString()] }));
-                                } else {
-                                  setFilters(prev => ({ ...prev, mervRating: prev.mervRating.filter(m => m !== rating.toString()) }));
-                                }
-                              }}
-                            />
-                            <label htmlFor={`merv-${rating}`} className="text-sm">MERV {rating}</label>
-                          </div>
-                        ))}
-                      </div>
+                      <Select value={filters.mervRating[0] || "all"} onValueChange={(value) => {
+                        if (value === "all") {
+                          setFilters(prev => ({ ...prev, mervRating: [] }));
+                        } else {
+                          setFilters(prev => ({ ...prev, mervRating: [value] }));
+                        }
+                      }}>
+                        <SelectTrigger className="w-full bg-background border-border">
+                          <SelectValue placeholder="Select MERV rating" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border-border z-50">
+                          <SelectItem value="all">All MERV Ratings</SelectItem>
+                          {mervRatings.map((rating) => (
+                            <SelectItem key={rating} value={rating.toString()}>MERV {rating}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   )}
 
@@ -348,26 +346,60 @@ const AirFiltersShopify = () => {
                   {brands.length > 0 && (
                     <div className="mb-6">
                       <label className="text-sm font-medium mb-3 block">Brand</label>
-                      <div className="space-y-2">
-                        {brands.map((brand) => (
-                          <div key={brand} className="flex items-center space-x-2">
-                            <Checkbox
-                              id={`brand-${brand}`}
-                              checked={filters.brand.includes(brand)}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  setFilters(prev => ({ ...prev, brand: [...prev.brand, brand] }));
-                                } else {
-                                  setFilters(prev => ({ ...prev, brand: prev.brand.filter(b => b !== brand) }));
-                                }
-                              }}
-                            />
-                            <label htmlFor={`brand-${brand}`} className="text-sm">{brand}</label>
-                          </div>
-                        ))}
-                      </div>
+                      <Select value={filters.brand[0] || "all"} onValueChange={(value) => {
+                        if (value === "all") {
+                          setFilters(prev => ({ ...prev, brand: [] }));
+                        } else {
+                          setFilters(prev => ({ ...prev, brand: [value] }));
+                        }
+                      }}>
+                        <SelectTrigger className="w-full bg-background border-border">
+                          <SelectValue placeholder="Select brand" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border-border z-50">
+                          <SelectItem value="all">All Brands</SelectItem>
+                          {brands.map((brand) => (
+                            <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   )}
+
+                  {/* Price Range Filter */}
+                  <div className="mb-6">
+                    <label className="text-sm font-medium mb-3 block">Price Range</label>
+                    <Select value={filters.priceRange} onValueChange={(value) => {
+                      setFilters(prev => ({ ...prev, priceRange: value }));
+                    }}>
+                      <SelectTrigger className="w-full bg-background border-border">
+                        <SelectValue placeholder="Select price range" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border-border z-50">
+                        <SelectItem value="all">All Prices</SelectItem>
+                        <SelectItem value="0-25">Under $25</SelectItem>
+                        <SelectItem value="25-50">$25 - $50</SelectItem>
+                        <SelectItem value="50-100">$50 - $100</SelectItem>
+                        <SelectItem value="100">$100+</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Availability Filter */}
+                  <div className="mb-6">
+                    <label className="text-sm font-medium mb-3 block">Availability</label>
+                    <Select value={filters.availability} onValueChange={(value) => {
+                      setFilters(prev => ({ ...prev, availability: value }));
+                    }}>
+                      <SelectTrigger className="w-full bg-background border-border">
+                        <SelectValue placeholder="Select availability" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border-border z-50">
+                        <SelectItem value="all">All Products</SelectItem>
+                        <SelectItem value="in-stock">In Stock Only</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
                   {/* Clear Filters */}
                   <Button
