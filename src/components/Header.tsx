@@ -3,23 +3,17 @@ import { Phone, Mail, User, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Cart from "@/components/Cart";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import logo from "@/assets/logo.png";
-
 const Header = () => {
-  const { user, signOut } = useAuth();
-
+  const {
+    user,
+    signOut
+  } = useAuth();
   const handleSignOut = async () => {
     await signOut();
   };
-
-  return (
-    <header className="bg-card/90 backdrop-blur-sm border-b border-border sticky top-0 z-50">
+  return <header className="bg-card/90 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
@@ -34,7 +28,8 @@ const Header = () => {
           
           <nav className="hidden md:flex items-center space-x-2">
             <Link to="/" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Home</Link>
-            <Link to="/air-filters" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Air Filters</Link>
+            <Link to="/air-filters" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Products
+          </Link>
             <Link to="/blog" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Blog</Link>
             <Link to="/about" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">About</Link>
             <Link to="/faq" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">FAQ</Link>
@@ -51,8 +46,7 @@ const Header = () => {
             
             <Cart />
             
-            {user ? (
-              <div className="flex items-center space-x-2">
+            {user ? <div className="flex items-center space-x-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" className="flex items-center space-x-1">
@@ -67,19 +61,14 @@ const Header = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
+              </div> : <div className="flex items-center space-x-2">
                 <Button variant="outline" size="sm" asChild>
                   <Link to="/auth">Sign In</Link>
                 </Button>
-              </div>
-            )}
+              </div>}
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Header;
