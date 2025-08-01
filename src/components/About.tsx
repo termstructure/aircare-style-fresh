@@ -25,15 +25,17 @@ const About = () => {
             </h2>
             
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              AirCare Supply Co is a fresh, innovative company dedicated to transforming 
-              indoor air quality. We believe that everyone deserves clean, healthy air in 
-              their homes and workplaces—and we're here to make that a reality.
+              AirCare Supply Co is a new company dedicated to exceptional customer service 
+              in air filtration. We believe that everyone deserves clean, healthy air in 
+              their homes and workplaces—and we're here to help you achieve that through 
+              proper filter maintenance and regular replacement.
             </p>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Built on a foundation of quality, sustainability, and customer focus, we're 
-              bringing modern solutions to air filtration. Our curated selection of premium 
-              products ensures you get the best performance and value for your investment.
+              Built on a foundation of outstanding service and customer support, we focus 
+              on helping you understand the functional benefits of clean air. Our carefully 
+              selected products and expert guidance ensure you maintain optimal indoor air 
+              quality through consistent filter care.
             </p>
             
             <div className="space-y-4">
