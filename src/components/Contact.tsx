@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Mail, MapPin, Clock } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,12 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const contactInfo = [
-  {
-    icon: Phone,
-    title: "Call Us",
-    content: "(555) 123-4567",
-    subtitle: "Mon-Fri 9AM-5PM EST"
-  },
   {
     icon: Mail,
     title: "Email Us",
@@ -42,7 +36,6 @@ const contactSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(1, "Phone number is required"),
   message: z.string().min(10, "Message must be at least 10 characters long"),
 });
 
@@ -57,7 +50,6 @@ const Contact = () => {
       firstName: "",
       lastName: "",
       email: "",
-      phone: "",
       message: "",
     },
   });
@@ -175,20 +167,6 @@ const Contact = () => {
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
                           <Input type="email" placeholder="your.email@company.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number</FormLabel>
-                        <FormControl>
-                          <Input type="tel" placeholder="(555) 123-4567" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
