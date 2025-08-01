@@ -110,10 +110,12 @@ const ProductCategories = () => {
                       </Button>
                     </Link>
                   ) : (
-                    <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      Explore Products
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    <Link to="/air-filters">
+                      <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        Explore Products
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
                   )}
                 </div>
               </CardContent>
@@ -122,9 +124,11 @@ const ProductCategories = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Button variant="hero" size="lg" className="px-8 py-4">
-            View All Products
-          </Button>
+          <Link to="/air-filters">
+            <Button variant="hero" size="lg" className="px-8 py-4">
+              View All Products
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
