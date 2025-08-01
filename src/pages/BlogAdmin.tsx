@@ -1,0 +1,433 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useBlogAI } from "@/hooks/useBlogAI";
+import { Plus, Edit, Trash2, Eye, Save, X, Database } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  status: string;
+  featured: boolean;
+  published_at: string | null;
+  created_at: string;
+  author_id: string;
+  category_id: string | null;
+  featured_image_url: string | null;
+  meta_description: string | null;
+  meta_keywords: string[] | null;
+  scheduled_for: string | null;
+  updated_at: string;
+  view_count: number;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface Author {
+  id: string;
+  name: string;
+}
+
+const BlogAdmin = () => {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [newPost, setNewPost] = useState({
+    title: "",
+    excerpt: "",
+    content: "",
+    category_id: "",
+    featured: false
+  });
+  const [showEditor, setShowEditor] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const { migrateStaticData, loading: aiLoading } = useBlogAI();
+
+  useEffect(() => {
+    checkAuth();
+    fetchData();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      navigate("/auth");
+      return;
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const [postsResult, categoriesResult, authorsResult] = await Promise.all([
+        supabase.from('blog_posts').select('*').order('created_at', { ascending: false }),
+        supabase.from('blog_categories').select('*').order('name'),
+        supabase.from('blog_authors').select('*').order('name')
+      ]);
+
+      if (postsResult.error) throw postsResult.error;
+      if (categoriesResult.error) throw categoriesResult.error;
+      if (authorsResult.error) throw authorsResult.error;
+
+      setPosts(postsResult.data || []);
+      setCategories(categoriesResult.data || []);
+      setAuthors(authorsResult.data || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load blog data",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .trim();
+  };
+
+  const createPost = async () => {
+    if (!newPost.title || !newPost.content) {
+      toast({
+        title: "Error",
+        description: "Title and content are required",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const slug = generateSlug(newPost.title);
+      
+      // Get or create default author
+      let authorId = authors[0]?.id;
+      if (!authorId) {
+        const { data: { session } } = await supabase.auth.getSession();
+        const { data: authorData, error: authorError } = await supabase
+          .from('blog_authors')
+          .insert({
+            name: session?.user?.email?.split('@')[0] || 'Admin',
+            bio: 'Blog Administrator'
+          })
+          .select()
+          .single();
+
+        if (authorError) throw authorError;
+        authorId = authorData.id;
+      }
+
+      const { error } = await supabase.from('blog_posts').insert({
+        title: newPost.title,
+        slug,
+        excerpt: newPost.excerpt,
+        content: newPost.content,
+        category_id: newPost.category_id || null,
+        author_id: authorId,
+        featured: newPost.featured,
+        status: 'draft'
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Blog post created successfully"
+      });
+
+      setNewPost({ title: "", excerpt: "", content: "", category_id: "", featured: false });
+      setShowEditor(false);
+      fetchData();
+    } catch (error) {
+      console.error('Error creating post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create blog post",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const updatePost = async (post: BlogPost) => {
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .update({
+          title: post.title,
+          excerpt: post.excerpt,
+          content: post.content,
+          featured: post.featured
+        })
+        .eq('id', post.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Blog post updated successfully"
+      });
+
+      setEditingPost(null);
+      fetchData();
+    } catch (error) {
+      console.error('Error updating post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update blog post",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const publishPost = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .update({
+          status: 'published',
+          published_at: new Date().toISOString()
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Blog post published successfully"
+      });
+
+      fetchData();
+    } catch (error) {
+      console.error('Error publishing post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to publish blog post",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const deletePost = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this post?")) return;
+
+    try {
+      const { error } = await supabase.from('blog_posts').delete().eq('id', id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Blog post deleted successfully"
+      });
+
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete blog post",
+        variant: "destructive"
+      });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">Loading...</div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Blog Admin</h1>
+          <div className="flex gap-2">
+            <Button onClick={migrateStaticData} disabled={aiLoading} variant="outline">
+              <Database className="w-4 h-4 mr-2" />
+              Migrate Data
+            </Button>
+            <Button onClick={() => setShowEditor(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              New Post
+            </Button>
+          </div>
+        </div>
+
+        {showEditor && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Create New Post</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Input
+                placeholder="Post title"
+                value={newPost.title}
+                onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+              />
+              <Textarea
+                placeholder="Post excerpt"
+                value={newPost.excerpt}
+                onChange={(e) => setNewPost({ ...newPost, excerpt: e.target.value })}
+                rows={3}
+              />
+              <Textarea
+                placeholder="Post content"
+                value={newPost.content}
+                onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                rows={10}
+              />
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={newPost.featured}
+                    onChange={(e) => setNewPost({ ...newPost, featured: e.target.checked })}
+                  />
+                  Featured
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={createPost}>
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Draft
+                </Button>
+                <Button variant="outline" onClick={() => setShowEditor(false)}>
+                  <X className="w-4 h-4 mr-2" />
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        <div className="grid gap-4">
+          {posts.map((post) => (
+            <Card key={post.id}>
+              <CardContent className="p-6">
+                {editingPost?.id === post.id ? (
+                  <div className="space-y-4">
+                    <Input
+                      value={editingPost.title}
+                      onChange={(e) => setEditingPost({ ...editingPost, title: e.target.value })}
+                    />
+                    <Textarea
+                      value={editingPost.excerpt}
+                      onChange={(e) => setEditingPost({ ...editingPost, excerpt: e.target.value })}
+                      rows={3}
+                    />
+                    <Textarea
+                      value={editingPost.content}
+                      onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
+                      rows={10}
+                    />
+                    <div className="flex items-center gap-4">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={editingPost.featured}
+                          onChange={(e) => setEditingPost({ ...editingPost, featured: e.target.checked })}
+                        />
+                        Featured
+                      </label>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button onClick={() => updatePost(editingPost)}>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save
+                      </Button>
+                      <Button variant="outline" onClick={() => setEditingPost(null)}>
+                        <X className="w-4 h-4 mr-2" />
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-xl font-semibold">{post.title}</h3>
+                      <div className="flex gap-2">
+                        <Badge variant={post.status === 'published' ? 'default' : 'secondary'}>
+                          {post.status}
+                        </Badge>
+                        {post.featured && <Badge variant="outline">Featured</Badge>}
+                      </div>
+                    </div>
+                    <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setEditingPost(post)}
+                      >
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+                      {post.status === 'draft' && (
+                        <Button
+                          size="sm"
+                          onClick={() => publishPost(post.id)}
+                        >
+                          <Eye className="w-4 h-4 mr-2" />
+                          Publish
+                        </Button>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => navigate(`/blog/${post.slug}`)}
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        View
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => deletePost(post.id)}
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default BlogAdmin;
