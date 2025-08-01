@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useProductsByCollection, useCart } from "@/hooks/useShopify";
+import { useProductsByCollectionWithFallback } from "@/hooks/useShopifyWithFallback";
 import { ShopifyProduct } from "@/lib/shopify";
 import { formatPrice, getProductImageUrl } from "@/lib/shopify";
 import ShopifyTest from "@/components/ShopifyTest";
@@ -38,8 +39,14 @@ const AirFiltersShopify = () => {
   const { toast } = useToast();
   const { cart, addToCart, isLoading: cartLoading } = useCart();
   
-  // Fetch products from Shopify air-filters collection
-  const { data: products, isLoading, error } = useProductsByCollection("air-filters");
+  // Fetch products from Shopify air-filters collection with fallback
+  const { data: productsWithFallback, isLoading: isLoadingFallback, error: errorFallback } = useProductsByCollectionWithFallback("air-filters");
+  const { data: productsOriginal, isLoading: isLoadingOriginal, error: errorOriginal } = useProductsByCollection("air-filters");
+  
+  // Use fallback data if available, otherwise try original
+  const products = productsWithFallback || productsOriginal;
+  const isLoading = isLoadingFallback && isLoadingOriginal;
+  const error = errorFallback && errorOriginal ? errorFallback : null;
 
   // Initialize filters from URL params
   useEffect(() => {
