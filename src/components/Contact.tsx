@@ -19,12 +19,6 @@ const contactInfo = [
     subtitle: "24/7 response"
   },
   {
-    icon: MapPin,
-    title: "Our Location",
-    content: "Charlotte, NC",
-    subtitle: "Online orders only"
-  },
-  {
     icon: Clock,
     title: "Business Hours",
     content: "Mon-Fri: 9AM-5PM",
