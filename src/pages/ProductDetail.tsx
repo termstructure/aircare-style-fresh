@@ -198,7 +198,7 @@ const ProductDetail = () => {
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <div 
                 className="leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: product.description }}
+                dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description }}
               />
             </div>
 

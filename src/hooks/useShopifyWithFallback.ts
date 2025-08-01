@@ -67,10 +67,11 @@ export const useProductsByCollectionWithFallback = (collectionHandle: string) =>
               products(first: 50) {
                 edges {
                   node {
-                    id
-                    title
-                    description
-                    handle
+                     id
+                     title
+                     description
+                     descriptionHtml
+                     handle
                     productType
                     vendor
                     tags
@@ -126,6 +127,7 @@ export const useProductsByCollectionWithFallback = (collectionHandle: string) =>
             id: product.id,
             title: product.title,
             description: product.description,
+            descriptionHtml: product.descriptionHtml,
             handle: product.handle,
             productType: product.productType,
             vendor: product.vendor,

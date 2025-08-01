@@ -23,6 +23,7 @@ export interface ShopifyProduct {
   id: string;
   title: string;
   description: string;
+  descriptionHtml?: string;
   handle: string;
   productType: string;
   vendor: string;
