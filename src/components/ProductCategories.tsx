@@ -10,14 +10,6 @@ import accessoriesImg from "@/assets/accessories.jpg";
 // Fallback categories for when Shopify is loading or unavailable
 const fallbackCategories = [
   {
-    id: "air-filters",
-    title: "Air Filters",
-    description: "Premium HEPA, pleated, and specialty filters for all HVAC systems. Available in all standard sizes.",
-    image: filtersImg,
-    handle: "air-filters",
-    features: ["HEPA Certified", "Custom Sizes", "Bulk Pricing"]
-  },
-  {
     id: "hvac-systems", 
     title: "HVAC Systems",
     description: "Complete heating, ventilation, and air conditioning systems for residential and commercial use.",
@@ -39,14 +31,17 @@ const ProductCategories = () => {
   const { data: shopifyCollections, isLoading, error } = useCollections();
   
   // Use Shopify collections if available, otherwise fallback to static data
-  const categories = shopifyCollections?.length ? shopifyCollections.map(collection => ({
-    id: collection.id,
-    title: collection.title,
-    description: collection.description || fallbackCategories.find(cat => cat.handle === collection.handle)?.description || "Premium quality products for your needs.",
-    image: collection.image?.src || fallbackCategories.find(cat => cat.handle === collection.handle)?.image || filtersImg,
-    handle: collection.handle,
-    features: fallbackCategories.find(cat => cat.handle === collection.handle)?.features || ["Premium Quality", "Fast Shipping", "Expert Support"]
-  })) : fallbackCategories;
+  // Filter out air-filters collection
+  const categories = shopifyCollections?.length ? shopifyCollections
+    .filter(collection => collection.handle !== "air-filters")
+    .map(collection => ({
+      id: collection.id,
+      title: collection.title,
+      description: collection.description || fallbackCategories.find(cat => cat.handle === collection.handle)?.description || "Premium quality products for your needs.",
+      image: collection.image?.src || fallbackCategories.find(cat => cat.handle === collection.handle)?.image || filtersImg,
+      handle: collection.handle,
+      features: fallbackCategories.find(cat => cat.handle === collection.handle)?.features || ["Premium Quality", "Fast Shipping", "Expert Support"]
+    })) : fallbackCategories;
 
   if (isLoading) {
     return (
