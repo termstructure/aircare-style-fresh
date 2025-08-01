@@ -110,7 +110,7 @@ const ProductCategories = () => {
                     category.title === "Parts & Accessories" ? "/air-filters?category=Premium Allergen" :
                     "/air-filters"
                   }>
-                    <Button variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                       Explore Products
                       <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
