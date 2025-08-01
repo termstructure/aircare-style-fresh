@@ -1,387 +1,328 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { ArrowLeft, Star, Shield, Truck, RefreshCw, Heart, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { useToast } from "@/hooks/use-toast";
-
-// Import images
-import filtreteM11 from "@/assets/filtrete-merv11.jpg";
-import filtreteM13 from "@/assets/filtrete-merv13.jpg";
-import filtreteM16 from "@/assets/filtrete-merv16.jpg";
-import filtreteCarbon from "@/assets/filtrete-carbon.jpg";
-import hdxM8 from "@/assets/hdx-merv8.jpg";
-import hdxM13 from "@/assets/hdx-merv13.jpg";
-
-interface AirFilter {
-  id: string;
-  name: string;
-  size: string;
-  mervRating: number;
-  fprRating?: number;
-  price: number;
-  brand: string;
-  category: string;
-  features: string[];
-  image: string;
-  subscription?: boolean;
-  popular?: boolean;
-}
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { ArrowLeft, Plus, Minus, ShoppingCart, Check, Truck, Shield, RotateCcw } from 'lucide-react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { useProductsByCollectionWithFallback } from '@/hooks/useShopifyWithFallback';
+import { useCart } from '@/contexts/CartContext';
+import { ShopifyProduct } from '@/lib/shopify';
+import { formatPrice, getProductImageUrl } from '@/lib/shopify';
 
 const ProductDetail = () => {
-  const { productId } = useParams();
+  const { handle } = useParams<{ handle: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariantId, setSelectedVariantId] = useState<string>('');
 
-  // Sample product data - in a real app, this would come from an API or context
-  const airFilters: AirFilter[] = [
-    {
-      id: "f11-16x20",
-      name: "3M Filtrete MERV 11 Premium Allergen Filter",
-      size: "16x20x1",
-      mervRating: 11,
-      fprRating: 7,
-      price: 24.99,
-      brand: "3M Filtrete",
-      category: "Premium Allergen",
-      features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
-      image: filtreteM11,
-      subscription: true,
-      popular: true
-    },
-    {
-      id: "f13-16x20",
-      name: "3M Filtrete MERV 13 Superior Allergen Filter",
-      size: "16x20x1",
-      mervRating: 13,
-      fprRating: 10,
-      price: 34.99,
-      brand: "3M Filtrete",
-      category: "Superior Allergen",
-      features: ["Captures 98% of particles", "Bacteria & viruses", "Smoke & smog", "Pet allergens"],
-      image: filtreteM13,
-      subscription: true,
-      popular: false
+  // Fetch products to find the one we need
+  const { data: products, isLoading, error } = useProductsByCollectionWithFallback("air-filters");
+  
+  const product = products?.find(p => p.handle === handle);
+
+  useEffect(() => {
+    if (product && product.variants.length > 0) {
+      setSelectedVariantId(product.variants[0].id);
     }
-  ];
+  }, [product]);
 
-  const product = airFilters.find(filter => filter.id === productId);
+  // Helper function to extract MERV rating from tags or title
+  const getMervRating = (product: ShopifyProduct): number => {
+    const mervTag = product.tags.find(tag => tag.toLowerCase().startsWith('merv-'));
+    if (mervTag) {
+      const rating = parseInt(mervTag.replace('merv-', ''));
+      return isNaN(rating) ? 0 : rating;
+    }
+    
+    const mervMatch = product.title.match(/merv\s*(\d+)/i);
+    return mervMatch ? parseInt(mervMatch[1]) : 0;
+  };
 
-  if (!product) {
+  // Helper function to extract size from tags or title
+  const getSize = (product: ShopifyProduct): string => {
+    const sizeTag = product.tags.find(tag => /\d+x\d+x\d+/.test(tag));
+    if (sizeTag) return sizeTag;
+    
+    const sizeMatch = product.title.match(/(\d+x\d+x\d+)/);
+    return sizeMatch ? sizeMatch[1] : "";
+  };
+
+  const handleAddToCart = () => {
+    if (!product || !selectedVariantId) return;
+
+    const selectedVariant = product.variants.find(v => v.id === selectedVariantId);
+    if (!selectedVariant?.available) {
+      toast({
+        title: "Out of Stock",
+        description: "This product variant is currently unavailable.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    addToCart(product, selectedVariantId, quantity);
+    toast({
+      title: "Added to Cart",
+      description: `${quantity} × ${product.title} added to your cart.`,
+    });
+  };
+
+  const updateQuantity = (newQuantity: number) => {
+    if (newQuantity >= 1) {
+      setQuantity(newQuantity);
+    }
+  };
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
         <Header />
-        <div className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Product Not Found</h1>
-          <Button onClick={() => navigate('/air-filters')}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Air Filters
-          </Button>
+        <div className="container mx-auto px-4 py-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-muted rounded w-1/4 mb-8"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="h-96 bg-muted rounded"></div>
+              <div className="space-y-4">
+                <div className="h-8 bg-muted rounded"></div>
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+                <div className="h-4 bg-muted rounded w-1/2"></div>
+              </div>
+            </div>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
-  const handleAddToCart = () => {
-    toast({
-      title: "Added to Cart",
-      description: `${quantity}x ${product.name} added to your cart.`,
-    });
-  };
+  if (error || !product) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center py-12">
+            <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+            <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist or has been removed.</p>
+            <Button asChild>
+              <Link to="/air-filters">Back to Air Filters</Link>
+            </Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      rating: 5,
-      comment: "This filter has made a huge difference in our home's air quality. My allergies are much better!",
-      date: "2 weeks ago"
-    },
-    {
-      name: "Mike Chen",
-      rating: 5,
-      comment: "Easy to install and works great. The subscription service is convenient too.",
-      date: "1 month ago"
-    },
-    {
-      name: "Emily Rodriguez",
-      rating: 4,
-      comment: "Good quality filter, fits perfectly. Will definitely order again.",
-      date: "3 weeks ago"
-    }
-  ];
+  const selectedVariant = product.variants.find(v => v.id === selectedVariantId) || product.variants[0];
+  const mervRating = getMervRating(product);
+  const size = getSize(product);
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate('/air-filters')}
-          className="mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Air Filters
-        </Button>
+      <div className="container mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 mb-8">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <span className="text-muted-foreground">/</span>
+          <Link to="/air-filters" className="text-sm text-muted-foreground hover:text-foreground">
+            Air Filters
+          </Link>
+          <span className="text-muted-foreground">/</span>
+          <span className="text-sm text-foreground">{product.title}</span>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Product Image */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Product Images */}
           <div className="space-y-4">
-            <div className="aspect-square bg-white rounded-lg overflow-hidden border">
-              <img 
-                src={product.image} 
-                alt={product.name}
+            <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+              <img
+                src={getProductImageUrl(product)}
+                alt={product.title}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="grid grid-cols-4 gap-2">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="aspect-square bg-muted rounded border cursor-pointer hover:border-primary">
-                  <img 
-                    src={product.image} 
-                    alt={`${product.name} view ${i}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+            
+            {/* Additional images if available */}
+            {product.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-2">
+                {product.images.slice(1, 5).map((image, index) => (
+                  <div key={image.id} className="aspect-square bg-muted rounded overflow-hidden">
+                    <img
+                      src={image.src}
+                      alt={`${product.title} ${index + 2}`}
+                      className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="secondary">{product.brand}</Badge>
-                {product.popular && <Badge variant="default">Popular</Badge>}
-              </div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{product.name}</h1>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                  <span className="ml-2 text-sm text-muted-foreground">(128 reviews)</span>
-                </div>
-              </div>
-              <p className="text-4xl font-bold text-primary mb-4">${product.price}</p>
-            </div>
-
-            {/* Product Specifications */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Specifications</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Size:</span>
-                  <span className="font-medium">{product.size}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">MERV Rating:</span>
-                  <span className="font-medium">{product.mervRating}</span>
-                </div>
-                {product.fprRating && (
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">FPR Rating:</span>
-                    <span className="font-medium">{product.fprRating}</span>
-                  </div>
+              <div className="flex items-center gap-3 mb-2">
+                <Badge variant="secondary">{product.vendor}</Badge>
+                {mervRating > 0 && (
+                  <Badge variant="outline">MERV {mervRating}</Badge>
                 )}
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Category:</span>
-                  <span className="font-medium">{product.category}</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Add to Cart */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center border rounded">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  >
-                    -
-                  </Button>
-                  <span className="px-4 py-2 min-w-[60px] text-center">{quantity}</span>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => setQuantity(quantity + 1)}
-                  >
-                    +
-                  </Button>
-                </div>
-                <Button onClick={handleAddToCart} className="flex-1">
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Add to Cart
-                </Button>
-                <Button variant="outline" size="icon">
-                  <Heart className="w-4 h-4" />
-                </Button>
+                {size && (
+                  <Badge variant="outline">{size}</Badge>
+                )}
               </div>
-              
-              {product.subscription && (
-                <div className="bg-accent p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <RefreshCw className="w-4 h-4 text-primary" />
-                    <span className="font-medium">Subscribe & Save</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Get 15% off and free delivery with subscription. Cancel anytime.
-                  </p>
+              <h1 className="text-3xl font-bold text-foreground mb-4">{product.title}</h1>
+              <div className="text-3xl font-bold text-primary mb-4">
+                {formatPrice(selectedVariant.price)}
+              </div>
+              {selectedVariant.available ? (
+                <div className="flex items-center text-green-600">
+                  <Check className="w-4 h-4 mr-2" />
+                  In Stock
                 </div>
+              ) : (
+                <div className="text-destructive">Out of Stock</div>
               )}
             </div>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 pt-4">
-              <div className="text-center">
-                <Shield className="w-8 h-8 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Quality Guaranteed</p>
-              </div>
-              <div className="text-center">
-                <Truck className="w-8 h-8 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Free Shipping</p>
-              </div>
-              <div className="text-center">
-                <RefreshCw className="w-8 h-8 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Easy Returns</p>
-              </div>
+            {/* Product Description */}
+            <div className="prose prose-sm max-w-none">
+              <p className="text-muted-foreground leading-relaxed">
+                {product.description}
+              </p>
             </div>
-          </div>
-        </div>
 
-        {/* Product Details Tabs */}
-        <Tabs defaultValue="features" className="mb-12">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="features">Features & Details</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            <TabsTrigger value="specifications">Full Specifications</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="features" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Key Features</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {product.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <Separator className="my-6" />
-                <div className="prose max-w-none">
-                  <h4 className="font-semibold mb-3">Product Description</h4>
-                  <p className="text-muted-foreground">
-                    This premium air filter is designed to capture airborne particles and improve your home's air quality. 
-                    With advanced electrostatic technology, it attracts and captures microscopic particles that can trigger 
-                    allergies and respiratory issues. Perfect for households with pets, smokers, or allergy sufferers.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="reviews" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Customer Reviews</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {testimonials.map((testimonial, index) => (
-                    <div key={index} className="border-b pb-6 last:border-b-0">
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                          <span className="text-sm font-medium">
-                            {testimonial.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="font-medium">{testimonial.name}</p>
-                          <div className="flex items-center gap-2">
-                            <div className="flex">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star 
-                                  key={star} 
-                                  className={`w-4 h-4 ${star <= testimonial.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-muted-foreground">{testimonial.date}</span>
-                          </div>
+            {/* Variants Selection */}
+            {product.variants.length > 1 && (
+              <div>
+                <label className="text-sm font-medium mb-3 block">Options</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {product.variants.map((variant) => (
+                    <Button
+                      key={variant.id}
+                      variant={selectedVariantId === variant.id ? "default" : "outline"}
+                      className="justify-start"
+                      onClick={() => setSelectedVariantId(variant.id)}
+                      disabled={!variant.available}
+                    >
+                      <div className="text-left">
+                        <div className="font-medium">{variant.title}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {formatPrice(variant.price)}
                         </div>
                       </div>
-                      <p className="text-muted-foreground">{testimonial.comment}</p>
-                    </div>
+                    </Button>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="specifications" className="mt-6">
+              </div>
+            )}
+
+            {/* Quantity and Add to Cart */}
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-3 block">Quantity</label>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => updateQuantity(quantity - 1)}
+                    disabled={quantity <= 1}
+                  >
+                    <Minus className="w-4 h-4" />
+                  </Button>
+                  <span className="w-12 text-center font-medium">{quantity}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => updateQuantity(quantity + 1)}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <Button
+                size="lg"
+                onClick={handleAddToCart}
+                disabled={!selectedVariant.available}
+                className="w-full"
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                Add to Cart - {formatPrice((parseFloat(selectedVariant.price) * quantity).toString())}
+              </Button>
+            </div>
+
+            {/* Product Features */}
             <Card>
-              <CardHeader>
-                <CardTitle>Detailed Specifications</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Dimensions</span>
-                      <span>{product.size}</span>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4">Product Features</h3>
+                <div className="space-y-3">
+                  {mervRating > 0 && (
+                    <div className="flex items-center gap-3">
+                      <Shield className="w-5 h-5 text-primary" />
+                      <span className="text-sm">MERV {mervRating} Filtration Rating</span>
                     </div>
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">MERV Rating</span>
-                      <span>{product.mervRating}</span>
+                  )}
+                  {size && (
+                    <div className="flex items-center gap-3">
+                      <RotateCcw className="w-5 h-5 text-primary" />
+                      <span className="text-sm">Standard {size} Filter Size</span>
                     </div>
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Material</span>
-                      <span>Synthetic blend</span>
-                    </div>
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Frame Type</span>
-                      <span>Cardboard</span>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Efficiency</span>
-                      <span>93% particle capture</span>
-                    </div>
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Airflow</span>
-                      <span>Optimized</span>
-                    </div>
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Recommended Change</span>
-                      <span>Every 3 months</span>
-                    </div>
-                    <div className="flex justify-between border-b pb-2">
-                      <span className="font-medium">Warranty</span>
-                      <span>1 year limited</span>
-                    </div>
+                  )}
+                  <div className="flex items-center gap-3">
+                    <Truck className="w-5 h-5 text-primary" />
+                    <span className="text-sm">Free shipping on orders over $50</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
-      </main>
+
+            {/* Technical Specifications */}
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-semibold mb-4">Specifications</h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">Brand:</span>
+                    <span className="ml-2 font-medium">{product.vendor}</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Type:</span>
+                    <span className="ml-2 font-medium">{product.productType}</span>
+                  </div>
+                  {size && (
+                    <div>
+                      <span className="text-muted-foreground">Size:</span>
+                      <span className="ml-2 font-medium">{size}</span>
+                    </div>
+                  )}
+                  {mervRating > 0 && (
+                    <div>
+                      <span className="text-muted-foreground">MERV Rating:</span>
+                      <span className="ml-2 font-medium">{mervRating}</span>
+                    </div>
+                  )}
+                  {selectedVariant.sku && (
+                    <div>
+                      <span className="text-muted-foreground">SKU:</span>
+                      <span className="ml-2 font-medium">{selectedVariant.sku}</span>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -397,50 +397,58 @@ const AirFiltersShopify = () => {
                 return (
                   <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300">
                     <CardContent className="p-0">
-                      <div className="relative overflow-hidden rounded-t-lg">
-                        <img
-                          src={getProductImageUrl(product)}
-                          alt={product.title}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        {!isAvailable && (
-                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <Badge variant="destructive">Out of Stock</Badge>
-                          </div>
-                        )}
-                        <div className="absolute top-2 right-2">
-                          {mervRating > 0 && (
-                            <Badge variant="secondary">MERV {mervRating}</Badge>
+                      <Link to={`/product/${product.handle}`} className="block">
+                        <div className="relative overflow-hidden rounded-t-lg">
+                          <img
+                            src={getProductImageUrl(product)}
+                            alt={product.title}
+                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                          {!isAvailable && (
+                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                              <Badge variant="destructive">Out of Stock</Badge>
+                            </div>
                           )}
-                        </div>
-                      </div>
-
-                      <div className="p-4">
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-semibold text-foreground line-clamp-2 flex-1">
-                            {product.title}
-                          </h3>
-                        </div>
-
-                        <p className="text-sm text-muted-foreground mb-2">{product.vendor}</p>
-                        
-                        {size && (
-                          <p className="text-sm text-muted-foreground mb-3">Size: {size}</p>
-                        )}
-
-                        <div className="flex items-center justify-between">
-                          <div className="text-lg font-bold text-foreground">
-                            {formatPrice(mainVariant?.price || "0")}
+                          <div className="absolute top-2 right-2">
+                            {mervRating > 0 && (
+                              <Badge variant="secondary">MERV {mervRating}</Badge>
+                            )}
                           </div>
-                          
-                          <Button
-                            onClick={() => handleAddToCart(product)}
-                            disabled={!isAvailable}
-                            size="sm"
-                          >
-                            Add to Cart
-                          </Button>
                         </div>
+
+                        <div className="p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="font-semibold text-foreground line-clamp-2 flex-1">
+                              {product.title}
+                            </h3>
+                          </div>
+
+                          <p className="text-sm text-muted-foreground mb-2">{product.vendor}</p>
+                          
+                          {size && (
+                            <p className="text-sm text-muted-foreground mb-3">Size: {size}</p>
+                          )}
+
+                          <div className="flex items-center justify-between">
+                            <div className="text-lg font-bold text-foreground">
+                              {formatPrice(mainVariant?.price || "0")}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                      
+                      <div className="px-4 pb-4">
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleAddToCart(product);
+                          }}
+                          disabled={!isAvailable}
+                          size="sm"
+                          className="w-full"
+                        >
+                          Add to Cart
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
