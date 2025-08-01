@@ -195,10 +195,11 @@ const ProductDetail = () => {
             </div>
 
             {/* Product Description */}
-            <div className="prose prose-sm max-w-none">
-              <p className="text-muted-foreground leading-relaxed">
-                {product.description}
-              </p>
+            <div className="prose prose-sm max-w-none text-muted-foreground">
+              <div 
+                className="leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
             </div>
 
             {/* Variants Selection */}
