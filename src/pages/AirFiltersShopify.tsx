@@ -69,10 +69,13 @@ const AirFiltersShopify = () => {
 
   // Helper function to extract MERV rating from tags or title
   const getMervRating = (product: ShopifyProduct): number => {
-    const mervTag = product.tags.find(tag => tag.toLowerCase().startsWith('merv-'));
-    if (mervTag) {
-      const rating = parseInt(mervTag.replace('merv-', ''));
-      return isNaN(rating) ? 0 : rating;
+    // Check if product.tags exists and is an array before calling find
+    if (product.tags && Array.isArray(product.tags)) {
+      const mervTag = product.tags.find(tag => tag.toLowerCase().startsWith('merv-'));
+      if (mervTag) {
+        const rating = parseInt(mervTag.replace('merv-', ''));
+        return isNaN(rating) ? 0 : rating;
+      }
     }
     
     // Try to extract from title
@@ -82,8 +85,11 @@ const AirFiltersShopify = () => {
 
   // Helper function to extract size from tags or title
   const getSize = (product: ShopifyProduct): string => {
-    const sizeTag = product.tags.find(tag => /\d+x\d+x\d+/.test(tag));
-    if (sizeTag) return sizeTag;
+    // Check if product.tags exists and is an array before calling find
+    if (product.tags && Array.isArray(product.tags)) {
+      const sizeTag = product.tags.find(tag => /\d+x\d+x\d+/.test(tag));
+      if (sizeTag) return sizeTag;
+    }
     
     const sizeMatch = product.title.match(/(\d+x\d+x\d+)/);
     return sizeMatch ? sizeMatch[1] : "";
