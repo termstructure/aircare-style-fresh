@@ -5,7 +5,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-[85vh] flex items-center bg-gradient-subtle">
+    <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle">
       
       {/* Content */}
       <div className="relative container mx-auto px-6 py-24">
