@@ -16,7 +16,7 @@ const contactInfo = [
     icon: Phone,
     title: "Call Us",
     content: "(555) 123-4567",
-    subtitle: "Mon-Fri 8AM-6PM EST"
+    subtitle: "Mon-Fri 9AM-5PM EST"
   },
   {
     icon: Mail,
@@ -33,8 +33,8 @@ const contactInfo = [
   {
     icon: Clock,
     title: "Business Hours",
-    content: "Mon-Fri: 8AM-6PM",
-    subtitle: "Sat: 9AM-3PM"
+    content: "Mon-Fri: 9AM-5PM",
+    subtitle: "Closed weekends"
   }
 ];
 
