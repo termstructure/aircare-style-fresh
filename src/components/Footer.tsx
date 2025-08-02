@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -18,11 +18,6 @@ const Footer = () => {
               Your trusted partner for premium HVAC supplies and air filtration solutions. 
               Founded in 2025 to make clean air simple and accessible.
             </p>
-            <div className="flex space-x-4">
-              <Facebook className="w-5 h-5 text-background/70 hover:text-primary cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 text-background/70 hover:text-primary cursor-pointer transition-colors" />
-              <Linkedin className="w-5 h-5 text-background/70 hover:text-primary cursor-pointer transition-colors" />
-            </div>
           </div>
 
           {/* Quick Links */}
