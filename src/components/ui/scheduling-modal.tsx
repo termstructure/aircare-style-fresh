@@ -19,6 +19,7 @@ interface SchedulingModalProps {
   onSaveAsDraft: () => void
   loading?: boolean
   title?: string
+  initialDate?: Date
 }
 
 export function SchedulingModal({
@@ -27,9 +28,16 @@ export function SchedulingModal({
   onSchedule,
   onSaveAsDraft,
   loading = false,
-  title = "Schedule Publication"
+  title = "Schedule Publication",
+  initialDate
 }: SchedulingModalProps) {
-  const [scheduledDate, setScheduledDate] = React.useState<Date | undefined>()
+  const [scheduledDate, setScheduledDate] = React.useState<Date | undefined>(initialDate)
+
+  React.useEffect(() => {
+    if (open) {
+      setScheduledDate(initialDate)
+    }
+  }, [open, initialDate])
 
   const handleSchedule = () => {
     if (scheduledDate) {

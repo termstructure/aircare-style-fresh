@@ -804,9 +804,22 @@ const BlogAdmin = () => {
                         </>
                       )}
                       {post.status === 'scheduled' && post.scheduled_for && (
-                        <div className="text-sm text-muted-foreground">
-                          Scheduled for: {new Date(post.scheduled_for).toLocaleString()}
-                        </div>
+                        <>
+                          <div className="text-sm text-muted-foreground flex items-center gap-2">
+                            Scheduled for: {new Date(post.scheduled_for).toLocaleString()}
+                          </div>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setSchedulingPost(post);
+                              setShowSchedulingModal(true);
+                            }}
+                          >
+                            <Clock className="w-4 h-4 mr-2" />
+                            Reschedule
+                          </Button>
+                        </>
                       )}
                       <Button
                         size="sm"
@@ -852,6 +865,7 @@ const BlogAdmin = () => {
         }}
         loading={aiLoading}
         title={schedulingPost ? "Schedule Post" : "Schedule Generated Content"}
+        initialDate={schedulingPost?.scheduled_for ? new Date(schedulingPost.scheduled_for) : undefined}
       />
     </div>
   );
