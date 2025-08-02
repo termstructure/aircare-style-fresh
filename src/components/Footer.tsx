@@ -5,18 +5,18 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-foreground text-background py-16">
+    <footer className="bg-foreground text-background py-8 md:py-12 lg:py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold">A</span>
               </div>
-              <span className="text-xl font-bold">AirCare Supply Co</span>
+              <span className="text-lg md:text-xl font-bold">AirCare Supply Co</span>
             </div>
-            <p className="text-background/70 mb-4 leading-relaxed">
+            <p className="text-background/70 mb-4 leading-relaxed text-sm md:text-base">
               Your trusted partner for quality HVAC supplies and air filtration solutions. 
               Founded in 2025 to make clean air simple and accessible.
             </p>
@@ -24,7 +24,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-base md:text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-background/70 hover:text-primary transition-colors">
@@ -61,7 +61,7 @@ const Footer = () => {
 
           {/* Brands */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Brands</h3>
+            <h3 className="text-base md:text-lg font-semibold mb-4">Brands</h3>
             <ul className="space-y-2">
               {[
                 { name: "3M Filtrete", param: "3M Filtrete" },
@@ -83,24 +83,24 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-base md:text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div className="flex items-start space-x-2 md:space-x-3">
+                <MapPin className="w-4 h-4 md:w-5 md:h-5 text-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-background/90">Charlotte, NC</p>
+                  <p className="text-background/90 text-sm md:text-base">Charlotte, NC</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-background/90">support@aircaresupplyco.com</p>
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <Mail className="w-4 h-4 md:w-5 md:h-5 text-primary flex-shrink-0" />
+                <p className="text-background/90 text-sm md:text-base break-words">support@aircaresupplyco.com</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-background/20 mt-12 pt-8 text-center">
-          <p className="text-background/70 text-sm">
+        <div className="border-t border-background/20 mt-8 pt-6 md:mt-12 md:pt-8 text-center">
+          <p className="text-background/70 text-xs md:text-sm">
             © {currentYear} AirCare Supply Co. All rights reserved.
           </p>
         </div>
