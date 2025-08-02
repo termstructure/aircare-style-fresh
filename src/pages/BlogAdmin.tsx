@@ -71,6 +71,7 @@ const BlogAdmin = () => {
   const [schedulingPost, setSchedulingPost] = useState<BlogPost | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [generatedContentTags, setGeneratedContentTags] = useState<string[]>([]);
+  const [editingPostTags, setEditingPostTags] = useState<string[]>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { usageStats, getUsageStats, migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
@@ -200,6 +201,28 @@ const BlogAdmin = () => {
     }
   };
 
+  const fetchPostTags = async (postId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('blog_post_tags')
+        .select('tag_id')
+        .eq('post_id', postId);
+      
+      if (error) throw error;
+      
+      return data?.map(item => item.tag_id) || [];
+    } catch (error) {
+      console.error('Error fetching post tags:', error);
+      return [];
+    }
+  };
+
+  const startEditingPost = async (post: BlogPost) => {
+    setEditingPost(post);
+    const tags = await fetchPostTags(post.id);
+    setEditingPostTags(tags);
+  };
+
   const updatePost = async (post: BlogPost) => {
     try {
       const { error } = await supabase
@@ -214,12 +237,36 @@ const BlogAdmin = () => {
 
       if (error) throw error;
 
+      // Update tag associations
+      // First, delete existing tag associations
+      const { error: deleteError } = await supabase
+        .from('blog_post_tags')
+        .delete()
+        .eq('post_id', post.id);
+
+      if (deleteError) throw deleteError;
+
+      // Then, insert new tag associations
+      if (editingPostTags.length > 0) {
+        const tagAssociations = editingPostTags.map(tagId => ({
+          post_id: post.id,
+          tag_id: tagId
+        }));
+        
+        const { error: tagError } = await supabase
+          .from('blog_post_tags')
+          .insert(tagAssociations);
+        
+        if (tagError) throw tagError;
+      }
+
       toast({
         title: "Success",
         description: "Blog post updated successfully"
       });
 
       setEditingPost(null);
+      setEditingPostTags([]);
       fetchData();
     } catch (error) {
       console.error('Error updating post:', error);
@@ -678,16 +725,21 @@ const BlogAdmin = () => {
                       onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
                       rows={10}
                     />
-                    <div className="flex items-center gap-4">
-                      <label className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          checked={editingPost.featured}
-                          onChange={(e) => setEditingPost({ ...editingPost, featured: e.target.checked })}
-                        />
-                        Featured
-                      </label>
-                    </div>
+                     <TagSelector
+                       selectedTags={editingPostTags}
+                       onTagsChange={setEditingPostTags}
+                       className="mt-4"
+                     />
+                     <div className="flex items-center gap-4">
+                       <label className="flex items-center gap-2">
+                         <input
+                           type="checkbox"
+                           checked={editingPost.featured}
+                           onChange={(e) => setEditingPost({ ...editingPost, featured: e.target.checked })}
+                         />
+                         Featured
+                       </label>
+                     </div>
                     <div className="flex gap-2">
                       <Button onClick={() => updatePost(editingPost)}>
                         <Save className="w-4 h-4 mr-2" />
@@ -715,7 +767,7 @@ const BlogAdmin = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => setEditingPost(post)}
+                        onClick={() => startEditingPost(post)}
                       >
                         <Edit className="w-4 h-4 mr-2" />
                         Edit
