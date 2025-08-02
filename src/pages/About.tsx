@@ -5,7 +5,7 @@ import { CheckCircle, MapPin, Clock, Shield, Heart, BookOpen, Star, HandHeart, L
 
 const stats = [
   { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
-  { icon: Target, label: "Customer Satisfaction Goal", value: "98%" },
+  { icon: Target, label: "Customer Satisfaction Goal", value: "100%" },
   { icon: Zap, label: "Same-Day Processing", value: "24hr" },
   { icon: Shield, label: "Quality Focused", value: "Always" }
 ];
