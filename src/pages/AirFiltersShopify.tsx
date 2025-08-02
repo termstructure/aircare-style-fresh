@@ -256,7 +256,7 @@ const AirFiltersShopify = () => {
             <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-foreground">Quality Air </span>
             <span className="text-transparent bg-clip-text bg-gradient-primary">Filters</span>
           </h1>

@@ -195,7 +195,7 @@ const FAQ = () => {
               <div className="w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
               Frequently Asked
               <span className="text-primary block">Questions</span>
             </h1>
@@ -207,12 +207,12 @@ const FAQ = () => {
 
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+              <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 md:w-5 md:h-5" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search frequently asked questions..."
-                className="pl-12 py-4 text-lg"
+                placeholder="Search questions..."
+                className="pl-10 md:pl-12 py-3 md:py-4 text-base md:text-lg"
               />
             </div>
           </div>
@@ -220,9 +220,9 @@ const FAQ = () => {
       </section>
 
       {/* Categories */}
-      <section className="py-8 bg-background border-b">
+      <section className="py-6 md:py-8 bg-background border-b">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
             {categories.map((category) => (
               <Badge
                 key={category.id}

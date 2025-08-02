@@ -42,7 +42,7 @@ const Contact = () => {
               <div className="w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
               Contact
               <span className="text-primary block">AirCare Supply Co</span>
             </h1>
@@ -56,12 +56,12 @@ const Contact = () => {
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-16 bg-background">
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
             {contactInfo.map((info, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-shadow duration-300">
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-4 md:p-6 text-center">
                   <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
                     <info.icon className="w-8 h-8 text-primary-foreground" />
                   </div>
@@ -81,7 +81,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Contact Form */}
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
                 Send Us a Message
               </h2>
               
@@ -90,9 +90,9 @@ const Contact = () => {
                 within 4 hours. We're committed to helping you breathe easier.
               </p>
               
-              <Card className="bg-card">
-                <CardContent className="p-8">
-                  <form className="space-y-6">
+                <Card className="bg-card">
+                <CardContent className="p-6 md:p-8">
+                  <form className="space-y-4 md:space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">
@@ -185,13 +185,13 @@ const Contact = () => {
                     description: "We offer transparent pricing with bulk discounts and no hidden fees for all customers."
                   }
                 ].map((benefit, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <CheckCircle className="w-5 h-5 text-primary-foreground" />
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-primary-foreground" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h4>
-                      <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
+                      <h4 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">{benefit.title}</h4>
+                      <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{benefit.description}</p>
                     </div>
                   </div>
                 ))}
@@ -218,7 +218,7 @@ const Contact = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
                 Frequently Asked Questions
               </h2>
               <p className="text-xl text-muted-foreground">

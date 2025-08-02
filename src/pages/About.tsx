@@ -48,7 +48,7 @@ const About = () => {
               <div className="w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
               Quality Air Filters
               <span className="text-primary block">For Your Home</span>
             </h1>
@@ -62,12 +62,12 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-background">
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-shadow duration-300">
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-4 md:p-6 text-center">
                   <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto mb-4">
                     <stat.icon className="w-6 h-6 text-primary-foreground" />
                   </div>
@@ -85,7 +85,7 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
                 Our Story
               </h2>
               
@@ -139,7 +139,7 @@ const About = () => {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               Our Values
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -168,7 +168,7 @@ const About = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
                 What Makes Us Different
               </h2>
               <p className="text-xl text-muted-foreground">
@@ -187,9 +187,9 @@ const About = () => {
                 "Personal service from a local Charlotte, NC small business",
                 "Small business flexibility and responsiveness"
               ].map((item, index) => (
-                <div key={index} className="flex items-start space-x-4 bg-card p-4 rounded-lg border">
-                  <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                  <span className="text-foreground text-lg">{item}</span>
+                <div key={index} className="flex items-start space-x-3 bg-card p-3 md:p-4 rounded-lg border">
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-primary flex-shrink-0 mt-1" />
+                  <span className="text-foreground text-base md:text-lg">{item}</span>
                 </div>
               ))}
             </div>

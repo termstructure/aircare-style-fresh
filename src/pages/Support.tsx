@@ -79,7 +79,7 @@ const Support = () => {
               <div className="w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
               We're Here to
               <span className="text-primary block">Help You</span>
             </h1>
@@ -104,10 +104,10 @@ const Support = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {supportOptions.map((option, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-all duration-300 group">
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-4 md:p-6 text-center">
                   <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <option.icon className="w-8 h-8 text-primary-foreground" />
                   </div>
@@ -138,8 +138,8 @@ const Support = () => {
             </div>
 
             <Card className="bg-card">
-              <CardContent className="p-8">
-                <form className="space-y-6">
+              <CardContent className="p-6 md:p-8">
+                <form className="space-y-4 md:space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
@@ -219,10 +219,10 @@ const Support = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {resources.map((resource, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-all duration-300 group">
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <resource.icon className="w-6 h-6 text-primary-foreground" />
                   </div>
