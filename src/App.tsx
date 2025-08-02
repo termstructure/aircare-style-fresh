@@ -16,6 +16,7 @@ import Blog from "./pages/BlogDynamic";
 import BlogPost from "./pages/BlogPostDynamic";
 import BlogAdmin from "./pages/BlogAdmin";
 import Auth from "./pages/Auth";
+import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/blog-admin" element={<BlogAdmin />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/account" element={<Account />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -64,10 +64,18 @@ const Header = () => {
                   
                   <div className="border-t border-border pt-4 mt-6">
                     {user ? (
-                      <Button variant="outline" onClick={handleSignOut} className="w-full justify-start">
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Sign out
-                      </Button>
+                      <div className="space-y-2">
+                        <Button variant="outline" asChild className="w-full justify-start">
+                          <Link to="/account" onClick={closeMobileMenu}>
+                            <User className="w-4 h-4 mr-2" />
+                            My Account
+                          </Link>
+                        </Button>
+                        <Button variant="outline" onClick={handleSignOut} className="w-full justify-start">
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Sign out
+                        </Button>
+                      </div>
                     ) : (
                       <Button variant="outline" asChild className="w-full">
                         <Link to="/auth" onClick={closeMobileMenu}>Sign In</Link>
@@ -91,6 +99,12 @@ const Header = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link to="/account" className="w-full cursor-pointer">
+                        <User className="w-4 h-4 mr-2" />
+                        My Account
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleSignOut}>
                       <LogOut className="w-4 h-4 mr-2" />
                       Sign out
