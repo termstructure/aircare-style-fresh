@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon, ChevronDown, ChevronUp } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ const AirFiltersShopify = () => {
   const [sortBy, setSortBy] = useState("popularity");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const isMobile = useIsMobile();
   const [filters, setFilters] = useState<Filters>({
     size: [],
     mervRating: [],
@@ -255,15 +257,15 @@ const AirFiltersShopify = () => {
       </section>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:w-1/4">
-            <Card className="p-0 lg:p-6 sticky top-4">
+        {isMobile ? (
+          /* Mobile Layout - Collapsible Filters + Products */
+          <div className="flex flex-col gap-8">
+            <Card className="p-0">
               <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <CollapsibleTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center justify-between w-full p-6 lg:hidden"
+                    className="flex items-center justify-between w-full p-6"
                   >
                     <div className="flex items-center gap-2">
                       <Filter className="w-5 h-5" />
@@ -276,14 +278,8 @@ const AirFiltersShopify = () => {
                     )}
                   </Button>
                 </CollapsibleTrigger>
-                
-                {/* Desktop header (always visible) */}
-                <div className="hidden lg:flex items-center gap-2 mb-6">
-                  <Filter className="w-5 h-5" />
-                  <h3 className="text-lg font-semibold">Filters</h3>
-                </div>
 
-                <CollapsibleContent className="px-6 pb-6 lg:px-0 lg:pb-0">
+                <CollapsibleContent className="px-6 pb-6">
                   {/* Search */}
                   <div className="mb-6">
                     <label className="text-sm font-medium mb-2 block">Search</label>
@@ -308,7 +304,7 @@ const AirFiltersShopify = () => {
                         <SelectTrigger className="w-full bg-background border-border">
                           <SelectValue placeholder="Select size" />
                         </SelectTrigger>
-                        <SelectContent className="bg-background border-border z-50">
+                        <SelectContent className="bg-background border-border z-[60]">
                           <SelectItem value="all">All Sizes</SelectItem>
                           {sizes.map((size) => (
                             <SelectItem key={size} value={size}>{size}</SelectItem>
@@ -332,7 +328,7 @@ const AirFiltersShopify = () => {
                         <SelectTrigger className="w-full bg-background border-border">
                           <SelectValue placeholder="Select MERV rating" />
                         </SelectTrigger>
-                        <SelectContent className="bg-background border-border z-50">
+                        <SelectContent className="bg-background border-border z-[60]">
                           <SelectItem value="all">All MERV Ratings</SelectItem>
                           {mervRatings.map((rating) => (
                             <SelectItem key={rating} value={rating.toString()}>MERV {rating}</SelectItem>
@@ -356,7 +352,7 @@ const AirFiltersShopify = () => {
                         <SelectTrigger className="w-full bg-background border-border">
                           <SelectValue placeholder="Select brand" />
                         </SelectTrigger>
-                        <SelectContent className="bg-background border-border z-50">
+                        <SelectContent className="bg-background border-border z-[60]">
                           <SelectItem value="all">All Brands</SelectItem>
                           {brands.map((brand) => (
                             <SelectItem key={brand} value={brand}>{brand}</SelectItem>
@@ -375,7 +371,7 @@ const AirFiltersShopify = () => {
                       <SelectTrigger className="w-full bg-background border-border">
                         <SelectValue placeholder="Select price range" />
                       </SelectTrigger>
-                      <SelectContent className="bg-background border-border z-50">
+                      <SelectContent className="bg-background border-border z-[60]">
                         <SelectItem value="all">All Prices</SelectItem>
                         <SelectItem value="0-25">Under $25</SelectItem>
                         <SelectItem value="25-50">$25 - $50</SelectItem>
@@ -394,7 +390,7 @@ const AirFiltersShopify = () => {
                       <SelectTrigger className="w-full bg-background border-border">
                         <SelectValue placeholder="Select availability" />
                       </SelectTrigger>
-                      <SelectContent className="bg-background border-border z-50">
+                      <SelectContent className="bg-background border-border z-[60]">
                         <SelectItem value="all">All Products</SelectItem>
                         <SelectItem value="in-stock">In Stock Only</SelectItem>
                       </SelectContent>
@@ -421,107 +417,254 @@ const AirFiltersShopify = () => {
                 </CollapsibleContent>
               </Collapsible>
             </Card>
-          </div>
 
-          {/* Products Grid */}
-          <div className="lg:w-3/4">
-            {/* Sort and Results Count */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <p className="text-muted-foreground">
-                Showing {filteredProducts.length} of {products?.length || 0} products
-              </p>
-              
-              <div className="flex items-center gap-2">
-                <SortAsc className="w-4 h-4" />
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="popularity">Most Popular</SelectItem>
-                    <SelectItem value="price-low">Price: Low to High</SelectItem>
-                    <SelectItem value="price-high">Price: High to Low</SelectItem>
-                    <SelectItem value="merv-rating">MERV Rating</SelectItem>
-                    <SelectItem value="name">Name A-Z</SelectItem>
-                  </SelectContent>
-                </Select>
+            {/* Mobile Products Grid */}
+            <div>
+              {/* Sort and Results Count */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <p className="text-muted-foreground">
+                  Showing {filteredProducts.length} of {products?.length || 0} products
+                </p>
+                
+                <div className="flex items-center gap-2">
+                  <SortAsc className="w-4 h-4" />
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="popularity">Most Popular</SelectItem>
+                      <SelectItem value="price-low">Price: Low to High</SelectItem>
+                      <SelectItem value="price-high">Price: High to Low</SelectItem>
+                      <SelectItem value="merv-rating">MERV Rating</SelectItem>
+                      <SelectItem value="name">Name A-Z</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
 
-            {/* Products */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => {
-                const mervRating = getMervRating(product);
-                const size = getSize(product);
-                const mainVariant = product.variants[0];
-                const isAvailable = product.variants.some(variant => variant.available);
+              {/* Products */}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => {
+                  const mervRating = getMervRating(product);
+                  const size = getSize(product);
+                  const mainVariant = product.variants[0];
+                  const isAvailable = product.variants.some(variant => variant.available);
 
-                return (
-                  <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300">
-                    <CardContent className="p-0">
-                      <Link to={`/product/${product.handle}`} className="block">
-                        <div className="relative overflow-hidden rounded-t-lg">
-                          <img
-                            src={getProductImageUrl(product)}
-                            alt={product.title}
-                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          {!isAvailable && (
-                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                              <Badge variant="destructive">Out of Stock</Badge>
-                            </div>
-                          )}
-                          <div className="absolute top-2 right-2">
-                            {mervRating > 0 && (
-                              <Badge variant="secondary">MERV {mervRating}</Badge>
+                  return (
+                    <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300">
+                      <CardContent className="p-0">
+                        <Link to={`/product/${product.handle}`} className="block">
+                          <div className="relative overflow-hidden rounded-t-lg">
+                            <img
+                              src={getProductImageUrl(product)}
+                              alt={product.title}
+                              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            {!isAvailable && (
+                              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <Badge variant="destructive">Out of Stock</Badge>
+                              </div>
                             )}
-                          </div>
-                        </div>
-
-                        <div className="p-4">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="font-semibold text-foreground line-clamp-2 flex-1">
-                              {product.title}
-                            </h3>
-                          </div>
-
-                          <p className="text-sm text-muted-foreground mb-2">{product.vendor}</p>
-                          
-                          {size && (
-                            <p className="text-sm text-muted-foreground mb-3">Size: {size}</p>
-                          )}
-
-                          <div className="flex items-center justify-between">
-                            <div className="text-lg font-bold text-foreground">
-                              {formatPrice(mainVariant?.price || "0")}
+                            <div className="absolute top-2 right-2">
+                              {mervRating > 0 && (
+                                <Badge variant="secondary">MERV {mervRating}</Badge>
+                              )}
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                      
-                      <div className="px-4 pb-4">
-                        <Button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleAddToCart(product);
-                          }}
-                          disabled={!isAvailable}
-                          size="sm"
-                          className="w-full"
-                        >
-                          Add to Cart
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
 
-            {filteredProducts.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">No products match your filters</p>
-                <Button 
+                          <div className="p-4">
+                            <div className="flex items-start justify-between mb-2">
+                              <h3 className="font-semibold text-foreground line-clamp-2 flex-1">
+                                {product.title}
+                              </h3>
+                            </div>
+
+                            <p className="text-sm text-muted-foreground mb-2">{product.vendor}</p>
+                            
+                            {size && (
+                              <p className="text-sm text-muted-foreground mb-3">Size: {size}</p>
+                            )}
+
+                            <div className="flex items-center justify-between">
+                              <div className="text-lg font-bold text-foreground">
+                                {formatPrice(mainVariant?.price || "0")}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                        
+                        <div className="px-4 pb-4">
+                          <Button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAddToCart(product);
+                            }}
+                            disabled={!isAvailable}
+                            size="sm"
+                            className="w-full"
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+
+              {filteredProducts.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground mb-4">No products match your filters</p>
+                  <Button 
+                    variant="outline"
+                    onClick={() => {
+                      setFilters({
+                        size: [],
+                        mervRating: [],
+                        brand: [],
+                        priceRange: "all",
+                        availability: "all"
+                      });
+                      setSearchTerm("");
+                    }}
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Desktop Layout - Fixed Sidebar + Product Grid */
+          <div className="flex gap-8">
+            {/* Always-open Desktop Sidebar */}
+            <div className="w-80 flex-shrink-0">
+              <Card className="p-6 sticky top-4">
+                <div className="flex items-center gap-2 mb-6">
+                  <Filter className="w-5 h-5" />
+                  <h3 className="text-lg font-semibold">Filters</h3>
+                </div>
+
+                {/* Search */}
+                <div className="mb-6">
+                  <label className="text-sm font-medium mb-2 block">Search</label>
+                  <Input
+                    placeholder="Search filters..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+
+                {/* Size Filter */}
+                {sizes.length > 0 && (
+                  <div className="mb-6">
+                    <label className="text-sm font-medium mb-3 block">Size</label>
+                    <Select value={filters.size[0] || "all"} onValueChange={(value) => {
+                      if (value === "all") {
+                        setFilters(prev => ({ ...prev, size: [] }));
+                      } else {
+                        setFilters(prev => ({ ...prev, size: [value] }));
+                      }
+                    }}>
+                      <SelectTrigger className="w-full bg-background border-border">
+                        <SelectValue placeholder="Select size" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border-border z-[60]">
+                        <SelectItem value="all">All Sizes</SelectItem>
+                        {sizes.map((size) => (
+                          <SelectItem key={size} value={size}>{size}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {/* MERV Rating Filter */}
+                {mervRatings.length > 0 && (
+                  <div className="mb-6">
+                    <label className="text-sm font-medium mb-3 block">MERV Rating</label>
+                    <Select value={filters.mervRating[0] || "all"} onValueChange={(value) => {
+                      if (value === "all") {
+                        setFilters(prev => ({ ...prev, mervRating: [] }));
+                      } else {
+                        setFilters(prev => ({ ...prev, mervRating: [value] }));
+                      }
+                    }}>
+                      <SelectTrigger className="w-full bg-background border-border">
+                        <SelectValue placeholder="Select MERV rating" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border-border z-[60]">
+                        <SelectItem value="all">All MERV Ratings</SelectItem>
+                        {mervRatings.map((rating) => (
+                          <SelectItem key={rating} value={rating.toString()}>MERV {rating}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {/* Brand Filter */}
+                {brands.length > 0 && (
+                  <div className="mb-6">
+                    <label className="text-sm font-medium mb-3 block">Brand</label>
+                    <Select value={filters.brand[0] || "all"} onValueChange={(value) => {
+                      if (value === "all") {
+                        setFilters(prev => ({ ...prev, brand: [] }));
+                      } else {
+                        setFilters(prev => ({ ...prev, brand: [value] }));
+                      }
+                    }}>
+                      <SelectTrigger className="w-full bg-background border-border">
+                        <SelectValue placeholder="Select brand" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border-border z-[60]">
+                        <SelectItem value="all">All Brands</SelectItem>
+                        {brands.map((brand) => (
+                          <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {/* Price Range Filter */}
+                <div className="mb-6">
+                  <label className="text-sm font-medium mb-3 block">Price Range</label>
+                  <Select value={filters.priceRange} onValueChange={(value) => {
+                    setFilters(prev => ({ ...prev, priceRange: value }));
+                  }}>
+                    <SelectTrigger className="w-full bg-background border-border">
+                      <SelectValue placeholder="Select price range" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border z-[60]">
+                      <SelectItem value="all">All Prices</SelectItem>
+                      <SelectItem value="0-25">Under $25</SelectItem>
+                      <SelectItem value="25-50">$25 - $50</SelectItem>
+                      <SelectItem value="50-100">$50 - $100</SelectItem>
+                      <SelectItem value="100">$100+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Availability Filter */}
+                <div className="mb-6">
+                  <label className="text-sm font-medium mb-3 block">Availability</label>
+                  <Select value={filters.availability} onValueChange={(value) => {
+                    setFilters(prev => ({ ...prev, availability: value }));
+                  }}>
+                    <SelectTrigger className="w-full bg-background border-border">
+                      <SelectValue placeholder="Select availability" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-background border-border z-[60]">
+                      <SelectItem value="all">All Products</SelectItem>
+                      <SelectItem value="in-stock">In Stock Only</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Clear Filters */}
+                <Button
                   variant="outline"
                   onClick={() => {
                     setFilters({
@@ -533,13 +676,131 @@ const AirFiltersShopify = () => {
                     });
                     setSearchTerm("");
                   }}
+                  className="w-full"
                 >
-                  Clear Filters
+                  Clear All Filters
                 </Button>
+              </Card>
+            </div>
+
+            {/* Desktop Products Grid */}
+            <div className="flex-1">
+              {/* Sort and Results Count */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <p className="text-muted-foreground">
+                  Showing {filteredProducts.length} of {products?.length || 0} products
+                </p>
+                
+                <div className="flex items-center gap-2">
+                  <SortAsc className="w-4 h-4" />
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="popularity">Most Popular</SelectItem>
+                      <SelectItem value="price-low">Price: Low to High</SelectItem>
+                      <SelectItem value="price-high">Price: High to Low</SelectItem>
+                      <SelectItem value="merv-rating">MERV Rating</SelectItem>
+                      <SelectItem value="name">Name A-Z</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            )}
+
+              {/* Products */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => {
+                  const mervRating = getMervRating(product);
+                  const size = getSize(product);
+                  const mainVariant = product.variants[0];
+                  const isAvailable = product.variants.some(variant => variant.available);
+
+                  return (
+                    <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300">
+                      <CardContent className="p-0">
+                        <Link to={`/product/${product.handle}`} className="block">
+                          <div className="relative overflow-hidden rounded-t-lg">
+                            <img
+                              src={getProductImageUrl(product)}
+                              alt={product.title}
+                              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            {!isAvailable && (
+                              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <Badge variant="destructive">Out of Stock</Badge>
+                              </div>
+                            )}
+                            <div className="absolute top-2 right-2">
+                              {mervRating > 0 && (
+                                <Badge variant="secondary">MERV {mervRating}</Badge>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="p-4">
+                            <div className="flex items-start justify-between mb-2">
+                              <h3 className="font-semibold text-foreground line-clamp-2 flex-1">
+                                {product.title}
+                              </h3>
+                            </div>
+
+                            <p className="text-sm text-muted-foreground mb-2">{product.vendor}</p>
+                            
+                            {size && (
+                              <p className="text-sm text-muted-foreground mb-3">Size: {size}</p>
+                            )}
+
+                            <div className="flex items-center justify-between">
+                              <div className="text-lg font-bold text-foreground">
+                                {formatPrice(mainVariant?.price || "0")}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                        
+                        <div className="px-4 pb-4">
+                          <Button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAddToCart(product);
+                            }}
+                            disabled={!isAvailable}
+                            size="sm"
+                            className="w-full"
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+
+              {filteredProducts.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground mb-4">No products match your filters</p>
+                  <Button 
+                    variant="outline"
+                    onClick={() => {
+                      setFilters({
+                        size: [],
+                        mervRating: [],
+                        brand: [],
+                        priceRange: "all",
+                        availability: "all"
+                      });
+                      setSearchTerm("");
+                    }}
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Trust Indicators */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 pt-16 border-t">
