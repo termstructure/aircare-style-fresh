@@ -247,6 +247,10 @@ const Contact = () => {
                 {
                   question: "Do you provide installation services?",
                   answer: "While we don't provide installation, we offer detailed guides and can recommend certified HVAC technicians in your area if needed."
+                },
+                {
+                  question: "What MERV ratings do you offer?",
+                  answer: "We carry filters with MERV ratings from 8 to 16, providing options for basic dust protection to advanced allergen and bacteria filtration."
                 }
               ].map((faq, index) => (
                 <Card key={index} className="bg-card">
