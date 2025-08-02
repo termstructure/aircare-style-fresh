@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, User, LogOut } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Cart from "@/components/Cart";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import logo from "@/assets/logo.png";
+
 const Header = () => {
-  const {
-    user,
-    signOut
-  } = useAuth();
+  const { user, signOut } = useAuth();
+  
   const handleSignOut = async () => {
     await signOut();
   };
-  return <header className="bg-card/90 backdrop-blur-sm border-b border-border sticky top-0 z-50">
+
+  return (
+    <header className="bg-card/90 backdrop-blur-sm border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
@@ -36,13 +37,6 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-3">
-            <div className="hidden lg:flex items-center space-x-4 text-sm text-muted-foreground">
-              <div className="flex items-center space-x-1">
-                <Mail className="w-4 h-4" />
-                <span>support@aircaresupplyco.com</span>
-              </div>
-            </div>
-            
             <Cart />
             
             {user ? <div className="flex items-center space-x-2">
@@ -68,6 +62,8 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </header>;
+    </header>
+  );
 };
+
 export default Header;
