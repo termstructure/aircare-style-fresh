@@ -9,10 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useBlogAI } from "@/hooks/useBlogAI";
-import { Plus, Edit, Trash2, Eye, Save, X, Database, Sparkles, Wand2, Clock } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Save, X, Database, Sparkles, Wand2, Clock, Tag } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SchedulingModal } from "@/components/ui/scheduling-modal";
+import { TagSelector } from "@/components/ui/tag-selector";
 
 interface BlogPost {
   id: string;
@@ -68,6 +69,8 @@ const BlogAdmin = () => {
   });
   const [showSchedulingModal, setShowSchedulingModal] = useState(false);
   const [schedulingPost, setSchedulingPost] = useState<BlogPost | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [generatedContentTags, setGeneratedContentTags] = useState<string[]>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { usageStats, getUsageStats, migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
@@ -151,7 +154,7 @@ const BlogAdmin = () => {
         authorId = authorData.id;
       }
 
-      const { error } = await supabase.from('blog_posts').insert({
+      const { data: postData, error } = await supabase.from('blog_posts').insert({
         title: newPost.title,
         slug,
         excerpt: newPost.excerpt,
@@ -160,9 +163,23 @@ const BlogAdmin = () => {
         author_id: authorId,
         featured: newPost.featured,
         status: 'draft'
-      });
+      }).select().single();
 
       if (error) throw error;
+
+      // Save tag associations
+      if (selectedTags.length > 0 && postData) {
+        const tagAssociations = selectedTags.map(tagId => ({
+          post_id: postData.id,
+          tag_id: tagId
+        }));
+        
+        const { error: tagError } = await supabase
+          .from('blog_post_tags')
+          .insert(tagAssociations);
+        
+        if (tagError) throw tagError;
+      }
 
       toast({
         title: "Success",
@@ -170,6 +187,7 @@ const BlogAdmin = () => {
       });
 
       setNewPost({ title: "", excerpt: "", content: "", category_id: "", featured: false });
+      setSelectedTags([]);
       setShowEditor(false);
       fetchData();
     } catch (error) {
@@ -328,9 +346,23 @@ const BlogAdmin = () => {
         postData.scheduled_for = scheduledDate.toISOString();
       }
 
-      const { error } = await supabase.from('blog_posts').insert(postData);
+      const { data: savedPost, error } = await supabase.from('blog_posts').insert(postData).select().single();
 
       if (error) throw error;
+
+      // Save tag associations for generated content
+      if (generatedContentTags.length > 0 && savedPost) {
+        const tagAssociations = generatedContentTags.map(tagId => ({
+          post_id: savedPost.id,
+          tag_id: tagId
+        }));
+        
+        const { error: tagError } = await supabase
+          .from('blog_post_tags')
+          .insert(tagAssociations);
+        
+        if (tagError) throw tagError;
+      }
 
       toast({
         title: "Success",
@@ -342,6 +374,7 @@ const BlogAdmin = () => {
       setGeneratedContent(null);
       setShowGenerator(false);
       setShowSchedulingModal(false);
+      setGeneratedContentTags([]);
       setGenerationData({ topic: "", tone: "informative", category: "" });
       fetchData();
     } catch (error) {
@@ -495,6 +528,11 @@ const BlogAdmin = () => {
                 onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                 rows={10}
               />
+              <TagSelector
+                selectedTags={selectedTags}
+                onTagsChange={setSelectedTags}
+                className="mt-4"
+              />
               <div className="flex items-center gap-4">
                 <label className="flex items-center gap-2">
                   <input
@@ -559,10 +597,16 @@ const BlogAdmin = () => {
                     <SelectItem value="professional">Professional</SelectItem>
                     <SelectItem value="friendly">Friendly</SelectItem>
                   </SelectContent>
-                </Select>
-              </div>
-              
-              {generatedContent && (
+                 </Select>
+               </div>
+               
+               <TagSelector
+                 selectedTags={generatedContentTags}
+                 onTagsChange={setGeneratedContentTags}
+                 className="mt-4"
+               />
+               
+               {generatedContent && (
                 <div className="border rounded-lg p-4 bg-muted/50">
                   <h4 className="font-semibold mb-2">Generated Content Preview:</h4>
                   <div className="space-y-2 text-sm">
@@ -603,6 +647,7 @@ const BlogAdmin = () => {
                 <Button variant="outline" onClick={() => {
                   setShowGenerator(false);
                   setGeneratedContent(null);
+                  setGeneratedContentTags([]);
                   setGenerationData({ topic: "", tone: "informative", category: "" });
                 }}>
                   <X className="w-4 h-4 mr-2" />
