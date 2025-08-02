@@ -1,16 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Cart from "@/components/Cart";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useState } from "react";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const { user, signOut } = useAuth();
+  const isMobile = useIsMobile();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const handleSignOut = async () => {
     await signOut();
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -37,9 +46,43 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-3">
+            {/* Mobile menu button */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="md:hidden">
+                  <Menu className="w-4 h-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80">
+                <div className="flex flex-col space-y-4 mt-6">
+                  <Link to="/" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Home</Link>
+                  <Link to="/air-filters" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Air Filters</Link>
+                  <Link to="/blog" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Blog</Link>
+                  <Link to="/about" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">About</Link>
+                  <Link to="/faq" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">FAQ</Link>
+                  <Link to="/contact" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Contact</Link>
+                  
+                  <div className="border-t border-border pt-4 mt-6">
+                    {user ? (
+                      <Button variant="outline" onClick={handleSignOut} className="w-full justify-start">
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Sign out
+                      </Button>
+                    ) : (
+                      <Button variant="outline" asChild className="w-full">
+                        <Link to="/auth" onClick={closeMobileMenu}>Sign In</Link>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+
             <Cart />
             
-            {user ? <div className="flex items-center space-x-2">
+            {/* Desktop user menu */}
+            <div className="hidden md:flex">
+              {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" className="flex items-center space-x-1">
@@ -54,11 +97,12 @@ const Header = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div> : <div className="flex items-center space-x-2">
+              ) : (
                 <Button variant="outline" size="sm" asChild>
                   <Link to="/auth">Sign In</Link>
                 </Button>
-              </div>}
+              )}
+            </div>
           </div>
         </div>
       </div>
