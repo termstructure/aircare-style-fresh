@@ -38,7 +38,7 @@ const Cart: React.FC<CartProps> = ({ children }) => {
     <Sheet>
       <SheetTrigger asChild>
         {children || (
-          <Button variant="outline" size="sm" className="relative">
+          <Button variant="outline" size="sm" className="relative min-h-touch px-3 py-2">
             <ShoppingCart className="w-4 h-4" />
             {totalItems > 0 && (
               <Badge 
