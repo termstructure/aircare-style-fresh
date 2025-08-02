@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon, ChevronDown, ChevronUp } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsDesktop } from "@/hooks/use-desktop";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,7 @@ const AirFiltersShopify = () => {
   const [sortBy, setSortBy] = useState("popularity");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const isMobile = useIsMobile();
+  const isDesktop = useIsDesktop();
   const [filters, setFilters] = useState<Filters>({
     size: [],
     mervRating: [],
@@ -257,8 +257,8 @@ const AirFiltersShopify = () => {
       </section>
 
       <div className="container mx-auto px-4 py-8">
-        {isMobile ? (
-          /* Mobile Layout - Collapsible Filters + Products */
+        {!isDesktop ? (
+          /* Mobile/Tablet Layout - Collapsible Filters + Products */
           <div className="flex flex-col gap-8">
             <Card className="p-0">
               <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
