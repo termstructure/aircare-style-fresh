@@ -138,49 +138,111 @@ Don't wait for these signs to appear. Check your filter monthly and replace it e
 
 async function generateContent(supabase: any, data: any) {
   const { topic, type = 'blog_post', tone = 'informative' } = data
+  const anthropicApiKey = Deno.env.get('ANTHROPIC_API_KEY')
 
-  // This is a simple content generation function
-  // In a real implementation, you would integrate with OpenAI or another AI service
-  const generatedContent = {
-    title: `${topic}: Essential Guide for Homeowners`,
-    excerpt: `Discover everything you need to know about ${topic.toLowerCase()} and how it impacts your home's air quality.`,
-    content: `# ${topic}: Essential Guide for Homeowners
-
-Understanding ${topic.toLowerCase()} is crucial for maintaining optimal indoor air quality in your home. This comprehensive guide will walk you through everything you need to know.
-
-## What You Need to Know
-
-${topic} plays a vital role in your home's air filtration system. Whether you're a new homeowner or looking to upgrade your current setup, understanding the basics is essential.
-
-## Key Benefits
-
-- Improved air quality
-- Better system efficiency  
-- Cost savings over time
-- Enhanced comfort
-
-## Getting Started
-
-When considering ${topic.toLowerCase()}, start by evaluating your current situation. Consider factors like:
-
-1. Your home's size and layout
-2. Any specific air quality concerns
-3. Your budget and long-term goals
-4. Maintenance requirements
-
-## Conclusion
-
-Investing time to understand ${topic.toLowerCase()} will pay dividends in improved air quality and system performance. Take the first step today by assessing your current setup and identifying areas for improvement.
-
-For more specific guidance, consult with an HVAC professional who can provide personalized recommendations based on your unique situation.`,
-    meta_description: `Complete guide to ${topic.toLowerCase()} for better indoor air quality`,
-    meta_keywords: [topic.toLowerCase(), 'air quality', 'hvac', 'home improvement']
+  if (!anthropicApiKey) {
+    throw new Error('Anthropic API key not configured')
   }
 
-  return new Response(
-    JSON.stringify({ success: true, content: generatedContent }),
-    { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-  )
+  try {
+    const systemPrompt = `You are an expert content writer specializing in air filtration, HVAC systems, and indoor air quality. You write for a company that sells air filters and related products.
+
+Your task is to create SEO-optimized blog content that is:
+- Educational and informative
+- Practical and actionable
+- Well-structured with proper headings
+- Optimized for search engines
+- Engaging for homeowners
+- Professional but accessible
+
+Content should include:
+- Clear, descriptive headings (H2, H3)
+- Actionable tips and advice
+- Benefits and solutions
+- Internal linking opportunities (mention related topics)
+- Strong introduction and conclusion
+- Call-to-action where appropriate
+
+Always focus on helping readers make informed decisions about air quality and filtration systems.`
+
+    const userPrompt = `Create a comprehensive blog post about "${topic}" with the following specifications:
+
+Type: ${type}
+Tone: ${tone}
+
+Please provide the response in this exact JSON format:
+{
+  "title": "SEO-optimized title (60 characters or less)",
+  "excerpt": "Compelling excerpt that summarizes the post (150-160 characters)",
+  "content": "Full blog post content in markdown format with proper headings, at least 800 words",
+  "meta_description": "SEO meta description (150-160 characters)",
+  "meta_keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
+}
+
+Make sure the content is specific to air filtration and HVAC topics, includes practical advice, and is optimized for search engines.`
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': anthropicApiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 4000,
+        messages: [
+          {
+            role: 'user',
+            content: `${systemPrompt}\n\n${userPrompt}`
+          }
+        ],
+      }),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.text()
+      console.error('Claude API error:', errorData)
+      throw new Error(`Claude API error: ${response.status} ${response.statusText}`)
+    }
+
+    const claudeResponse = await response.json()
+    const generatedText = claudeResponse.content[0].text
+
+    // Parse the JSON response from Claude
+    let generatedContent
+    try {
+      generatedContent = JSON.parse(generatedText)
+    } catch (parseError) {
+      console.error('Failed to parse Claude response as JSON:', generatedText)
+      throw new Error('Failed to parse generated content')
+    }
+
+    // Validate the response structure
+    if (!generatedContent.title || !generatedContent.content || !generatedContent.excerpt) {
+      throw new Error('Generated content is missing required fields')
+    }
+
+    console.log(`Generated content for topic: ${topic}`)
+
+    return new Response(
+      JSON.stringify({ success: true, content: generatedContent }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    )
+  } catch (error) {
+    console.error('Error generating content with Claude:', error)
+    return new Response(
+      JSON.stringify({ 
+        success: false, 
+        error: 'Failed to generate content', 
+        details: error.message 
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }, 
+        status: 500 
+      }
+    )
+  }
 }
 
 async function autoPublishScheduled(supabase: any) {
