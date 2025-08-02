@@ -1,10 +1,10 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, Clock, Shield, Heart, BookOpen, Star, HandHeart, Leaf, Target, Zap } from "lucide-react";
+import { CheckCircle, MapPin, Clock, Shield, Heart, BookOpen, Star, HandHeart, Target, Zap } from "lucide-react";
 
 const stats = [
-  { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
+  { icon: Heart, label: "Small Business Care", value: "100%" },
   { icon: Target, label: "Customer Satisfaction Goal", value: "100%" },
   { icon: Zap, label: "Same-Day Processing", value: "24hr" },
   { icon: Shield, label: "Quality Focused", value: "Always" }
@@ -185,7 +185,7 @@ const About = () => {
                 "Comprehensive customer support from real air quality experts",
                 "Educational resources to help you make informed decisions",
                 "Competitive pricing with transparent, no-surprise costs",
-                "Commitment to sustainable and eco-friendly product options",
+                "Personal service from a local Charlotte, NC business",
                 "Comprehensive product information and guidance"
               ].map((item, index) => (
                 <div key={index} className="flex items-start space-x-4 bg-card p-4 rounded-lg border">

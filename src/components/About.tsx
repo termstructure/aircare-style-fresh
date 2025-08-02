@@ -1,8 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, Leaf, Target, Zap } from "lucide-react";
+import { CheckCircle, Heart, Target, Zap } from "lucide-react";
 
 const stats = [
-  { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
+  { icon: Heart, label: "Small Business Care", value: "100%" },
   { icon: Target, label: "Customer Satisfaction", value: "100%" },
   { icon: Zap, label: "Same-Day Processing", value: "24hr" },
   { icon: CheckCircle, label: "Quality Focused", value: "Always" }
