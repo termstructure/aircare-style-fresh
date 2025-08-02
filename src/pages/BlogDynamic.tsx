@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
@@ -200,7 +201,32 @@ const BlogDynamic = () => {
       {/* Categories */}
       <section className="py-fluid-sm border-b">
         <div className="container mx-auto">
-          <div className="flex flex-wrap gap-2 justify-center">
+          {/* Mobile/Tablet Dropdown */}
+          <div className="block lg:hidden">
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full max-w-sm mx-auto bg-background border-border">
+                <SelectValue>
+                  <div className="flex items-center">
+                    <Tag className="w-4 h-4 mr-2" />
+                    {selectedCategory === "all" ? "All Categories" : selectedCategory}
+                  </div>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="bg-background border-border z-[60]">
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.name} className="cursor-pointer">
+                    <div className="flex items-center">
+                      <Tag className="w-4 h-4 mr-2" />
+                      {category.name}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Desktop Badge Layout */}
+          <div className="hidden lg:flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (
               <Badge
                 key={category.id}
