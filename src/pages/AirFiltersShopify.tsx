@@ -245,12 +245,22 @@ const AirFiltersShopify = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-subtle">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-            Quality Air Filters
+      <section className="py-20 bg-gradient-subtle">
+        <div className="container mx-auto px-4 text-center relative">
+          {/* Decorative accent lines */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
+            <span className="px-4 text-sm font-medium text-accent uppercase tracking-wider">
+              Air Filters
+            </span>
+            <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
+          </div>
+          
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            <span className="text-foreground">Quality Air </span>
+            <span className="text-transparent bg-clip-text bg-gradient-primary">Filters</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Quality air filtration solutions to help maintain better indoor air quality
           </p>
         </div>
