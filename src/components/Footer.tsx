@@ -5,18 +5,75 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-foreground text-background py-8 md:py-12 lg:py-16">
+    <footer className="bg-foreground text-background py-6 md:py-12 lg:py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {/* Mobile Compact Layout */}
+        <div className="block md:hidden">
+          <div className="grid grid-cols-1 gap-4">
+            {/* Company Info - Mobile */}
+            <div className="text-center">
+              <div className="flex items-center justify-center space-x-2 mb-2">
+                <div className="w-6 h-6 bg-gradient-primary rounded-lg flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-sm">A</span>
+                </div>
+                <span className="text-base font-bold">AirCare Supply Co</span>
+              </div>
+              <p className="text-background/70 text-xs leading-relaxed mb-3">
+                Quality HVAC supplies and air filtration solutions.
+              </p>
+            </div>
+            
+            {/* Combined Links & Contact - Mobile */}
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <h3 className="text-sm font-semibold mb-2">Links</h3>
+                <ul className="space-y-1">
+                  <li>
+                    <Link to="/" className="text-background/70 hover:text-primary transition-colors">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/air-filters" className="text-background/70 hover:text-primary transition-colors">
+                      Products
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" className="text-background/70 hover:text-primary transition-colors">
+                      Contact
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-sm font-semibold mb-2">Contact</h3>
+                <div className="space-y-1 text-xs">
+                  <div className="flex items-center space-x-1">
+                    <MapPin className="w-3 h-3 text-primary flex-shrink-0" />
+                    <span className="text-background/90">Charlotte, NC</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Mail className="w-3 h-3 text-primary flex-shrink-0" />
+                    <span className="text-background/90 break-all">support@aircaresupplyco.com</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold">A</span>
               </div>
-              <span className="text-lg md:text-xl font-bold">AirCare Supply Co</span>
+              <span className="text-lg lg:text-xl font-bold">AirCare Supply Co</span>
             </div>
-            <p className="text-background/70 mb-4 leading-relaxed text-sm md:text-base">
+            <p className="text-background/70 mb-4 leading-relaxed text-sm lg:text-base">
               Your trusted partner for quality HVAC supplies and air filtration solutions. 
               Founded in 2025 to make clean air simple and accessible.
             </p>
@@ -24,7 +81,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-base lg:text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-background/70 hover:text-primary transition-colors">
@@ -61,7 +118,7 @@ const Footer = () => {
 
           {/* Brands */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold mb-4">Brands</h3>
+            <h3 className="text-base lg:text-lg font-semibold mb-4">Brands</h3>
             <ul className="space-y-2">
               {[
                 { name: "3M Filtrete", param: "3M Filtrete" },
@@ -83,23 +140,23 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-base lg:text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-3">
-              <div className="flex items-start space-x-2 md:space-x-3">
-                <MapPin className="w-4 h-4 md:w-5 md:h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div className="flex items-start space-x-2 lg:space-x-3">
+                <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-background/90 text-sm md:text-base">Charlotte, NC</p>
+                  <p className="text-background/90 text-sm lg:text-base">Charlotte, NC</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-2 md:space-x-3">
-                <Mail className="w-4 h-4 md:w-5 md:h-5 text-primary flex-shrink-0" />
-                <p className="text-background/90 text-sm md:text-base break-words">support@aircaresupplyco.com</p>
+              <div className="flex items-center space-x-2 lg:space-x-3">
+                <Mail className="w-4 h-4 lg:w-5 lg:h-5 text-primary flex-shrink-0" />
+                <p className="text-background/90 text-sm lg:text-base break-words">support@aircaresupplyco.com</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-background/20 mt-8 pt-6 md:mt-12 md:pt-8 text-center">
+        <div className="border-t border-background/20 mt-6 pt-4 md:mt-12 md:pt-8 text-center">
           <p className="text-background/70 text-xs md:text-sm">
             © {currentYear} AirCare Supply Co. All rights reserved.
           </p>
