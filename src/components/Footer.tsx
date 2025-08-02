@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-foreground text-background py-6 sm:py-8 md:py-12 lg:py-16">
+    <footer className="bg-foreground text-background py-section-fluid-md">
       <div className="container mx-auto">
         {/* Mobile Compact Layout */}
         <div className="block md:hidden">

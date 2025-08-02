@@ -46,6 +46,21 @@ All colors MUST be HSL.
     --shadow-card: 0 8px 30px -4px hsl(var(--foreground) / 0.04);
     --shadow-glow: 0 0 40px hsl(var(--accent) / 0.2);
 
+    /* Fluid spacing system for dramatic mobile-to-desktop scaling */
+    --space-fluid-xs: clamp(0.5rem, 2vw, 1rem);      /* 8px → 16px */
+    --space-fluid-sm: clamp(1rem, 4vw, 2rem);        /* 16px → 32px */
+    --space-fluid-md: clamp(1.5rem, 6vw, 3rem);      /* 24px → 48px */
+    --space-fluid-lg: clamp(2rem, 8vw, 4rem);        /* 32px → 64px */
+    --space-fluid-xl: clamp(3rem, 12vw, 6rem);       /* 48px → 96px */
+    --space-fluid-2xl: clamp(4rem, 16vw, 8rem);      /* 64px → 128px */
+    --space-fluid-3xl: clamp(6rem, 20vw, 12rem);     /* 96px → 192px */
+    
+    /* Section spacing - dramatic scaling for hero sections */
+    --section-spacing-sm: clamp(3rem, 8vw, 6rem);    /* 48px → 96px */
+    --section-spacing-md: clamp(4rem, 12vw, 8rem);   /* 64px → 128px */
+    --section-spacing-lg: clamp(6rem, 16vw, 12rem);  /* 96px → 192px */
+    --section-spacing-xl: clamp(8rem, 20vw, 16rem);  /* 128px → 256px */
+
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;

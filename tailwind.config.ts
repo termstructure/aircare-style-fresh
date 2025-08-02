@@ -34,6 +34,19 @@ export default {
 				'card-sm': '1rem',
 				'card-md': '1.5rem',
 				'card-lg': '2rem',
+				/* Fluid spacing using CSS custom properties with clamp() */
+				'fluid-xs': 'var(--space-fluid-xs)',
+				'fluid-sm': 'var(--space-fluid-sm)',
+				'fluid-md': 'var(--space-fluid-md)',
+				'fluid-lg': 'var(--space-fluid-lg)',
+				'fluid-xl': 'var(--space-fluid-xl)',
+				'fluid-2xl': 'var(--space-fluid-2xl)',
+				'fluid-3xl': 'var(--space-fluid-3xl)',
+				/* Section spacing for dramatic scaling */
+				'section-fluid-sm': 'var(--section-spacing-sm)',
+				'section-fluid-md': 'var(--section-spacing-md)',
+				'section-fluid-lg': 'var(--section-spacing-lg)',
+				'section-fluid-xl': 'var(--section-spacing-xl)',
 			},
 			colors: {
 				border: 'hsl(var(--border))',

@@ -67,7 +67,7 @@ const ProductCategories = () => {
   }
 
   return (
-    <section id="products" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
+    <section id="products" className="py-section-fluid-lg bg-gradient-subtle">
       <div className="container mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <div className="flex items-center justify-center space-x-2 mb-4">

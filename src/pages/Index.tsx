@@ -86,7 +86,7 @@ const Index = () => {
       <About />
       
       {/* Newsletter Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-primary text-primary-foreground">
+      <section className="py-section-fluid-lg bg-primary text-primary-foreground">
         <div className="container mx-auto text-center">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Stay Updated</h2>
           <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
