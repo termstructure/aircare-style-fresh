@@ -280,6 +280,63 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          billing_address: Json | null
+          created_at: string
+          currency: string | null
+          customer_email: string
+          customer_name: string | null
+          fulfillment_status: string | null
+          id: string
+          line_items: Json
+          order_date: string
+          shipping_address: Json | null
+          shopify_order_id: string
+          shopify_order_number: string | null
+          status: string
+          total_price: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          billing_address?: Json | null
+          created_at?: string
+          currency?: string | null
+          customer_email: string
+          customer_name?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          line_items: Json
+          order_date: string
+          shipping_address?: Json | null
+          shopify_order_id: string
+          shopify_order_number?: string | null
+          status?: string
+          total_price?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          billing_address?: Json | null
+          created_at?: string
+          currency?: string | null
+          customer_email?: string
+          customer_name?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          line_items?: Json
+          order_date?: string
+          shipping_address?: Json | null
+          shopify_order_id?: string
+          shopify_order_number?: string | null
+          status?: string
+          total_price?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
