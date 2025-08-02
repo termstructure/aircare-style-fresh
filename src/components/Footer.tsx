@@ -16,7 +16,7 @@ const Footer = () => {
             </div>
             <p className="text-background/70 mb-4 leading-relaxed">
               Your trusted partner for premium HVAC supplies and air filtration solutions. 
-              Clean air made simple for over 25 years.
+              Founded in 2025 to make clean air simple and accessible.
             </p>
             <div className="flex space-x-4">
               <Facebook className="w-5 h-5 text-background/70 hover:text-primary cursor-pointer transition-colors" />
