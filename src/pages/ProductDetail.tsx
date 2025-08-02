@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Minus, ShoppingCart, Check, Truck, Shield, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Plus, Minus, ShoppingCart, Check, Truck, Shield, RotateCcw, CheckCircle2 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -11,14 +11,27 @@ import { useProductsByCollectionWithFallback } from '@/hooks/useShopifyWithFallb
 import { useCart } from '@/contexts/CartContext';
 import { ShopifyProduct } from '@/lib/shopify';
 import { formatPrice, getProductImageUrl } from '@/lib/shopify';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { addToCart } = useCart();
+  const { addToCart, getCheckoutUrl } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedVariantId, setSelectedVariantId] = useState<string>('');
+  const [showCartDialog, setShowCartDialog] = useState(false);
+  const isMobile = useIsMobile();
 
   // Fetch products to find the one we need
   const { data: products, isLoading, error } = useProductsByCollectionWithFallback("air-filters");
@@ -66,10 +79,19 @@ const ProductDetail = () => {
     }
 
     addToCart(product, selectedVariantId, quantity);
-    toast({
-      title: "Added to Cart",
-      description: `${quantity} × ${product.title} added to your cart.`,
-    });
+    setShowCartDialog(true);
+  };
+
+  const handleGoToCheckout = () => {
+    const checkoutUrl = getCheckoutUrl();
+    if (checkoutUrl) {
+      window.open(checkoutUrl, '_blank');
+    }
+    setShowCartDialog(false);
+  };
+
+  const handleContinueShopping = () => {
+    setShowCartDialog(false);
   };
 
   const updateQuantity = (newQuantity: number) => {
@@ -324,6 +346,35 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Add to Cart Confirmation Dialog */}
+      <AlertDialog open={showCartDialog} onOpenChange={setShowCartDialog}>
+        <AlertDialogContent className={isMobile ? "w-[95%] max-w-md" : ""}>
+          <AlertDialogHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <CheckCircle2 className="w-12 h-12 text-green-600" />
+            </div>
+            <AlertDialogTitle className="text-xl">Added to Cart!</AlertDialogTitle>
+            <AlertDialogDescription className="text-base">
+              {quantity} × {product?.title} added to your cart
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className={isMobile ? "flex-col space-y-2 space-x-0" : "flex-row space-x-2"}>
+            <AlertDialogCancel 
+              onClick={handleContinueShopping}
+              className={isMobile ? "w-full h-12" : ""}
+            >
+              Continue Shopping
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleGoToCheckout}
+              className={isMobile ? "w-full h-12" : ""}
+            >
+              Go to Checkout
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>
