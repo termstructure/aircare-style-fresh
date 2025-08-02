@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, MapPin, Clock, Shield, Users, Leaf, Target, Zap } from "lucide-react";
+import { CheckCircle, MapPin, Clock, Shield, Heart, BookOpen, Star, HandHeart, Leaf, Target, Zap } from "lucide-react";
 
 const stats = [
   { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
@@ -12,24 +12,24 @@ const stats = [
 
 const values = [
   {
-    icon: Users,
-    title: "Customer First",
-    description: "Every decision we make starts with our customers' needs and satisfaction in mind."
+    icon: Heart,
+    title: "We Actually Care",
+    description: "Because we've experienced the problems ourselves - poor air quality affects real families, including ours."
   },
   {
-    icon: Leaf,
-    title: "Environmental Responsibility",
-    description: "We prioritize eco-friendly products and sustainable business practices."
+    icon: BookOpen,
+    title: "Education Over Sales",
+    description: "We'd rather teach you why air quality matters than pressure you into buying something you don't need."
   },
   {
-    icon: Shield,
-    title: "Quality Assurance",
-    description: "We only partner with trusted manufacturers and rigorously test our products."
+    icon: Star,
+    title: "Real Impact",
+    description: "Health improvements and energy savings that make a genuine difference in your daily life."
   },
   {
-    icon: Clock,
-    title: "Fast & Reliable",
-    description: "Quick order processing and dependable delivery to keep your systems running."
+    icon: HandHeart,
+    title: "Genuine Support",
+    description: "Personal help from people who understand because we've been in your shoes."
   }
 ];
 
@@ -90,20 +90,23 @@ const About = () => {
               </h2>
               
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                AirCare Supply Co was founded with a simple yet powerful mission: to make clean, 
-                healthy air accessible to everyone. We recognized that traditional HVAC supply 
-                companies often overlooked the needs of individual homeowners and small businesses.
+                It started with my family's struggles. My daughter's constant sneezing, my own headaches, 
+                and energy bills that seemed to climb every month. We thought it was just "one of those things" 
+                until an HVAC technician mentioned something that changed everything: "When's the last time 
+                you changed your air filter?"
               </p>
               
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Starting from Charlotte, North Carolina, we set out to bridge this gap by offering 
-                premium air filtration products with the personalized service and expertise that 
-                every customer deserves.
+                That dirty, clogged filter wasn't just affecting our health—it was forcing our system to 
+                work overtime, driving up our electricity costs. But here's what really frustrated me: 
+                nobody had ever explained this connection. This simple piece of home maintenance that 
+                impacts both health and energy consumption was completely overlooked.
               </p>
               
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Today, we're proud to serve customers nationwide with our curated selection of 
-                high-performance air filters, expert guidance, and commitment to exceptional service.
+                That's why we started AirCare Supply Co. Not to sell filters, but to spread awareness 
+                about something that affects every home, every family. We want to help people avoid 
+                the same problems we faced by understanding the real importance of clean air filtration.
               </p>
               
               <div className="flex items-center space-x-3 text-primary">
