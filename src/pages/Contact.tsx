@@ -66,8 +66,7 @@ const Contact = () => {
                     <info.icon className="w-8 h-8 text-primary-foreground" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground mb-2">{info.title}</h3>
-                  <p className="text-lg text-foreground font-medium mb-1">{info.content}</p>
-                  <p className="text-muted-foreground text-sm">{info.subtitle}</p>
+                  <p className="text-lg text-foreground font-medium">{info.content}</p>
                 </CardContent>
               </Card>
             ))}
