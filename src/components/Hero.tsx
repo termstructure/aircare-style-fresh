@@ -36,13 +36,13 @@ const Hero = () => {
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/10 rounded-full flex items-center justify-center">
                 <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
               </div>
-              <span className="font-semibold text-sm sm:text-base">Certified Quality</span>
+              <span className="font-semibold text-sm sm:text-base">Quality Products</span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/10 rounded-full flex items-center justify-center">
                 <Award className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
               </div>
-              <span className="font-semibold text-sm sm:text-base">Industry Leading</span>
+              <span className="font-semibold text-sm sm:text-base">Helpful Service</span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/10 rounded-full flex items-center justify-center">
