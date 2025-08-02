@@ -14,7 +14,7 @@ const values = [
   {
     icon: Heart,
     title: "We Actually Care",
-    description: "Because we've experienced the problems ourselves - poor air quality affects real families, including ours."
+    description: "As a small business, we're committed to providing quality products and genuine customer service."
   },
   {
     icon: BookOpen,
@@ -24,12 +24,12 @@ const values = [
   {
     icon: Star,
     title: "Real Impact",
-    description: "Health improvements and energy savings that make a genuine difference in your daily life."
+    description: "Quality air filters that help improve your home's air quality and HVAC system efficiency."
   },
   {
     icon: HandHeart,
     title: "Genuine Support",
-    description: "Personal help from people who understand because we've been in your shoes."
+    description: "Helpful customer service from people who understand air filtration and want to help you find the right solution."
   }
 ];
 
