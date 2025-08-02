@@ -776,7 +776,7 @@ const AirFilters = () => {
                     <SelectTrigger className="bg-background border-input">
                       <SelectValue placeholder="Any size" />
                     </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
+                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
                       {sizes.map((size) => (
                         <SelectItem key={size} value={size}>{size}</SelectItem>
                       ))}
@@ -791,7 +791,7 @@ const AirFilters = () => {
                     <SelectTrigger className="bg-background border-input">
                       <SelectValue placeholder="Any MERV" />
                     </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
+                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
                       {mervRatings.map((rating) => (
                         <SelectItem key={rating} value={rating.toString()}>MERV {rating}</SelectItem>
                       ))}
@@ -806,7 +806,7 @@ const AirFilters = () => {
                     <SelectTrigger className="bg-background border-input">
                       <SelectValue placeholder="Any brand" />
                     </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
+                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
                       {brands.map((brand) => (
                         <SelectItem key={brand} value={brand}>{brand}</SelectItem>
                       ))}
@@ -821,7 +821,7 @@ const AirFilters = () => {
                     <SelectTrigger className="bg-background border-input">
                       <SelectValue placeholder="Any category" />
                     </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
+                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
                       {categories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -854,7 +854,7 @@ const AirFilters = () => {
             <SelectTrigger className="w-48 bg-background border-input">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
-            <SelectContent className="bg-popover border border-border shadow-lg z-50">
+            <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
               <SelectItem value="popular">Most Popular</SelectItem>
               <SelectItem value="price-low">Price: Low to High</SelectItem>
               <SelectItem value="price-high">Price: High to Low</SelectItem>
