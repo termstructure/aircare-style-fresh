@@ -19,7 +19,7 @@ const values = [
   {
     icon: BookOpen,
     title: "Education Over Sales",
-    description: "We'd rather teach you why air quality matters than pressure you into buying something you don't need."
+    description: "We provide comprehensive product information and guides to help you make informed decisions about your air filtration needs."
   },
   {
     icon: Star,
@@ -90,23 +90,22 @@ const About = () => {
               </h2>
               
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                It started with my family's struggles. My daughter's constant sneezing, my own headaches, 
-                and energy bills that seemed to climb every month. We thought it was just "one of those things" 
-                until an HVAC technician mentioned something that changed everything: "When's the last time 
-                you changed your air filter?"
+                Like many homeowners, we discovered the importance of air filtration through experience. 
+                Rising energy bills and indoor air quality concerns led us to learn about the significant 
+                impact that quality air filters have on both system efficiency and air quality.
               </p>
               
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                That dirty, clogged filter wasn't just affecting our health—it was forcing our system to 
-                work overtime, driving up our electricity costs. But here's what really frustrated me: 
-                nobody had ever explained this connection. This simple piece of home maintenance that 
-                impacts both health and energy consumption was completely overlooked.
+                We realized that many people, like ourselves, weren't fully aware of how air filters 
+                affect their HVAC system performance and indoor air quality. This simple but crucial 
+                component of home maintenance often gets overlooked, despite its importance for both 
+                health and energy efficiency.
               </p>
               
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                That's why we started AirCare Supply Co. Not to sell filters, but to spread awareness 
-                about something that affects every home, every family. We want to help people avoid 
-                the same problems we faced by understanding the real importance of clean air filtration.
+                AirCare Supply Co was founded to bridge this knowledge gap and provide quality air 
+                filtration products with the information needed to make smart choices. We're here to 
+                help customers understand their options and find the right solutions for their homes.
               </p>
               
               <div className="flex items-center space-x-3 text-primary">
@@ -119,16 +118,16 @@ const About = () => {
               <div className="bg-card p-6 rounded-lg border">
                 <h3 className="text-xl font-semibold text-foreground mb-3">Our Mission</h3>
                 <p className="text-muted-foreground">
-                  To democratize access to premium air filtration solutions and empower everyone 
-                  to create healthier indoor environments for their families and businesses.
+                  To provide quality air filtration products and expert guidance that help customers 
+                  create healthier indoor environments and improve their HVAC system efficiency.
                 </p>
               </div>
               
               <div className="bg-card p-6 rounded-lg border">
                 <h3 className="text-xl font-semibold text-foreground mb-3">Our Vision</h3>
                 <p className="text-muted-foreground">
-                  A world where clean, healthy indoor air is the standard, not the exception, 
-                  and where everyone has access to the knowledge and products needed to achieve it.
+                  To be the trusted source for air filtration products and education, helping 
+                  customers make informed decisions about their indoor air quality needs.
                 </p>
               </div>
             </div>
