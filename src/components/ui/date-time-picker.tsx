@@ -1,5 +1,6 @@
 import * as React from "react"
 import { format } from "date-fns"
+import { formatInTimeZone } from "date-fns-tz"
 import { CalendarIcon, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -40,9 +41,10 @@ export function DateTimePicker({
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       const [hours, minutes] = time.split(':').map(Number)
-      selectedDate.setHours(hours, minutes, 0, 0)
-      setDate(selectedDate)
-      onChange(selectedDate)
+      // Create date in local timezone without UTC conversion
+      const localDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), hours, minutes, 0, 0)
+      setDate(localDate)
+      onChange(localDate)
     } else {
       setDate(undefined)
       onChange(undefined)
@@ -53,8 +55,8 @@ export function DateTimePicker({
     setTime(timeValue)
     if (date) {
       const [hours, minutes] = timeValue.split(':').map(Number)
-      const newDate = new Date(date)
-      newDate.setHours(hours, minutes, 0, 0)
+      // Create date in local timezone without UTC conversion
+      const newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes, 0, 0)
       setDate(newDate)
       onChange(newDate)
     }
@@ -91,7 +93,7 @@ export function DateTimePicker({
       <div className="flex items-center space-x-2">
         <Clock className="h-4 w-4 text-muted-foreground" />
         <Label htmlFor="time" className="text-sm font-medium">
-          Time:
+          Time (Local):
         </Label>
         <Input
           id="time"
@@ -101,6 +103,9 @@ export function DateTimePicker({
           className="w-auto"
           disabled={disabled}
         />
+      </div>
+      <div className="text-xs text-muted-foreground">
+        Timezone: {Intl.DateTimeFormat().resolvedOptions().timeZone}
       </div>
     </div>
   )

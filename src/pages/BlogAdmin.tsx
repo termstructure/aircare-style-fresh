@@ -436,11 +436,20 @@ const BlogAdmin = () => {
 
   const schedulePost = async (post: BlogPost, scheduledDate: Date) => {
     try {
+      // Store the date as a local timestamp without timezone conversion
+      // Format: YYYY-MM-DD HH:MM:SS (without timezone info to preserve local time)
+      const localDateString = scheduledDate.getFullYear() + '-' +
+        String(scheduledDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(scheduledDate.getDate()).padStart(2, '0') + ' ' +
+        String(scheduledDate.getHours()).padStart(2, '0') + ':' +
+        String(scheduledDate.getMinutes()).padStart(2, '0') + ':' +
+        String(scheduledDate.getSeconds()).padStart(2, '0');
+      
       const { error } = await supabase
         .from('blog_posts')
         .update({
           status: 'scheduled',
-          scheduled_for: scheduledDate.toISOString()
+          scheduled_for: localDateString
         })
         .eq('id', post.id);
 
