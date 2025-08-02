@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useBlogAI } from "@/hooks/useBlogAI";
-import { Plus, Edit, Trash2, Eye, Save, X, Database } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Save, X, Database, Sparkles, Wand2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -57,9 +58,15 @@ const BlogAdmin = () => {
     featured: false
   });
   const [showEditor, setShowEditor] = useState(false);
+  const [showGenerator, setShowGenerator] = useState(false);
+  const [generatedContent, setGeneratedContent] = useState<any>(null);
+  const [generationData, setGenerationData] = useState({
+    topic: "",
+    tone: "informative"
+  });
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { migrateStaticData, loading: aiLoading } = useBlogAI();
+  const { migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
 
   useEffect(() => {
     checkAuth();
@@ -253,6 +260,85 @@ const BlogAdmin = () => {
     }
   };
 
+  const handleGenerateContent = async () => {
+    if (!generationData.topic.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a topic",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const result = await generateContent(
+        generationData.topic,
+        'blog_post',
+        generationData.tone,
+        false // Don't save to DB immediately, let user preview first
+      );
+      setGeneratedContent(result.content);
+    } catch (error) {
+      console.error('Error generating content:', error);
+    }
+  };
+
+  const handleSaveGeneratedContent = async () => {
+    if (!generatedContent) return;
+
+    try {
+      const slug = generateSlug(generatedContent.title);
+      
+      // Get or create default author
+      let authorId = authors[0]?.id;
+      if (!authorId) {
+        const { data: { session } } = await supabase.auth.getSession();
+        const { data: authorData, error: authorError } = await supabase
+          .from('blog_authors')
+          .insert({
+            name: session?.user?.email?.split('@')[0] || 'Admin',
+            bio: 'Blog Administrator'
+          })
+          .select()
+          .single();
+
+        if (authorError) throw authorError;
+        authorId = authorData.id;
+      }
+
+      const { error } = await supabase.from('blog_posts').insert({
+        title: generatedContent.title,
+        slug,
+        excerpt: generatedContent.excerpt,
+        content: generatedContent.content,
+        meta_description: generatedContent.meta_description,
+        meta_keywords: generatedContent.meta_keywords,
+        category_id: categories[0]?.id || null,
+        author_id: authorId,
+        status: 'draft'
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Generated content saved as draft"
+      });
+
+      setGeneratedContent(null);
+      setShowGenerator(false);
+      setGenerationData({ topic: "", tone: "informative" });
+      fetchData();
+    } catch (error) {
+      console.error('Error saving generated content:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save generated content",
+        variant: "destructive"
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -275,6 +361,10 @@ const BlogAdmin = () => {
             <Button onClick={migrateStaticData} disabled={aiLoading} variant="outline">
               <Database className="w-4 h-4 mr-2" />
               Migrate Data
+            </Button>
+            <Button onClick={() => setShowGenerator(true)} disabled={aiLoading} variant="outline">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Generate with AI
             </Button>
             <Button onClick={() => setShowEditor(true)}>
               <Plus className="w-4 h-4 mr-2" />
@@ -322,6 +412,79 @@ const BlogAdmin = () => {
                   Save Draft
                 </Button>
                 <Button variant="outline" onClick={() => setShowEditor(false)}>
+                  <X className="w-4 h-4 mr-2" />
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {showGenerator && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Generate Content with AI</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Input
+                placeholder="Enter topic (e.g., 'How to choose the right HEPA filter')"
+                value={generationData.topic}
+                onChange={(e) => setGenerationData({ ...generationData, topic: e.target.value })}
+              />
+              <Select
+                value={generationData.tone}
+                onValueChange={(value) => setGenerationData({ ...generationData, tone: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="informative">Informative</SelectItem>
+                  <SelectItem value="casual">Casual</SelectItem>
+                  <SelectItem value="professional">Professional</SelectItem>
+                  <SelectItem value="friendly">Friendly</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              {generatedContent && (
+                <div className="border rounded-lg p-4 bg-muted/50">
+                  <h4 className="font-semibold mb-2">Generated Content Preview:</h4>
+                  <div className="space-y-2 text-sm">
+                    <p><strong>Title:</strong> {generatedContent.title}</p>
+                    <p><strong>Excerpt:</strong> {generatedContent.excerpt}</p>
+                    <p><strong>Meta Description:</strong> {generatedContent.meta_description}</p>
+                    <div className="max-h-32 overflow-y-auto">
+                      <p><strong>Content:</strong> {generatedContent.content.substring(0, 200)}...</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-2">
+                {!generatedContent ? (
+                  <Button onClick={handleGenerateContent} disabled={aiLoading}>
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    {aiLoading ? "Generating..." : "Generate Content"}
+                  </Button>
+                ) : (
+                  <>
+                    <Button onClick={handleSaveGeneratedContent}>
+                      <Save className="w-4 h-4 mr-2" />
+                      Save as Draft
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setGeneratedContent(null)}
+                    >
+                      Generate New
+                    </Button>
+                  </>
+                )}
+                <Button variant="outline" onClick={() => {
+                  setShowGenerator(false);
+                  setGeneratedContent(null);
+                  setGenerationData({ topic: "", tone: "informative" });
+                }}>
                   <X className="w-4 h-4 mr-2" />
                   Cancel
                 </Button>

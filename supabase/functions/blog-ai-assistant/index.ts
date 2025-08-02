@@ -137,7 +137,7 @@ Don't wait for these signs to appear. Check your filter monthly and replace it e
 }
 
 async function generateContent(supabase: any, data: any) {
-  const { topic, type = 'blog_post', tone = 'informative' } = data
+  const { topic, type = 'blog_post', tone = 'informative', save_to_db = false } = data
   const anthropicApiKey = Deno.env.get('ANTHROPIC_API_KEY')
 
   if (!anthropicApiKey) {
@@ -223,10 +223,71 @@ Make sure the content is specific to air filtration and HVAC topics, includes pr
       throw new Error('Generated content is missing required fields')
     }
 
-    console.log(`Generated content for topic: ${topic}`)
+    let postId = null;
+
+    // Save to database if requested
+    if (save_to_db) {
+      try {
+        // Generate slug from title
+        const { data: slugData, error: slugError } = await supabase.rpc('generate_slug', {
+          title: generatedContent.title
+        });
+
+        if (slugError) throw slugError;
+        const slug = slugData;
+
+        // Get default category and author
+        const { data: categoryData, error: categoryError } = await supabase
+          .from('blog_categories')
+          .select('id')
+          .limit(1)
+          .single();
+
+        const { data: authorData, error: authorError } = await supabase
+          .from('blog_authors')
+          .select('id')
+          .limit(1)
+          .single();
+
+        if (categoryError) console.warn('No categories found:', categoryError);
+        if (authorError) console.warn('No authors found:', authorError);
+
+        // Insert the blog post
+        const { data: postData, error: postError } = await supabase
+          .from('blog_posts')
+          .insert({
+            title: generatedContent.title,
+            slug: slug,
+            excerpt: generatedContent.excerpt,
+            content: generatedContent.content,
+            meta_description: generatedContent.meta_description,
+            meta_keywords: generatedContent.meta_keywords,
+            category_id: categoryData?.id || null,
+            author_id: authorData?.id || null,
+            status: 'draft'
+          })
+          .select()
+          .single();
+
+        if (postError) throw postError;
+        postId = postData.id;
+
+        console.log(`Saved generated content to database with ID: ${postId}`);
+      } catch (dbError) {
+        console.error('Error saving to database:', dbError);
+        // Still return the generated content even if DB save fails
+      }
+    }
+
+    console.log(`Generated content for topic: ${topic}`);
 
     return new Response(
-      JSON.stringify({ success: true, content: generatedContent }),
+      JSON.stringify({ 
+        success: true, 
+        content: generatedContent,
+        post_id: postId,
+        saved_to_db: save_to_db && postId !== null
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (error) {

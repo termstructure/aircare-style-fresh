@@ -34,13 +34,13 @@ export const useBlogAI = () => {
     }
   };
 
-  const generateContent = async (topic: string, type = 'blog_post', tone = 'informative') => {
+  const generateContent = async (topic: string, type = 'blog_post', tone = 'informative', saveToDb = false) => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
         body: { 
           action: 'generate_content',
-          data: { topic, type, tone }
+          data: { topic, type, tone, save_to_db: saveToDb }
         }
       });
 
@@ -48,10 +48,12 @@ export const useBlogAI = () => {
 
       toast({
         title: "Content Generated",
-        description: "AI content has been generated successfully"
+        description: saveToDb && data.saved_to_db 
+          ? "Content generated and saved as draft!"
+          : "AI content has been generated successfully"
       });
 
-      return data.content;
+      return data;
     } catch (error) {
       console.error('Content generation error:', error);
       toast({
