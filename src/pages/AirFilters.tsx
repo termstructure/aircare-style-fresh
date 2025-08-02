@@ -77,13 +77,13 @@ const AirFilters = () => {
     // 3M Filtrete MERV 11 Series
     {
       id: "f11-16x20",
-      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      name: "3M Filtrete MERV 11 Allergen Filter",
       size: "16x20x1",
       mervRating: 11,
       fprRating: 7,
       price: 24.99,
       brand: "3M Filtrete",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
       image: filtreteM11,
       subscription: true,
@@ -91,13 +91,13 @@ const AirFilters = () => {
     },
     {
       id: "f11-20x25",
-      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      name: "3M Filtrete MERV 11 Allergen Filter",
       size: "20x25x1",
       mervRating: 11,
       fprRating: 7,
       price: 32.99,
       brand: "3M Filtrete",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
       image: filtreteM11,
       subscription: true,
@@ -105,13 +105,13 @@ const AirFilters = () => {
     },
     {
       id: "f11-24x24",
-      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      name: "3M Filtrete MERV 11 Allergen Filter",
       size: "24x24x1",
       mervRating: 11,
       fprRating: 7,
       price: 36.99,
       brand: "3M Filtrete",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
       image: filtreteM11,
       subscription: true,
@@ -119,13 +119,13 @@ const AirFilters = () => {
     },
     {
       id: "f11-16x25",
-      name: "3M Filtrete MERV 11 Premium Allergen Filter",
+      name: "3M Filtrete MERV 11 Allergen Filter",
       size: "16x25x1",
       mervRating: 11,
       fprRating: 7,
       price: 28.99,
       brand: "3M Filtrete",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["Captures 93% of particles", "Pet dander & pollen", "Dust mites", "Lint & household dust"],
       image: filtreteM11,
       subscription: true,
@@ -203,7 +203,7 @@ const AirFilters = () => {
       price: 52.99,
       brand: "3M Filtrete",
       category: "Hospital Grade",
-      features: ["99.97% particle capture", "Medical grade filtration", "Antimicrobial coating", "Superior air quality"],
+      features: ["99.97% particle capture", "High efficiency filtration", "Antimicrobial coating", "Quality air cleaning"],
       image: filtreteM16,
       subscription: false,
       popular: false
@@ -216,7 +216,7 @@ const AirFilters = () => {
       price: 68.99,
       brand: "3M Filtrete",
       category: "Hospital Grade",
-      features: ["99.97% particle capture", "Medical grade filtration", "Antimicrobial coating", "Superior air quality"],
+      features: ["99.97% particle capture", "High efficiency filtration", "Antimicrobial coating", "Quality air cleaning"],
       image: filtreteM16,
       subscription: false,
       popular: false
@@ -232,7 +232,7 @@ const AirFilters = () => {
       price: 34.99,
       brand: "3M Filtrete",
       category: "Carbon Odor",
-      features: ["Activated carbon layer", "Reduces household odors", "Pet & cooking smells", "Premium allergen protection"],
+      features: ["Activated carbon layer", "Reduces household odors", "Pet & cooking smells", "Allergen protection"],
       image: filtreteCarbon,
       subscription: true,
       popular: false
@@ -246,7 +246,7 @@ const AirFilters = () => {
       price: 44.99,
       brand: "3M Filtrete",
       category: "Carbon Odor",
-      features: ["Activated carbon layer", "Reduces household odors", "Pet & cooking smells", "Premium allergen protection"],
+      features: ["Activated carbon layer", "Reduces household odors", "Pet & cooking smells", "Allergen protection"],
       image: filtreteCarbon,
       subscription: true,
       popular: false
@@ -319,7 +319,7 @@ const AirFilters = () => {
       fprRating: 10,
       price: 24.99,
       brand: "HDX",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
       image: hdxM13,
       subscription: true,
@@ -333,7 +333,7 @@ const AirFilters = () => {
       fprRating: 10,
       price: 32.99,
       brand: "HDX",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
       image: hdxM13,
       subscription: true,
@@ -347,7 +347,7 @@ const AirFilters = () => {
       fprRating: 10,
       price: 38.99,
       brand: "HDX",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
       image: hdxM13,
       subscription: true,
@@ -361,7 +361,7 @@ const AirFilters = () => {
       fprRating: 10,
       price: 28.99,
       brand: "HDX",
-      category: "Premium Allergen",
+      category: "Allergen Protection",
       features: ["High efficiency filtration", "Allergen protection", "Smoke & fine particles", "Value pricing"],
       image: hdxM13,
       subscription: true,
@@ -438,7 +438,7 @@ const AirFilters = () => {
   const mervRatings = [8, 11, 13, 16];
   const fprRatings = [4, 7, 10];
   const brands = ["3M Filtrete", "HDX"];
-  const categories = ["Basic Protection", "Premium Allergen", "Ultra Allergen", "Hospital Grade", "Carbon Odor"];
+  const categories = ["Basic Protection", "Allergen Protection", "Ultra Allergen", "Hospital Grade", "Carbon Odor"];
 
   const clearAllFilters = () => {
     setFilters({
@@ -664,7 +664,7 @@ const AirFilters = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Premium Air Filters</h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Quality Air Filters</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Breathe cleaner air with our selection of high-quality HVAC filters. 
             From basic protection to hospital-grade filtration.

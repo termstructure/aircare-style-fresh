@@ -248,10 +248,10 @@ const AirFiltersShopify = () => {
       <section className="py-16 bg-gradient-subtle">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-            Premium Air Filters
+            Quality Air Filters
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Professional-grade air filtration solutions for superior indoor air quality
+            Quality air filtration solutions to help maintain better indoor air quality
           </p>
         </div>
       </section>

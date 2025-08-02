@@ -122,7 +122,7 @@ const Auth = () => {
             <img src={logo} alt="AirCare Supply Co" className="w-12 h-12 rounded-lg" />
             <div className="text-left">
               <h1 className="text-xl font-bold text-foreground">AirCare Supply Co</h1>
-              <p className="text-sm text-muted-foreground">Premium HVAC Solutions</p>
+              <p className="text-sm text-muted-foreground">Quality Air Solutions</p>
             </div>
           </Link>
         </div>

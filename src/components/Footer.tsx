@@ -17,7 +17,7 @@ const Footer = () => {
               <span className="text-xl font-bold">AirCare Supply Co</span>
             </div>
             <p className="text-background/70 mb-4 leading-relaxed">
-              Your trusted partner for premium HVAC supplies and air filtration solutions. 
+              Your trusted partner for quality HVAC supplies and air filtration solutions. 
               Founded in 2025 to make clean air simple and accessible.
             </p>
           </div>

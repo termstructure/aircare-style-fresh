@@ -15,7 +15,7 @@ const fallbackCategories = [
     description: "Complete heating, ventilation, and air conditioning systems for residential and commercial use.",
     image: hvacSystemsImg,
     handle: "hvac-systems",
-    features: ["Energy Efficient", "Professional Grade", "Reliable Quality"]
+    features: ["Energy Efficient", "Quality Products", "Reliable Service"]
   },
   {
     id: "accessories",
@@ -23,7 +23,7 @@ const fallbackCategories = [
     description: "Quality replacement parts, tools, and accessories to keep your HVAC systems running smoothly.",
     image: accessoriesImg,
     handle: "accessories",
-    features: ["OEM Quality", "Fast Shipping", "Expert Support"]
+    features: ["Quality Parts", "Fast Shipping", "Helpful Support"]
   }
 ];
 
@@ -37,10 +37,10 @@ const ProductCategories = () => {
     .map(collection => ({
       id: collection.id,
       title: collection.title,
-      description: collection.description || fallbackCategories.find(cat => cat.handle === collection.handle)?.description || "Premium quality products for your needs.",
+      description: collection.description || fallbackCategories.find(cat => cat.handle === collection.handle)?.description || "Quality products for your needs.",
       image: collection.image?.src || fallbackCategories.find(cat => cat.handle === collection.handle)?.image || filtersImg,
       handle: collection.handle,
-      features: fallbackCategories.find(cat => cat.handle === collection.handle)?.features || ["Premium Quality", "Fast Shipping", "Expert Support"]
+      features: fallbackCategories.find(cat => cat.handle === collection.handle)?.features || ["Quality Products", "Fast Shipping", "Helpful Support"]
     })) : fallbackCategories;
 
   if (isLoading) {
@@ -105,9 +105,9 @@ const ProductCategories = () => {
                   {/* Create dynamic links based on category */}
                   <Link to={
                     category.handle === "hvac-systems" ? "/air-filters?category=Basic Protection" :
-                    category.handle === "accessories" ? "/air-filters?category=Premium Allergen" :
+                    category.handle === "accessories" ? "/air-filters?category=Allergen Protection" :
                     category.title === "HVAC Systems" ? "/air-filters?category=Basic Protection" :
-                    category.title === "Parts & Accessories" ? "/air-filters?category=Premium Allergen" :
+                    category.title === "Parts & Accessories" ? "/air-filters?category=Allergen Protection" :
                     "/air-filters"
                   }>
                     <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
