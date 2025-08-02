@@ -390,7 +390,15 @@ const BlogAdmin = () => {
       };
 
       if (scheduledDate) {
-        postData.scheduled_for = scheduledDate.toISOString();
+        // Format date as local time string without timezone conversion
+        const year = scheduledDate.getFullYear();
+        const month = String(scheduledDate.getMonth() + 1).padStart(2, '0');
+        const day = String(scheduledDate.getDate()).padStart(2, '0');
+        const hours = String(scheduledDate.getHours()).padStart(2, '0');
+        const minutes = String(scheduledDate.getMinutes()).padStart(2, '0');
+        const seconds = String(scheduledDate.getSeconds()).padStart(2, '0');
+        
+        postData.scheduled_for = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
       }
 
       const { data: savedPost, error } = await supabase.from('blog_posts').insert(postData).select().single();
@@ -806,7 +814,7 @@ const BlogAdmin = () => {
                       {post.status === 'scheduled' && post.scheduled_for && (
                         <>
                           <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            Scheduled for: {new Date(post.scheduled_for).toLocaleString()}
+                            Scheduled for: {post.scheduled_for.replace(' ', ' at ')}
                           </div>
                           <Button
                             size="sm"
@@ -865,7 +873,7 @@ const BlogAdmin = () => {
         }}
         loading={aiLoading}
         title={schedulingPost ? "Schedule Post" : "Schedule Generated Content"}
-        initialDate={schedulingPost?.scheduled_for ? new Date(schedulingPost.scheduled_for) : undefined}
+        initialDate={schedulingPost?.scheduled_for ? new Date(schedulingPost.scheduled_for.replace(' ', 'T')) : undefined}
       />
     </div>
   );
