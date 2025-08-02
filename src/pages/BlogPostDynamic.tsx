@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CalendarDays, User, Share2, ArrowLeft, ArrowRight, Eye } from "lucide-react";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface BlogPost {
   id: string;
@@ -249,14 +251,37 @@ const BlogPostDynamic = () => {
           </header>
 
           {/* Article Content */}
-          <div className="prose prose-lg max-w-none mb-12">
-            {post.content.split('\n').map((paragraph, index) => (
-              paragraph.trim() && (
-                <p key={index} className="mb-4 leading-relaxed">
-                  {paragraph}
-                </p>
-              )
-            ))}
+          <div className="prose prose-lg max-w-none mb-12 markdown-content">
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({children}) => <h1 className="text-3xl font-bold text-foreground mb-6 mt-8 first:mt-0">{children}</h1>,
+                h2: ({children}) => <h2 className="text-2xl font-semibold text-foreground mb-4 mt-6">{children}</h2>,
+                h3: ({children}) => <h3 className="text-xl font-semibold text-foreground mb-3 mt-5">{children}</h3>,
+                h4: ({children}) => <h4 className="text-lg font-medium text-foreground mb-2 mt-4">{children}</h4>,
+                h5: ({children}) => <h5 className="text-base font-medium text-foreground mb-2 mt-3">{children}</h5>,
+                h6: ({children}) => <h6 className="text-sm font-medium text-foreground mb-2 mt-3">{children}</h6>,
+                p: ({children}) => <p className="mb-4 text-foreground leading-relaxed">{children}</p>,
+                ul: ({children}) => <ul className="mb-4 pl-6 space-y-2 list-disc marker:text-primary">{children}</ul>,
+                ol: ({children}) => <ol className="mb-4 pl-6 space-y-2 list-decimal marker:text-primary">{children}</ol>,
+                li: ({children}) => <li className="text-foreground">{children}</li>,
+                blockquote: ({children}) => <blockquote className="border-l-4 border-primary pl-4 my-4 italic text-muted-foreground bg-muted/30 py-2 rounded-r">{children}</blockquote>,
+                code: ({children}) => <code className="bg-muted px-2 py-1 rounded text-sm font-mono text-foreground">{children}</code>,
+                pre: ({children}) => <pre className="bg-muted p-4 rounded-lg overflow-x-auto my-4 border">{children}</pre>,
+                a: ({children, href}) => <a href={href} className="text-primary hover:text-primary-glow underline decoration-primary/50 hover:decoration-primary transition-colors">{children}</a>,
+                strong: ({children}) => <strong className="font-semibold text-foreground">{children}</strong>,
+                em: ({children}) => <em className="italic text-foreground">{children}</em>,
+                table: ({children}) => <div className="overflow-x-auto my-4"><table className="w-full border-collapse border border-border">{children}</table></div>,
+                thead: ({children}) => <thead className="bg-muted">{children}</thead>,
+                tbody: ({children}) => <tbody>{children}</tbody>,
+                tr: ({children}) => <tr className="border-b border-border">{children}</tr>,
+                th: ({children}) => <th className="border border-border px-4 py-2 text-left font-semibold">{children}</th>,
+                td: ({children}) => <td className="border border-border px-4 py-2">{children}</td>,
+                hr: () => <hr className="my-8 border-border" />
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
           </div>
 
           {/* Tags */}
