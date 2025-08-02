@@ -10,9 +10,6 @@ max_rows = 1000
 [functions.shopify-webhook]
 verify_jwt = false
 
-[functions.import-historical-orders]
-verify_jwt = false
-
 [db]
 port = 54322
 
