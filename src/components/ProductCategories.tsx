@@ -66,11 +66,11 @@ const ProductCategories = () => {
             <div className="w-12 h-1 bg-primary rounded-full" />
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-            Sophisticated Air Solutions
+            Quality Air Solutions
           </h2>
           <p className="text-xl font-body text-muted-foreground max-w-3xl mx-auto">
-            Curated collection of premium air purification and climate solutions designed 
-            for the discerning homeowner who values both performance and aesthetics.
+            Quality air filtration products and HVAC solutions to help you maintain 
+            better indoor air quality and system efficiency.
           </p>
         </div>
 
