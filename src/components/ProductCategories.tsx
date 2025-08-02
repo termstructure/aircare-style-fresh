@@ -112,14 +112,21 @@ const ProductCategories = () => {
                     ))}
                   </div>
                   
-                  {/* Create dynamic links based on category */}
-                  <Link to={
-                    category.handle === "hvac-systems" ? "/air-filters?category=Basic Protection" :
-                    category.handle === "accessories" ? "/air-filters?category=Allergen Protection" :
-                    category.title === "HVAC Systems" ? "/air-filters?category=Basic Protection" :
-                    category.title === "Parts & Accessories" ? "/air-filters?category=Allergen Protection" :
-                    "/air-filters"
-                  }>
+                  {/* Create dynamic links based on category with MERV filtering */}
+                  <Link to={(() => {
+                    const titleLower = category.title.toLowerCase();
+                    if (titleLower.includes('merv 8') || titleLower.includes('merv-8') || titleLower.includes('merv8')) {
+                      return "/air-filters-shopify?merv=MERV 8";
+                    }
+                    if (titleLower.includes('merv 11') || titleLower.includes('merv-11') || titleLower.includes('merv11')) {
+                      return "/air-filters-shopify?merv=MERV 11";
+                    }
+                    if (titleLower.includes('merv 13') || titleLower.includes('merv-13') || titleLower.includes('merv13')) {
+                      return "/air-filters-shopify?merv=MERV 13";
+                    }
+                    // Fallback for non-MERV categories
+                    return "/air-filters-shopify";
+                  })()}>
                      <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors px-4 py-3 sm:px-6 sm:py-4 min-h-touch">
                        Explore Products
                        <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -132,7 +139,7 @@ const ProductCategories = () => {
         </div>
         
         <div className="text-center mt-8 sm:mt-12">
-          <Link to="/air-filters">
+          <Link to="/air-filters-shopify">
             <Button variant="hero" size="lg" className="px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 min-h-touch">
               View All Products
             </Button>
