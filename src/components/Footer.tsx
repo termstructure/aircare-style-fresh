@@ -5,11 +5,11 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-foreground text-background py-6 md:py-12 lg:py-16">
-      <div className="container mx-auto px-4">
+    <footer className="bg-foreground text-background py-6 sm:py-8 md:py-12 lg:py-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile Compact Layout */}
         <div className="block md:hidden">
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6">
             {/* Company Info - Mobile */}
             <div className="text-center">
               <div className="flex items-center justify-center space-x-2 mb-2">
@@ -24,22 +24,22 @@ const Footer = () => {
             </div>
             
             {/* Combined Links & Contact - Mobile */}
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 text-sm">
               <div>
                 <h3 className="text-sm font-semibold mb-2">Links</h3>
                 <ul className="space-y-1">
                   <li>
-                    <Link to="/" className="text-background/70 hover:text-primary transition-colors">
+                    <Link to="/" className="text-background/70 hover:text-primary transition-colors py-1 block min-h-touch">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link to="/air-filters" className="text-background/70 hover:text-primary transition-colors">
+                    <Link to="/air-filters" className="text-background/70 hover:text-primary transition-colors py-1 block min-h-touch">
                       Products
                     </Link>
                   </li>
                   <li>
-                    <Link to="/contact" className="text-background/70 hover:text-primary transition-colors">
+                    <Link to="/contact" className="text-background/70 hover:text-primary transition-colors py-1 block min-h-touch">
                       Contact
                     </Link>
                   </li>
@@ -64,7 +64,7 @@ const Footer = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 xl:gap-12">
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">

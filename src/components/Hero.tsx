@@ -8,7 +8,7 @@ const Hero = () => {
     <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle">
       
       {/* Content */}
-      <div className="relative container mx-auto px-6 py-24">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24">
         <div className="max-w-6xl mx-auto text-center">
           
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
@@ -21,34 +21,34 @@ const Hero = () => {
             Simple solutions for your home.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <Button variant="hero" size="lg" className="text-base sm:text-lg font-bold" asChild>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mb-12 sm:mb-16">
+            <Button variant="hero" size="lg" className="px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-bold min-h-touch" asChild>
               <Link to="/air-filters">Shop Air Filters</Link>
             </Button>
-            <Button variant="outline" size="lg" className="text-base sm:text-lg font-semibold" asChild>
+            <Button variant="outline" size="lg" className="px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold min-h-touch" asChild>
               <Link to="/faq">Learn More</Link>
             </Button>
           </div>
           
           {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-8 sm:gap-12 text-muted-foreground">
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12 text-muted-foreground">
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-accent/10 rounded-full flex items-center justify-center">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-accent" />
               </div>
-              <span className="font-semibold text-sm sm:text-base">Quality Products</span>
+              <span className="font-semibold text-sm sm:text-base md:text-lg">Quality Products</span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                <Award className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-accent/10 rounded-full flex items-center justify-center">
+                <Award className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-accent" />
               </div>
-              <span className="font-semibold text-sm sm:text-base">Helpful Service</span>
+              <span className="font-semibold text-sm sm:text-base md:text-lg">Helpful Service</span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-accent/10 rounded-full flex items-center justify-center">
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-accent" />
               </div>
-              <span className="font-semibold text-sm sm:text-base">Fast Delivery</span>
+              <span className="font-semibold text-sm sm:text-base md:text-lg">Fast Delivery</span>
             </div>
           </div>
         </div>

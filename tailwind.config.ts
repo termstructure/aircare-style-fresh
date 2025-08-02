@@ -22,6 +22,18 @@ export default {
 				'display': ['Inter', 'system-ui', 'sans-serif'],
 				'body': ['Inter', 'system-ui', 'sans-serif'],
 			},
+			spacing: {
+				'container-sm': '1rem',
+				'container-md': '1.5rem', 
+				'container-lg': '2rem',
+				'section-sm': '3rem',
+				'section-md': '4rem',
+				'section-lg': '5rem',
+				'section-xl': '6rem',
+				'card-sm': '1rem',
+				'card-md': '1.5rem',
+				'card-lg': '2rem',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -83,6 +95,15 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			minHeight: {
+				'touch': '44px',
+			},
+			gap: {
+				'grid-sm': '1rem',
+				'grid-md': '1.5rem',
+				'grid-lg': '2rem',
+				'grid-xl': '3rem',
 			},
 			keyframes: {
 				'accordion-down': {

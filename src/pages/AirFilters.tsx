@@ -459,30 +459,30 @@ const AirFilters = () => {
   const FilterCard = ({ filter }: { filter: AirFilter }) => (
     <Link to={`/product/${filter.id}`}>
       <Card className="hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-        <CardHeader className="pb-4">
-          <div className="aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
+        <CardHeader className="pb-3 sm:pb-4 p-4 sm:p-6">
+          <div className="aspect-square bg-muted rounded-lg mb-3 sm:mb-4 flex items-center justify-center">
             <img 
               src={filter.image} 
               alt={filter.name}
-              className="w-full h-full object-contain p-4"
+              className="w-full h-full object-contain p-3 sm:p-4"
             />
           </div>
           <div className="flex items-start justify-between">
             <div>
               {filter.popular && (
                 <Badge variant="secondary" className="mb-2">
-                  <Star className="w-3 h-3 mr-1" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                   Popular
                 </Badge>
               )}
-              <CardTitle className="text-lg leading-tight">{filter.name}</CardTitle>
-              <p className="text-muted-foreground text-sm mt-1">{filter.brand}</p>
+              <CardTitle className="text-base sm:text-lg leading-tight">{filter.name}</CardTitle>
+              <p className="text-muted-foreground text-xs sm:text-sm mt-1">{filter.brand}</p>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="pt-0">
+        <CardContent className="pt-0 p-4 sm:p-6">
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-1 sm:gap-2">
               <Badge variant="outline" className="text-xs">
                 Size: {filter.size}
               </Badge>
@@ -497,21 +497,21 @@ const AirFilters = () => {
             </div>
             
             <div>
-              <Badge className="mb-2">{filter.category}</Badge>
-              <ul className="text-sm text-muted-foreground space-y-1">
+              <Badge className="mb-2 text-xs sm:text-sm">{filter.category}</Badge>
+              <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
                 {filter.features.slice(0, 3).map((feature, index) => (
                   <li key={index} className="flex items-center">
-                    <Shield className="w-3 h-3 mr-2 text-primary" />
-                    {feature}
+                    <Shield className="w-3 h-3 mr-2 text-primary flex-shrink-0" />
+                    <span className="text-xs sm:text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-2 gap-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold">${filter.price}</span>
+                  <span className="text-xl sm:text-2xl font-bold">${filter.price}</span>
                   {filter.originalPrice && (
                     <span className="text-sm text-muted-foreground line-through">
                       ${filter.originalPrice}
@@ -520,7 +520,7 @@ const AirFilters = () => {
                 </div>
                 {filter.subscription && (
                   <p className="text-xs text-muted-foreground flex items-center mt-1">
-                    <Truck className="w-3 h-3 mr-1" />
+                    <Truck className="w-3 h-3 mr-1 flex-shrink-0" />
                     Subscribe & Save 10%
                   </p>
                 )}
@@ -530,6 +530,7 @@ const AirFilters = () => {
                   e.preventDefault();
                   // Add to cart functionality would go here
                 }}
+                className="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-3 min-h-touch"
               >
                 Add to Cart
               </Button>
@@ -661,11 +662,11 @@ const AirFilters = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Quality Air Filters</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">Quality Air Filters</h1>
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Breathe cleaner air with our selection of high-quality HVAC filters. 
             From basic protection to hospital-grade filtration.
           </p>
@@ -678,17 +679,17 @@ const AirFilters = () => {
             <div className="mb-6">
               <Drawer open={showFilters} onOpenChange={setShowFilters}>
                 <DrawerTrigger asChild>
-                  <Button variant="outline" className="w-full justify-between">
+                  <Button variant="outline" className="w-full justify-between px-4 py-3 min-h-touch">
                     <div className="flex items-center gap-2">
-                      <SlidersHorizontal className="w-4 h-4" />
-                      Filters
+                      <SlidersHorizontal className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span className="text-sm sm:text-base">Filters</span>
                       {getActiveFilterCount() > 0 && (
                         <Badge variant="secondary" className="text-xs">
                           {getActiveFilterCount()}
                         </Badge>
                       )}
                     </div>
-                    <ChevronDown className="w-4 h-4" />
+                    <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Button>
                 </DrawerTrigger>
                 <DrawerContent className="max-h-[80vh]">
@@ -773,7 +774,7 @@ const AirFilters = () => {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((filter) => (
                   <FilterCard key={filter.id} filter={filter} />
@@ -837,7 +838,7 @@ const AirFilters = () => {
               </div>
 
               {/* Products Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((filter) => (
                     <FilterCard key={filter.id} filter={filter} />
@@ -869,26 +870,26 @@ const AirFilters = () => {
         )}
 
         {/* Info Section */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           <Card>
-            <CardContent className="p-6 text-center">
-              <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Quality Focused</h3>
-              <p className="text-muted-foreground">All filters meet or exceed industry standards</p>
+            <CardContent className="p-4 sm:p-6 md:p-8 text-center">
+              <Shield className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-primary mx-auto mb-3 sm:mb-4" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2">Quality Focused</h3>
+              <p className="text-muted-foreground text-sm sm:text-base">All filters meet or exceed industry standards</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-6 text-center">
-              <Truck className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Fast Shipping</h3>
-              <p className="text-muted-foreground">Free shipping on orders over $50</p>
+            <CardContent className="p-4 sm:p-6 md:p-8 text-center">
+              <Truck className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-primary mx-auto mb-3 sm:mb-4" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2">Fast Shipping</h3>
+              <p className="text-muted-foreground text-sm sm:text-base">Free shipping on orders over $50</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-6 text-center">
-              <Users className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Expert Support</h3>
-              <p className="text-muted-foreground">Get help choosing the right filter</p>
+            <CardContent className="p-4 sm:p-6 md:p-8 text-center">
+              <Users className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-primary mx-auto mb-3 sm:mb-4" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2">Expert Support</h3>
+              <p className="text-muted-foreground text-sm sm:text-base">Get help choosing the right filter</p>
             </CardContent>
           </Card>
         </div>

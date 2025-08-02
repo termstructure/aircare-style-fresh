@@ -67,13 +67,13 @@ const ProductCategories = () => {
   }
 
   return (
-    <section id="products" className="py-20 bg-gradient-subtle">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+    <section id="products" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-12 h-1 bg-primary rounded-full" />
-            <span className="text-primary font-medium">Our Products</span>
-            <div className="w-12 h-1 bg-primary rounded-full" />
+            <div className="w-8 h-1 sm:w-12 sm:h-1 bg-primary rounded-full" />
+            <span className="text-primary font-medium text-sm sm:text-base">Our Products</span>
+            <div className="w-8 h-1 sm:w-12 sm:h-1 bg-primary rounded-full" />
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
             Quality Air Solutions
@@ -84,7 +84,7 @@ const ProductCategories = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
           {categories.map((category, index) => (
             <Card key={category.id || index} className="group hover:shadow-elegant transition-all duration-300 border-0 bg-card">
               <CardContent className="p-0">
@@ -97,11 +97,11 @@ const ProductCategories = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 
-                <div className="p-6">
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-3">{category.title}</h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">{category.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-6">
+                 <div className="p-4 sm:p-6 md:p-8">
+                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-3">{category.title}</h3>
+                   <p className="text-muted-foreground mb-4 line-clamp-3 text-sm sm:text-base">{category.description}</p>
+                   
+                   <div className="flex flex-wrap gap-2 mb-6">
                     {category.features.map((feature, featureIndex) => (
                       <span 
                         key={featureIndex}
@@ -120,10 +120,10 @@ const ProductCategories = () => {
                     category.title === "Parts & Accessories" ? "/air-filters?category=Allergen Protection" :
                     "/air-filters"
                   }>
-                    <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      Explore Products
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                     <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors px-4 py-3 sm:px-6 sm:py-4 min-h-touch">
+                       Explore Products
+                       <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                     </Button>
                   </Link>
                 </div>
               </CardContent>
@@ -131,9 +131,9 @@ const ProductCategories = () => {
           ))}
         </div>
         
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 sm:mt-12">
           <Link to="/air-filters">
-            <Button variant="hero" size="lg" className="px-8 py-4">
+            <Button variant="hero" size="lg" className="px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 min-h-touch">
               View All Products
             </Button>
           </Link>
