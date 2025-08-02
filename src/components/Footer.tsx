@@ -99,15 +99,10 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-background/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-background/20 mt-12 pt-8 text-center">
           <p className="text-background/70 text-sm">
             © {currentYear} AirCare Supply Co. All rights reserved.
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-background/70 hover:text-primary text-sm transition-colors">Privacy Policy</a>
-            <a href="#" className="text-background/70 hover:text-primary text-sm transition-colors">Terms of Service</a>
-            <a href="#" className="text-background/70 hover:text-primary text-sm transition-colors">Warranty</a>
-          </div>
         </div>
       </div>
     </footer>
