@@ -230,15 +230,11 @@ const Contact = () => {
               {[
                 {
                   question: "What sizes of air filters do you carry?",
-                  answer: "We carry all standard HVAC filter sizes from 14x14 to 25x25 and everything in between, plus custom sizes available upon request."
+                  answer: "We carry all standard HVAC filter sizes from 14x14 to 25x25 and everything in between."
                 },
                 {
                   question: "How often should I change my air filter?",
                   answer: "Most filters should be changed every 1-3 months, depending on usage, air quality, and filter type. We provide specific recommendations with each product."
-                },
-                {
-                  question: "Do you offer bulk discounts?",
-                  answer: "Yes! We offer competitive bulk pricing for orders of 12+ filters and special rates for commercial customers and property managers."
                 },
                 {
                   question: "What's your return policy?",
