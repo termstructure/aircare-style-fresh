@@ -315,18 +315,12 @@ const FAQ = () => {
               Our air quality experts are here to help you find the perfect filtration solution 
               for your specific needs. Get personalized recommendations and expert advice.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <a 
                 href="/contact" 
                 className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
               >
                 Contact Our Experts
-              </a>
-              <a 
-                href="mailto:support@aircaresupplyco.com" 
-                className="inline-flex items-center justify-center px-8 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Email Support
               </a>
             </div>
           </div>
