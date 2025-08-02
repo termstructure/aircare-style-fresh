@@ -117,6 +117,13 @@ const Contact = () => {
                     
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
+                        Phone Number *
+                      </label>
+                      <Input type="tel" placeholder="Your phone number" required />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
                         Company Name
                       </label>
                       <Input placeholder="Your company (optional)" />
