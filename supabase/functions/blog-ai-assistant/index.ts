@@ -327,7 +327,15 @@ Make sure the content is specific to air filtration and HVAC topics, includes pr
     // Parse the JSON response from Claude
     let generatedContent
     try {
-      generatedContent = JSON.parse(generatedText)
+      // Remove markdown code blocks if present
+      let jsonText = generatedText.trim()
+      if (jsonText.startsWith('```json')) {
+        jsonText = jsonText.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+      } else if (jsonText.startsWith('```')) {
+        jsonText = jsonText.replace(/^```\s*/, '').replace(/\s*```$/, '')
+      }
+      
+      generatedContent = JSON.parse(jsonText)
     } catch (parseError) {
       console.error('Failed to parse Claude response as JSON:', generatedText)
       // Log failed request
