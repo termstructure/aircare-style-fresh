@@ -2,6 +2,8 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+  
   return (
     <footer className="bg-foreground text-background py-16">
       <div className="container mx-auto px-4">
@@ -99,7 +101,7 @@ const Footer = () => {
 
         <div className="border-t border-background/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-background/70 text-sm">
-            © 2024 AirCare Supply Co. All rights reserved.
+            © {currentYear} AirCare Supply Co. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-background/70 hover:text-primary text-sm transition-colors">Privacy Policy</a>
