@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Search, Filter, Star, Truck, Shield, Users } from "lucide-react";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Search, Filter, Star, Truck, Shield, Users, X, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -36,6 +38,7 @@ interface AirFilter {
 
 const AirFilters = () => {
   const [searchParams] = useSearchParams();
+  const isMobile = useIsMobile();
   
   const [filters, setFilters] = useState({
     size: "",
@@ -48,6 +51,7 @@ const AirFilters = () => {
   });
 
   const [sortBy, setSortBy] = useState("popular");
+  const [showFilters, setShowFilters] = useState(false);
 
   // Initialize filters from URL parameters
   useEffect(() => {
@@ -435,6 +439,22 @@ const AirFilters = () => {
   const brands = ["3M Filtrete", "HDX"];
   const categories = ["Basic Protection", "Premium Allergen", "Ultra Allergen", "Hospital Grade", "Carbon Odor"];
 
+  const clearAllFilters = () => {
+    setFilters({
+      size: "",
+      mervRating: "",
+      fprRating: "",
+      brand: "",
+      category: "",
+      priceRange: "",
+      search: ""
+    });
+  };
+
+  const getActiveFilterCount = () => {
+    return Object.values(filters).filter(value => value !== "").length;
+  };
+
   const FilterCard = ({ filter }: { filter: AirFilter }) => (
     <Link to={`/product/${filter.id}`}>
       <Card className="hover:shadow-lg transition-shadow duration-300 cursor-pointer">
@@ -519,6 +539,123 @@ const AirFilters = () => {
     </Link>
   );
 
+  const FiltersContent = () => (
+    <div className="space-y-6">
+      {/* Search */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">Search</label>
+        <div className="relative">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search filters..." 
+            className="pl-10"
+            value={filters.search}
+            onChange={(e) => setFilters({...filters, search: e.target.value})}
+          />
+        </div>
+      </div>
+
+      {/* Filter Size */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">Filter Size</label>
+        <Select value={filters.size} onValueChange={(value) => setFilters({...filters, size: value})}>
+          <SelectTrigger className="bg-background border-input">
+            <SelectValue placeholder="Select size" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover border border-border shadow-lg z-50">
+            {sizes.map((size) => (
+              <SelectItem key={size} value={size}>{size}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* MERV Rating */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">MERV Rating</label>
+        <div className="space-y-2">
+          {mervRatings.map((rating) => (
+            <div key={rating} className="flex items-center space-x-2">
+              <Checkbox 
+                id={`merv-${rating}`}
+                checked={filters.mervRating.includes(rating.toString())}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    setFilters({...filters, mervRating: rating.toString()});
+                  } else {
+                    setFilters({...filters, mervRating: ""});
+                  }
+                }}
+              />
+              <label htmlFor={`merv-${rating}`} className="text-sm">MERV {rating}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FPR Rating */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">FPR Rating</label>
+        <div className="space-y-2">
+          {fprRatings.map((rating) => (
+            <div key={rating} className="flex items-center space-x-2">
+              <Checkbox 
+                id={`fpr-${rating}`}
+                checked={filters.fprRating.includes(rating.toString())}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    setFilters({...filters, fprRating: rating.toString()});
+                  } else {
+                    setFilters({...filters, fprRating: ""});
+                  }
+                }}
+              />
+              <label htmlFor={`fpr-${rating}`} className="text-sm">FPR {rating}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Brand */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">Brand</label>
+        <Select value={filters.brand} onValueChange={(value) => setFilters({...filters, brand: value})}>
+          <SelectTrigger className="bg-background border-input">
+            <SelectValue placeholder="Select brand" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover border border-border shadow-lg z-50">
+            {brands.map((brand) => (
+              <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Category */}
+      <div>
+        <label className="text-sm font-medium mb-2 block">Filter Category</label>
+        <Select value={filters.category} onValueChange={(value) => setFilters({...filters, category: value})}>
+          <SelectTrigger className="bg-background border-input">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover border border-border shadow-lg z-50">
+            {categories.map((category) => (
+              <SelectItem key={category} value={category}>{category}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <Button 
+        variant="outline" 
+        className="w-full"
+        onClick={clearAllFilters}
+      >
+        Clear All Filters
+      </Button>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -533,24 +670,98 @@ const AirFilters = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Filter className="w-5 h-5 mr-2" />
-                  Filter Products
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
+        {/* Filters Section - Horizontal Layout */}
+        {isMobile ? (
+          /* Mobile Filter Drawer */
+          <div className="mb-6">
+            <Drawer open={showFilters} onOpenChange={setShowFilters}>
+              <DrawerTrigger asChild>
+                <Button variant="outline" className="w-full justify-between">
+                  <div className="flex items-center gap-2">
+                    <SlidersHorizontal className="w-4 h-4" />
+                    Filters
+                    {getActiveFilterCount() > 0 && (
+                      <Badge variant="secondary" className="text-xs">
+                        {getActiveFilterCount()}
+                      </Badge>
+                    )}
+                  </div>
+                  <ChevronDown className="w-4 h-4" />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className="max-h-[80vh]">
+                <DrawerHeader>
+                  <DrawerTitle>Filter Products</DrawerTitle>
+                </DrawerHeader>
+                <div className="px-4 pb-6 overflow-y-auto">
+                  <FiltersContent />
+                </div>
+              </DrawerContent>
+            </Drawer>
+            
+            {/* Active Filters Chips */}
+            {getActiveFilterCount() > 0 && (
+              <div className="flex flex-wrap gap-2 mt-4">
+                {filters.search && (
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    Search: {filters.search}
+                    <X 
+                      className="w-3 h-3 cursor-pointer" 
+                      onClick={() => setFilters({...filters, search: ""})}
+                    />
+                  </Badge>
+                )}
+                {filters.size && (
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    Size: {filters.size}
+                    <X 
+                      className="w-3 h-3 cursor-pointer" 
+                      onClick={() => setFilters({...filters, size: ""})}
+                    />
+                  </Badge>
+                )}
+                {filters.mervRating && (
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    MERV {filters.mervRating}
+                    <X 
+                      className="w-3 h-3 cursor-pointer" 
+                      onClick={() => setFilters({...filters, mervRating: ""})}
+                    />
+                  </Badge>
+                )}
+                {filters.brand && (
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    {filters.brand}
+                    <X 
+                      className="w-3 h-3 cursor-pointer" 
+                      onClick={() => setFilters({...filters, brand: ""})}
+                    />
+                  </Badge>
+                )}
+                {filters.category && (
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    {filters.category}
+                    <X 
+                      className="w-3 h-3 cursor-pointer" 
+                      onClick={() => setFilters({...filters, category: ""})}
+                    />
+                  </Badge>
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Desktop Horizontal Filters */
+          <Card className="mb-8">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 items-end">
                 {/* Search */}
                 <div>
                   <label className="text-sm font-medium mb-2 block">Search</label>
                   <div className="relative">
                     <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input 
-                      placeholder="Search filters..." 
+                      placeholder="Search..." 
                       className="pl-10"
                       value={filters.search}
                       onChange={(e) => setFilters({...filters, search: e.target.value})}
@@ -558,14 +769,14 @@ const AirFilters = () => {
                   </div>
                 </div>
 
-                {/* Filter Size */}
+                {/* Size */}
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Filter Size</label>
+                  <label className="text-sm font-medium mb-2 block">Size</label>
                   <Select value={filters.size} onValueChange={(value) => setFilters({...filters, size: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select size" />
+                    <SelectTrigger className="bg-background border-input">
+                      <SelectValue placeholder="Any size" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
                       {sizes.map((size) => (
                         <SelectItem key={size} value={size}>{size}</SelectItem>
                       ))}
@@ -576,57 +787,26 @@ const AirFilters = () => {
                 {/* MERV Rating */}
                 <div>
                   <label className="text-sm font-medium mb-2 block">MERV Rating</label>
-                  <div className="space-y-2">
-                    {mervRatings.map((rating) => (
-                      <div key={rating} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`merv-${rating}`}
-                          checked={filters.mervRating.includes(rating.toString())}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setFilters({...filters, mervRating: rating.toString()});
-                            } else {
-                              setFilters({...filters, mervRating: ""});
-                            }
-                          }}
-                        />
-                        <label htmlFor={`merv-${rating}`} className="text-sm">MERV {rating}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* FPR Rating */}
-                <div>
-                  <label className="text-sm font-medium mb-2 block">FPR Rating</label>
-                  <div className="space-y-2">
-                    {fprRatings.map((rating) => (
-                      <div key={rating} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`fpr-${rating}`}
-                          checked={filters.fprRating.includes(rating.toString())}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setFilters({...filters, fprRating: rating.toString()});
-                            } else {
-                              setFilters({...filters, fprRating: ""});
-                            }
-                          }}
-                        />
-                        <label htmlFor={`fpr-${rating}`} className="text-sm">FPR {rating}</label>
-                      </div>
-                    ))}
-                  </div>
+                  <Select value={filters.mervRating} onValueChange={(value) => setFilters({...filters, mervRating: value})}>
+                    <SelectTrigger className="bg-background border-input">
+                      <SelectValue placeholder="Any MERV" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
+                      {mervRatings.map((rating) => (
+                        <SelectItem key={rating} value={rating.toString()}>MERV {rating}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Brand */}
                 <div>
                   <label className="text-sm font-medium mb-2 block">Brand</label>
                   <Select value={filters.brand} onValueChange={(value) => setFilters({...filters, brand: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select brand" />
+                    <SelectTrigger className="bg-background border-input">
+                      <SelectValue placeholder="Any brand" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
                       {brands.map((brand) => (
                         <SelectItem key={brand} value={brand}>{brand}</SelectItem>
                       ))}
@@ -636,12 +816,12 @@ const AirFilters = () => {
 
                 {/* Category */}
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Filter Category</label>
+                  <label className="text-sm font-medium mb-2 block">Category</label>
                   <Select value={filters.category} onValueChange={(value) => setFilters({...filters, category: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
+                    <SelectTrigger className="bg-background border-input">
+                      <SelectValue placeholder="Any category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-popover border border-border shadow-lg z-50">
                       {categories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -649,84 +829,69 @@ const AirFilters = () => {
                   </Select>
                 </div>
 
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => setFilters({
-                    size: "",
-                    mervRating: "",
-                    fprRating: "",
-                    brand: "",
-                    category: "",
-                    priceRange: "",
-                    search: ""
-                  })}
-                >
-                  Clear All Filters
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Products Grid */}
-          <div className="lg:col-span-3">
-            {/* Sort and Results */}
-            <div className="flex justify-between items-center mb-6">
-              <p className="text-muted-foreground">
-                Showing {filteredProducts.length} of {airFilters.length} results
-              </p>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="popular">Most Popular</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="merv-rating">MERV Rating</SelectItem>
-                  <SelectItem value="brand">Brand A-Z</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((filter) => (
-                  <FilterCard key={filter.id} filter={filter} />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12">
-                  <p className="text-muted-foreground text-lg">No filters match your criteria</p>
+                {/* Clear Filters */}
+                <div>
                   <Button 
                     variant="outline" 
-                    className="mt-4"
-                    onClick={() => setFilters({
-                      size: "",
-                      mervRating: "",
-                      fprRating: "",
-                      brand: "",
-                      category: "",
-                      priceRange: "",
-                      search: ""
-                    })}
+                    className="w-full"
+                    onClick={clearAllFilters}
+                    disabled={getActiveFilterCount() === 0}
                   >
-                    Clear All Filters
+                    Clear All
                   </Button>
                 </div>
-              )}
-            </div>
-
-            {/* Load More - only show if there are results */}
-            {filteredProducts.length > 0 && (
-              <div className="text-center mt-12">
-                <Button variant="outline" size="lg">
-                  Load More Products
-                </Button>
               </div>
-            )}
-          </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Sort and Results */}
+        <div className="flex justify-between items-center mb-6">
+          <p className="text-muted-foreground">
+            Showing {filteredProducts.length} of {airFilters.length} results
+          </p>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-48 bg-background border-input">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent className="bg-popover border border-border shadow-lg z-50">
+              <SelectItem value="popular">Most Popular</SelectItem>
+              <SelectItem value="price-low">Price: Low to High</SelectItem>
+              <SelectItem value="price-high">Price: High to Low</SelectItem>
+              <SelectItem value="merv-rating">MERV Rating</SelectItem>
+              <SelectItem value="brand">Brand A-Z</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((filter) => (
+              <FilterCard key={filter.id} filter={filter} />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <p className="text-muted-foreground text-lg">No filters match your criteria</p>
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={clearAllFilters}
+              >
+                Clear All Filters
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Load More - only show if there are results */}
+        {filteredProducts.length > 0 && (
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg">
+              Load More Products
+            </Button>
+          </div>
+        )}
 
         {/* Info Section */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
