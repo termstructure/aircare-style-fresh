@@ -5,7 +5,7 @@ const stats = [
   { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
   { icon: Target, label: "Customer Satisfaction", value: "98%" },
   { icon: Zap, label: "Same-Day Processing", value: "24hr" },
-  { icon: CheckCircle, label: "Quality Guarantee", value: "30-Day" }
+  { icon: CheckCircle, label: "Quality Focused", value: "Always" }
 ];
 
 const About = () => {

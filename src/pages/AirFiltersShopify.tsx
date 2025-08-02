@@ -806,7 +806,7 @@ const AirFiltersShopify = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 pt-16 border-t">
           <div className="text-center">
             <Shield className="w-12 h-12 mx-auto mb-4 text-primary" />
-            <h3 className="text-lg font-semibold mb-2">Quality Guaranteed</h3>
+            <h3 className="text-lg font-semibold mb-2">Quality Focused</h3>
             <p className="text-muted-foreground">All filters meet or exceed ASHRAE standards</p>
           </div>
           <div className="text-center">

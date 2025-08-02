@@ -15,7 +15,7 @@ const fallbackCategories = [
     description: "Complete heating, ventilation, and air conditioning systems for residential and commercial use.",
     image: hvacSystemsImg,
     handle: "hvac-systems",
-    features: ["Energy Efficient", "Professional Grade", "Full Warranty"]
+    features: ["Energy Efficient", "Professional Grade", "Reliable Quality"]
   },
   {
     id: "accessories",

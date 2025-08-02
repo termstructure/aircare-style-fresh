@@ -7,7 +7,7 @@ const stats = [
   { icon: Leaf, label: "Eco-Friendly Focus", value: "100%" },
   { icon: Target, label: "Customer Satisfaction Goal", value: "98%" },
   { icon: Zap, label: "Same-Day Processing", value: "24hr" },
-  { icon: Shield, label: "Quality Guarantee", value: "30-Day" }
+  { icon: Shield, label: "Quality Focused", value: "Always" }
 ];
 
 const values = [
@@ -186,7 +186,7 @@ const About = () => {
                 "Educational resources to help you make informed decisions",
                 "Competitive pricing with transparent, no-surprise costs",
                 "Commitment to sustainable and eco-friendly product options",
-                "30-day satisfaction guarantee on all products"
+                "Comprehensive product information and guidance"
               ].map((item, index) => (
                 <div key={index} className="flex items-start space-x-4 bg-card p-4 rounded-lg border">
                   <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />

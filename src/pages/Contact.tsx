@@ -170,8 +170,8 @@ const Contact = () => {
                     description: "From residential homes to large commercial facilities, we have the expertise and products for any project."
                   },
                   {
-                    title: "Quality Guarantee",
-                    description: "All our products come with a 30-day satisfaction guarantee and full technical support."
+                    title: "Quality Focused",
+                    description: "All our products are carefully selected for reliability and come with full technical support."
                   },
                   {
                     title: "Competitive Pricing",
@@ -235,7 +235,7 @@ const Contact = () => {
                 },
                 {
                   question: "What's your return policy?",
-                  answer: "We offer a 30-day satisfaction guarantee on all products. If you're not completely satisfied, we'll make it right with a full refund or exchange."
+                  answer: "We work with you to resolve any product concerns. Contact us if you have any issues and we'll help find the right solution."
                 },
                 {
                   question: "How fast is shipping?",

@@ -873,7 +873,7 @@ const AirFilters = () => {
           <Card>
             <CardContent className="p-6 text-center">
               <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Quality Guaranteed</h3>
+              <h3 className="text-lg font-semibold mb-2">Quality Focused</h3>
               <p className="text-muted-foreground">All filters meet or exceed industry standards</p>
             </CardContent>
           </Card>
