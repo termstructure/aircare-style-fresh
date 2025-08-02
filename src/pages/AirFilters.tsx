@@ -662,7 +662,7 @@ const AirFilters = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="container mx-auto py-section-fluid-sm">
         {/* Hero Section */}
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">Quality Air Filters</h1>
@@ -780,7 +780,7 @@ const AirFilters = () => {
                   <FilterCard key={filter.id} filter={filter} />
                 ))
               ) : (
-                <div className="col-span-full text-center py-12">
+                 <div className="col-span-full text-center py-fluid-lg">
                   <p className="text-muted-foreground text-lg">No filters match your criteria</p>
                   <Button 
                     variant="outline" 
@@ -844,7 +844,7 @@ const AirFilters = () => {
                     <FilterCard key={filter.id} filter={filter} />
                   ))
                 ) : (
-                  <div className="col-span-full text-center py-12">
+                  <div className="col-span-full text-center py-fluid-lg">
                     <p className="text-muted-foreground text-lg">No filters match your criteria</p>
                     <Button 
                       variant="outline" 

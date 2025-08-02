@@ -163,7 +163,7 @@ const BlogPostDynamic = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-fluid-md">
           <div className="text-center">Loading...</div>
         </div>
         <Footer />
@@ -175,7 +175,7 @@ const BlogPostDynamic = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-fluid-md">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Post Not Found</h1>
             <p className="text-muted-foreground mb-6">
@@ -196,8 +196,8 @@ const BlogPostDynamic = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <article className="py-6 sm:py-8 md:py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+      <article className="py-section-fluid-md">
+        <div className="container mx-auto max-w-4xl">
           {/* Back Button */}
           <Button
             variant="ghost"
@@ -320,8 +320,8 @@ const BlogPostDynamic = () => {
 
       {/* Related Articles */}
       {relatedPosts.length > 0 && (
-        <section className="py-12 sm:py-16 md:py-20 bg-muted/30">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <section className="py-section-fluid-lg bg-muted/30">
+          <div className="container mx-auto max-w-6xl">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center">Related Articles</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {relatedPosts.map((relatedPost) => (
@@ -357,8 +357,8 @@ const BlogPostDynamic = () => {
       )}
 
       {/* Call to Action */}
-      <section className="py-12">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-section-fluid-md">
+        <div className="container mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">Discover More Articles</h2>
           <p className="text-muted-foreground mb-6">
             Explore our comprehensive library of air care guides and expert insights

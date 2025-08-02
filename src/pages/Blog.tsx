@@ -1013,8 +1013,8 @@ const Blog = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-lg bg-gradient-subtle">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center space-x-2 mb-6">
               <div className="w-12 h-1 bg-accent rounded-full" />
@@ -1036,8 +1036,8 @@ const Blog = () => {
       </section>
 
       {/* Categories */}
-      <section className="py-8 bg-background border-b">
-        <div className="container mx-auto px-4">
+      <section className="py-fluid-sm bg-background border-b">
+        <div className="container mx-auto">
           <div className="flex flex-wrap gap-3 justify-center">
             {categories.map((category) => (
               <Badge
@@ -1055,8 +1055,8 @@ const Blog = () => {
 
       {/* Featured Posts */}
       {featuredFilteredPosts.length > 0 && (
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4">
+        <section className="py-section-fluid-md bg-background">
+          <div className="container mx-auto">
             <div className="flex items-center justify-between mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground">Featured Articles</h2>
               <Badge className="bg-primary text-primary-foreground">Editor's Choice</Badge>
@@ -1105,8 +1105,8 @@ const Blog = () => {
       )}
 
       {/* Recent Posts */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-muted/30">
+        <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
             {featuredFilteredPosts.length > 0 ? "Recent Articles" : "All Articles"}
           </h2>
@@ -1148,8 +1148,8 @@ const Blog = () => {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-background">
+        <div className="container mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Stay Updated

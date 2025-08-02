@@ -33,8 +33,8 @@ const Contact = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-section-fluid-lg bg-gradient-subtle">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
               <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
@@ -56,8 +56,8 @@ const Contact = () => {
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-12 sm:py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-section-fluid-lg bg-background">
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 md:mb-20">
             {contactInfo.map((info, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-shadow duration-300">
@@ -76,8 +76,8 @@ const Contact = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-muted/30">
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Contact Form */}
             <div>
@@ -214,8 +214,8 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-background">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">

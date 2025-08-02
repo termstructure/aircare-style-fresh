@@ -104,7 +104,7 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen">
         <Header />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-fluid-md">
           <div className="animate-pulse">
             <div className="h-8 bg-muted rounded w-1/4 mb-8"></div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -126,8 +126,8 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen">
         <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center py-12">
+        <div className="container mx-auto py-fluid-md">
+          <div className="text-center py-fluid-lg">
             <h1 className="text-xl md:text-2xl font-bold mb-4">Product Not Found</h1>
             <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist or has been removed.</p>
             <Button asChild>
@@ -148,7 +148,7 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-fluid-md">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-8">
           <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>

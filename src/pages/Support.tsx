@@ -70,8 +70,8 @@ const Support = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-section-fluid-lg bg-gradient-subtle">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
               <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
@@ -93,8 +93,8 @@ const Support = () => {
       </section>
 
       {/* Support Options */}
-      <section className="py-12 sm:py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-section-fluid-lg bg-background">
+        <div className="container mx-auto">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
               Choose Your Support Channel
@@ -125,8 +125,8 @@ const Support = () => {
       </section>
 
       {/* Contact Form */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-muted/30">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -208,8 +208,8 @@ const Support = () => {
       </section>
 
       {/* Resources */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-background">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Helpful Resources
@@ -242,8 +242,8 @@ const Support = () => {
       </section>
 
       {/* Contact Information */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-muted/30">
+        <div className="container mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
               Need Immediate Assistance?

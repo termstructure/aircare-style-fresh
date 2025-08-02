@@ -186,8 +186,8 @@ const FAQ = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-section-fluid-lg bg-gradient-subtle">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
               <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
@@ -220,8 +220,8 @@ const FAQ = () => {
       </section>
 
       {/* Categories */}
-      <section className="py-6 md:py-8 bg-background border-b">
-        <div className="container mx-auto px-4">
+      <section className="py-fluid-sm bg-background border-b">
+        <div className="container mx-auto">
           <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
             {categories.map((category) => (
               <Badge
@@ -243,8 +243,8 @@ const FAQ = () => {
       </section>
 
       {/* FAQ Content */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-background">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             {searchQuery && (
               <div className="mb-8">
@@ -292,7 +292,7 @@ const FAQ = () => {
             </div>
 
             {filteredFAQs.length === 0 && (
-              <div className="text-center py-16">
+              <div className="text-center py-fluid-xl">
                 <HelpCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-2xl font-semibold text-foreground mb-2">No results found</h3>
                 <p className="text-muted-foreground">
@@ -305,8 +305,8 @@ const FAQ = () => {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+      <section className="py-section-fluid-md bg-muted/30">
+        <div className="container mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Still Have Questions?

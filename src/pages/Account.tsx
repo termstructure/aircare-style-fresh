@@ -135,7 +135,7 @@ const Account = () => {
 
   if (!user) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-fluid-md">
         <Card className="max-w-md mx-auto text-center">
           <CardContent className="pt-6">
             <p className="text-muted-foreground mb-4">Please sign in to view your account.</p>
@@ -150,7 +150,7 @@ const Account = () => {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-fluid-md">
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-muted rounded w-1/4"></div>
           <div className="h-64 bg-muted rounded"></div>
@@ -160,7 +160,7 @@ const Account = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
+    <div className="container mx-auto py-section-fluid-md">
       <div className="mb-6 sm:mb-8">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">My Account</h1>
         <p className="text-sm sm:text-base text-muted-foreground">Manage your profile and view order history</p>
@@ -295,7 +295,7 @@ const Account = () => {
             </CardHeader>
             <CardContent>
               {orders.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
+                <div className="text-center py-fluid-md text-muted-foreground">
                   <Package className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No orders found. Start shopping to see your orders here!</p>
                   <Button asChild className="mt-4">

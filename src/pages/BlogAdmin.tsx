@@ -468,7 +468,7 @@ const BlogAdmin = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-fluid-md">
           <div className="text-center">Loading...</div>
         </div>
         <Footer />
@@ -479,7 +479,7 @@ const BlogAdmin = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-fluid-md">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Blog Admin</h1>
           <div className="flex gap-2">

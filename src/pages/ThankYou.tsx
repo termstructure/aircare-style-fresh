@@ -10,7 +10,7 @@ const ThankYou = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-muted">
       <Header />
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
+      <div className="container mx-auto py-section-fluid-lg">
         <div className="max-w-2xl mx-auto text-center">
           <Card className="shadow-lg">
             <CardContent className="p-6 sm:p-8 md:p-12">

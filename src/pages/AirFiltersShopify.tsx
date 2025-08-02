@@ -211,7 +211,7 @@ const AirFiltersShopify = () => {
     return (
       <div className="min-h-screen">
         <Header />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-fluid-md">
           <ShopifyTest />
         </div>
         <div className="flex items-center justify-center min-h-[400px]">
@@ -245,8 +245,8 @@ const AirFiltersShopify = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+      <section className="py-section-fluid-lg bg-gradient-subtle">
+        <div className="container mx-auto text-center relative">
           {/* Decorative accent lines */}
           <div className="flex items-center justify-center mb-4 sm:mb-6">
             <div className="h-px bg-accent/30 flex-1 max-w-16 sm:max-w-24"></div>
@@ -266,7 +266,7 @@ const AirFiltersShopify = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
+      <div className="container mx-auto py-section-fluid-md">
         {!isDesktop ? (
           /* Mobile/Tablet Layout - Collapsible Filters + Products */
           <div className="flex flex-col gap-6 sm:gap-8">
@@ -524,7 +524,7 @@ const AirFiltersShopify = () => {
               </div>
 
               {filteredProducts.length === 0 && (
-                <div className="text-center py-12">
+                 <div className="text-center py-fluid-lg">
                   <p className="text-muted-foreground mb-4">No products match your filters</p>
                   <Button 
                     variant="outline"
@@ -789,7 +789,7 @@ const AirFiltersShopify = () => {
               </div>
 
               {filteredProducts.length === 0 && (
-                <div className="text-center py-12">
+                <div className="text-center py-fluid-lg">
                   <p className="text-muted-foreground mb-4">No products match your filters</p>
                   <Button 
                     variant="outline"
