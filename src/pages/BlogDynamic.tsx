@@ -176,12 +176,22 @@ const BlogDynamic = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Air Care Blog
+      <section className="bg-gradient-subtle text-foreground py-20">
+        <div className="container mx-auto px-4 text-center relative">
+          {/* Decorative accent lines */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
+            <span className="px-4 text-sm font-medium text-accent uppercase tracking-wider">
+              Air Care Blog
+            </span>
+            <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <span className="text-foreground">Stay Informed with Our </span>
+            <span className="text-transparent bg-clip-text bg-gradient-primary">Blog</span>
           </h1>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Expert insights, maintenance tips, and industry knowledge to help you breathe easier
           </p>
         </div>
