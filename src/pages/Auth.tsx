@@ -27,7 +27,12 @@ const Auth = () => {
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    username: ''
+    username: '',
+    phoneNumber: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: ''
   });
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -79,7 +84,12 @@ const Auth = () => {
       const { error } = await signUp(signUpData.email, signUpData.password, {
         first_name: signUpData.firstName,
         last_name: signUpData.lastName,
-        username: signUpData.username
+        username: signUpData.username,
+        phone_number: signUpData.phoneNumber,
+        address: signUpData.address,
+        city: signUpData.city,
+        state: signUpData.state,
+        zip_code: signUpData.zipCode
       });
 
       if (error) {
@@ -248,6 +258,61 @@ const Auth = () => {
                       required
                     />
                   </div>
+                  
+                  <div className="border-t pt-4">
+                    <h3 className="text-sm font-medium text-foreground mb-3">Contact Information (Optional)</h3>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-phone">Phone Number</Label>
+                        <Input
+                          id="signup-phone"
+                          type="tel"
+                          placeholder="(555) 123-4567"
+                          value={signUpData.phoneNumber}
+                          onChange={(e) => setSignUpData({ ...signUpData, phoneNumber: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-address">Address</Label>
+                        <Input
+                          id="signup-address"
+                          placeholder="123 Main Street"
+                          value={signUpData.address}
+                          onChange={(e) => setSignUpData({ ...signUpData, address: e.target.value })}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-city">City</Label>
+                          <Input
+                            id="signup-city"
+                            placeholder="City"
+                            value={signUpData.city}
+                            onChange={(e) => setSignUpData({ ...signUpData, city: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="signup-state">State</Label>
+                          <Input
+                            id="signup-state"
+                            placeholder="State"
+                            value={signUpData.state}
+                            onChange={(e) => setSignUpData({ ...signUpData, state: e.target.value })}
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="signup-zipcode">ZIP Code</Label>
+                        <Input
+                          id="signup-zipcode"
+                          placeholder="12345"
+                          value={signUpData.zipCode}
+                          onChange={(e) => setSignUpData({ ...signUpData, zipCode: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? 'Creating account...' : 'Create Account'}
                   </Button>
