@@ -151,16 +151,16 @@ async function checkBudgetLimits(supabase: any) {
   const monthlyBudget = parseFloat(Deno.env.get('MONTHLY_AI_BUDGET_LIMIT') || DEFAULT_MONTHLY_BUDGET.toString());
   const dailyLimit = parseInt(Deno.env.get('DAILY_REQUEST_LIMIT') || DEFAULT_DAILY_REQUEST_LIMIT.toString());
 
-  // Check monthly budget
-  const { data: monthlyUsage, error: monthlyError } = await supabase
-    .from('ai_usage_tracking')
-    .select('total_cost_usd, total_requests')
-    .eq('month_year', monthYear)
-    .single();
+  // Check monthly budget using actual cost from request logs
+  const { data: monthlyLogs, error: logsError } = await supabase
+    .from('ai_request_logs')
+    .select('cost_usd')
+    .gte('created_at', `${monthYear}-01T00:00:00Z`)
+    .lt('created_at', `${monthYear === '2025-12' ? '2026-01' : monthYear.slice(0, 4) + '-' + String(parseInt(monthYear.slice(5)) + 1).padStart(2, '0')}-01T00:00:00Z`);
 
-  if (monthlyError && monthlyError.code !== 'PGRST116') throw monthlyError;
+  if (logsError) throw logsError;
 
-  const currentMonthlyCost = monthlyUsage?.total_cost_usd || 0;
+  const currentMonthlyCost = monthlyLogs?.reduce((total, log) => total + (log.cost_usd || 0), 0) || 0;
   if (currentMonthlyCost >= monthlyBudget) {
     throw new Error(`Monthly budget of $${monthlyBudget} exceeded. Current usage: $${currentMonthlyCost.toFixed(4)}`);
   }
@@ -211,21 +211,19 @@ async function logUsage(supabase: any, requestType: string, inputTokens: number,
       error_message: errorMessage
     });
 
-  if (success) {
-    // Update monthly tracking
-    await supabase
-      .from('ai_usage_tracking')
-      .upsert({
-        month_year: monthYear,
-        total_requests: 1,
-        total_input_tokens: inputTokens,
-        total_output_tokens: outputTokens,
-        total_cost_usd: cost
-      }, {
-        onConflict: 'month_year',
-        ignoreDuplicates: false
-      });
-  }
+  // Always update monthly tracking regardless of success/failure to ensure accurate cost tracking
+  await supabase
+    .from('ai_usage_tracking')
+    .upsert({
+      month_year: monthYear,
+      total_requests: 1,
+      total_input_tokens: inputTokens,
+      total_output_tokens: outputTokens,
+      total_cost_usd: cost
+    }, {
+      onConflict: 'month_year',
+      ignoreDuplicates: false
+    });
 }
 
 async function generateContent(supabase: any, data: any) {
@@ -483,7 +481,7 @@ async function getUsageStats(supabase: any) {
   const dailyLimit = parseInt(Deno.env.get('DAILY_REQUEST_LIMIT') || DEFAULT_DAILY_REQUEST_LIMIT.toString());
 
   try {
-    // Get monthly usage
+    // Get monthly usage from tracking table (for counts and tokens)
     const { data: monthlyUsage, error: monthlyError } = await supabase
       .from('ai_usage_tracking')
       .select('*')
@@ -491,6 +489,18 @@ async function getUsageStats(supabase: any) {
       .single();
 
     if (monthlyError && monthlyError.code !== 'PGRST116') throw monthlyError;
+
+    // Get actual monthly cost by summing all costs from request logs (ensures accuracy)
+    const { data: monthlyLogs, error: logsError } = await supabase
+      .from('ai_request_logs')
+      .select('cost_usd')
+      .gte('created_at', `${monthYear}-01T00:00:00Z`)
+      .lt('created_at', `${monthYear === '2025-12' ? '2026-01' : monthYear.slice(0, 4) + '-' + String(parseInt(monthYear.slice(5)) + 1).padStart(2, '0')}-01T00:00:00Z`);
+
+    if (logsError) throw logsError;
+
+    // Calculate actual monthly cost from all API calls (successful and failed)
+    const currentMonthlyCost = monthlyLogs?.reduce((total, log) => total + (log.cost_usd || 0), 0) || 0;
 
     // Get daily request count
     const { data: dailyRequests, error: dailyError } = await supabase
@@ -501,7 +511,6 @@ async function getUsageStats(supabase: any) {
 
     if (dailyError) throw dailyError;
 
-    const currentMonthlyCost = monthlyUsage?.total_cost_usd || 0;
     const todayRequestCount = dailyRequests?.length || 0;
 
     return new Response(
