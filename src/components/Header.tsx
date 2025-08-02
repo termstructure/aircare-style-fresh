@@ -5,13 +5,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import Cart from "@/components/Cart";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsDesktop } from "@/hooks/use-desktop";
 import { useState } from "react";
 import logo from "@/assets/logo.png";
 
 const Header = () => {
   const { user, signOut } = useAuth();
-  const isMobile = useIsMobile();
+  const isDesktop = useIsDesktop();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const handleSignOut = async () => {
@@ -36,7 +36,7 @@ const Header = () => {
             </div>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-2">
+          <nav className="hidden lg:flex items-center space-x-2">
             <Link to="/" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Home</Link>
             <Link to="/air-filters" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Air Filters</Link>
             <Link to="/blog" className="px-3 py-2 rounded-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200">Blog</Link>
@@ -49,7 +49,7 @@ const Header = () => {
             {/* Mobile menu button */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="md:hidden">
+                <Button variant="outline" size="sm" className="lg:hidden">
                   <Menu className="w-4 h-4" />
                 </Button>
               </SheetTrigger>
@@ -81,7 +81,7 @@ const Header = () => {
             <Cart />
             
             {/* Desktop user menu */}
-            <div className="hidden md:flex">
+            <div className="hidden lg:flex">
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
