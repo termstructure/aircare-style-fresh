@@ -116,13 +116,13 @@ const ProductCategories = () => {
                   <Link to={(() => {
                     const titleLower = category.title.toLowerCase();
                     if (titleLower.includes('merv 8') || titleLower.includes('merv-8') || titleLower.includes('merv8')) {
-                      return "/air-filters?merv=MERV 8";
+                      return "/air-filters?merv=8";
                     }
                     if (titleLower.includes('merv 11') || titleLower.includes('merv-11') || titleLower.includes('merv11')) {
-                      return "/air-filters?merv=MERV 11";
+                      return "/air-filters?merv=11";
                     }
                     if (titleLower.includes('merv 13') || titleLower.includes('merv-13') || titleLower.includes('merv13')) {
-                      return "/air-filters?merv=MERV 13";
+                      return "/air-filters?merv=13";
                     }
                     // Fallback for non-MERV categories
                     return "/air-filters";
