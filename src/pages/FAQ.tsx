@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Filter, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
@@ -222,7 +223,32 @@ const FAQ = () => {
       {/* Categories */}
       <section className="py-fluid-sm bg-background border-b">
         <div className="container mx-auto">
-          <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
+          {/* Mobile/Tablet Dropdown */}
+          <div className="block lg:hidden">
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full max-w-sm mx-auto bg-background border-border">
+                <SelectValue>
+                  <div className="flex items-center">
+                    <Filter className="w-4 h-4 mr-2" />
+                    {categories.find(cat => cat.id === selectedCategory)?.label} ({categories.find(cat => cat.id === selectedCategory)?.count})
+                  </div>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="bg-background border-border z-[60]">
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id} className="cursor-pointer">
+                    <div className="flex items-center">
+                      <Filter className="w-4 h-4 mr-2" />
+                      {category.label} ({category.count})
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Desktop Badge Layout */}
+          <div className="hidden lg:flex flex-wrap gap-2 md:gap-3 justify-center">
             {categories.map((category) => (
               <Badge
                 key={category.id}
