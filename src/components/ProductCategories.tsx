@@ -30,8 +30,17 @@ const fallbackCategories = [
 const ProductCategories = () => {
   const { data: shopifyCollections, isLoading, error } = useCollections();
   
+  // Function to get MERV priority for sorting
+  const getMervPriority = (title: string) => {
+    const titleLower = title.toLowerCase();
+    if (titleLower.includes('merv 8') || titleLower.includes('merv-8') || titleLower.includes('merv8')) return 1;
+    if (titleLower.includes('merv 11') || titleLower.includes('merv-11') || titleLower.includes('merv11')) return 2;
+    if (titleLower.includes('merv 13') || titleLower.includes('merv-13') || titleLower.includes('merv13')) return 3;
+    return 999; // Collections without MERV ratings go last
+  };
+
   // Use Shopify collections if available, otherwise fallback to static data
-  // Filter out air-filters collection
+  // Filter out air-filters collection and sort by MERV priority
   const categories = shopifyCollections?.length ? shopifyCollections
     .filter(collection => collection.handle !== "air-filters")
     .map(collection => ({
@@ -41,7 +50,8 @@ const ProductCategories = () => {
       image: collection.image?.src || fallbackCategories.find(cat => cat.handle === collection.handle)?.image || filtersImg,
       handle: collection.handle,
       features: fallbackCategories.find(cat => cat.handle === collection.handle)?.features || ["Quality Products", "Fast Shipping", "Helpful Support"]
-    })) : fallbackCategories;
+    }))
+    .sort((a, b) => getMervPriority(a.title) - getMervPriority(b.title)) : fallbackCategories;
 
   if (isLoading) {
     return (
