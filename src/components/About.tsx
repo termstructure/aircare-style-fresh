@@ -43,7 +43,7 @@ const About = () => {
                 "Quality air filtration products from trusted brands",
                 "Helpful customer support and product guidance",
                 "Fast, reliable delivery nationwide",
-                "Competitive pricing with bulk discounts"
+                "Wide selection of trusted brand products"
               ].map((item, index) => (
                 <div key={index} className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />

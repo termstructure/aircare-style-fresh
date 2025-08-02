@@ -89,7 +89,7 @@ const Contact = () => {
             Ready to Improve Your Air Quality?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Contact our experts today for personalized recommendations and competitive pricing 
+            Contact our experts today for personalized recommendations 
             on all your HVAC supply needs.
           </p>
         </div>

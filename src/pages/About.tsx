@@ -183,7 +183,7 @@ const About = () => {
                 "Fast, reliable shipping with same-day processing for most orders",
                 "Knowledgeable customer support when you need help",
                 "Clear product information and educational resources",
-                "Transparent pricing with no hidden fees",
+                "Straightforward service with no surprises",
                 "Personal service from a local Charlotte, NC small business",
                 "Small business flexibility and responsiveness"
               ].map((item, index) => (
