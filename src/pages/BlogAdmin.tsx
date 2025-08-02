@@ -390,15 +390,7 @@ const BlogAdmin = () => {
       };
 
       if (scheduledDate) {
-        // Format date as local time string without timezone conversion
-        const year = scheduledDate.getFullYear();
-        const month = String(scheduledDate.getMonth() + 1).padStart(2, '0');
-        const day = String(scheduledDate.getDate()).padStart(2, '0');
-        const hours = String(scheduledDate.getHours()).padStart(2, '0');
-        const minutes = String(scheduledDate.getMinutes()).padStart(2, '0');
-        const seconds = String(scheduledDate.getSeconds()).padStart(2, '0');
-        
-        postData.scheduled_for = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        postData.scheduled_for = scheduledDate.toISOString();
       }
 
       const { data: savedPost, error } = await supabase.from('blog_posts').insert(postData).select().single();
@@ -444,20 +436,11 @@ const BlogAdmin = () => {
 
   const schedulePost = async (post: BlogPost, scheduledDate: Date) => {
     try {
-      // Store the date as a local timestamp without timezone conversion
-      // Format: YYYY-MM-DD HH:MM:SS (without timezone info to preserve local time)
-      const localDateString = scheduledDate.getFullYear() + '-' +
-        String(scheduledDate.getMonth() + 1).padStart(2, '0') + '-' +
-        String(scheduledDate.getDate()).padStart(2, '0') + ' ' +
-        String(scheduledDate.getHours()).padStart(2, '0') + ':' +
-        String(scheduledDate.getMinutes()).padStart(2, '0') + ':' +
-        String(scheduledDate.getSeconds()).padStart(2, '0');
-      
       const { error } = await supabase
         .from('blog_posts')
         .update({
           status: 'scheduled',
-          scheduled_for: localDateString
+          scheduled_for: scheduledDate.toISOString()
         })
         .eq('id', post.id);
 
@@ -814,7 +797,14 @@ const BlogAdmin = () => {
                       {post.status === 'scheduled' && post.scheduled_for && (
                         <>
                           <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            Scheduled for: {post.scheduled_for.replace(' ', ' at ')}
+                            Scheduled for: {new Date(post.scheduled_for).toLocaleString('en-US', {
+                              year: 'numeric',
+                              month: 'long', 
+                              day: 'numeric',
+                              hour: 'numeric',
+                              minute: '2-digit',
+                              timeZoneName: 'short'
+                            })}
                           </div>
                           <Button
                             size="sm"
@@ -873,7 +863,7 @@ const BlogAdmin = () => {
         }}
         loading={aiLoading}
         title={schedulingPost ? "Schedule Post" : "Schedule Generated Content"}
-        initialDate={schedulingPost?.scheduled_for ? new Date(schedulingPost.scheduled_for.replace(' ', 'T')) : undefined}
+        initialDate={schedulingPost?.scheduled_for ? new Date(schedulingPost.scheduled_for) : undefined}
       />
     </div>
   );
