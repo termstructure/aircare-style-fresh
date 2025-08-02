@@ -248,7 +248,7 @@ const AirFiltersShopify = () => {
       <section className="py-section-fluid-lg bg-gradient-subtle">
         <div className="container mx-auto text-center relative">
           {/* Decorative accent lines */}
-          <div className="flex items-center justify-center mb-4 sm:mb-6">
+          <div className="flex items-center justify-center mb-fluid-sm">
             <div className="h-px bg-accent/30 flex-1 max-w-16 sm:max-w-24"></div>
             <span className="px-3 sm:px-4 text-xs sm:text-sm font-medium text-accent uppercase tracking-wider">
               Air Filters
@@ -256,11 +256,11 @@ const AirFiltersShopify = () => {
             <div className="h-px bg-accent/30 flex-1 max-w-16 sm:max-w-24"></div>
           </div>
           
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-fluid-sm">
             <span className="text-foreground">Quality Air </span>
             <span className="text-transparent bg-clip-text bg-gradient-primary">Filters</span>
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-fluid-md max-w-2xl mx-auto leading-relaxed">
             Quality air filtration solutions to help maintain better indoor air quality
           </p>
         </div>
@@ -269,7 +269,7 @@ const AirFiltersShopify = () => {
       <div className="container mx-auto py-section-fluid-md">
         {!isDesktop ? (
           /* Mobile/Tablet Layout - Collapsible Filters + Products */
-          <div className="flex flex-col gap-6 sm:gap-8">
+          <div className="flex flex-col gap-fluid-sm">
             <Card className="p-0">
               <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <CollapsibleTrigger asChild>
@@ -291,7 +291,7 @@ const AirFiltersShopify = () => {
 
                 <CollapsibleContent className="px-6 pb-6">
                   {/* Search */}
-                  <div className="mb-6">
+                  <div className="mb-fluid-sm">
                     <label className="text-sm font-medium mb-2 block">Search</label>
                     <Input
                       placeholder="Search filters..."
@@ -302,7 +302,7 @@ const AirFiltersShopify = () => {
 
                   {/* Size Filter */}
                   {sizes.length > 0 && (
-                    <div className="mb-6">
+                    <div className="mb-fluid-sm">
                       <label className="text-sm font-medium mb-3 block">Size</label>
                       <Select value={filters.size[0] || "all"} onValueChange={(value) => {
                         if (value === "all") {
@@ -326,7 +326,7 @@ const AirFiltersShopify = () => {
 
                   {/* MERV Rating Filter */}
                   {mervRatings.length > 0 && (
-                    <div className="mb-6">
+                    <div className="mb-fluid-sm">
                       <label className="text-sm font-medium mb-3 block">MERV Rating</label>
                       <Select value={filters.mervRating[0] || "all"} onValueChange={(value) => {
                         if (value === "all") {
@@ -350,7 +350,7 @@ const AirFiltersShopify = () => {
 
                   {/* Brand Filter */}
                   {brands.length > 0 && (
-                    <div className="mb-6">
+                    <div className="mb-fluid-sm">
                       <label className="text-sm font-medium mb-3 block">Brand</label>
                       <Select value={filters.brand[0] || "all"} onValueChange={(value) => {
                         if (value === "all") {
@@ -373,7 +373,7 @@ const AirFiltersShopify = () => {
                   )}
 
                   {/* Price Range Filter */}
-                  <div className="mb-6">
+                  <div className="mb-fluid-sm">
                     <label className="text-sm font-medium mb-3 block">Price Range</label>
                     <Select value={filters.priceRange} onValueChange={(value) => {
                       setFilters(prev => ({ ...prev, priceRange: value }));
@@ -392,7 +392,7 @@ const AirFiltersShopify = () => {
                   </div>
 
                   {/* Availability Filter */}
-                  <div className="mb-6">
+                  <div className="mb-fluid-sm">
                     <label className="text-sm font-medium mb-3 block">Availability</label>
                     <Select value={filters.availability} onValueChange={(value) => {
                       setFilters(prev => ({ ...prev, availability: value }));
