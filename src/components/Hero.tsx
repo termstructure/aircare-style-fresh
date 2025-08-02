@@ -17,8 +17,8 @@ const Hero = () => {
           </h1>
           
           <p className="text-lg sm:text-xl md:text-2xl font-body text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            Premium air filters and HVAC solutions for modern homes. 
-            Breathe cleaner, live better.
+            Quality air filters and helpful guidance to maintain better indoor air quality. 
+            Simple solutions for your home.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
