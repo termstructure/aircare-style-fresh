@@ -288,7 +288,7 @@ const BlogPost = () => {
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
-            <h1 className="text-2xl font-bold mb-4">Blog Post Not Found</h1>
+            <h1 className="text-xl md:text-2xl font-bold mb-4">Blog Post Not Found</h1>
             <p className="text-muted-foreground mb-6">The blog post you're looking for doesn't exist or has been removed.</p>
             <Button asChild>
               <Link to="/blog">Back to Blog</Link>
@@ -336,11 +336,11 @@ const BlogPost = () => {
               </div>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
               {post.title}
             </h1>
             
-            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed">
               {post.excerpt}
             </p>
             
@@ -359,7 +359,7 @@ const BlogPost = () => {
 
           {/* Content */}
           <div 
-            className="prose prose-lg max-w-none mb-8 text-foreground"
+            className="prose prose-sm md:prose-lg max-w-none mb-8 text-foreground"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
@@ -403,7 +403,7 @@ const BlogPost = () => {
           {/* Related Posts */}
           {relatedPosts.length > 0 && (
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+              <h2 className="text-xl md:text-2xl font-bold mb-6">Related Articles</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedPosts.map((relatedPost) => (
                   <Card key={relatedPost.id} className="group hover:shadow-card transition-all duration-300">

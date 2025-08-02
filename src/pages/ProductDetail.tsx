@@ -128,7 +128,7 @@ const ProductDetail = () => {
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
-            <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+            <h1 className="text-xl md:text-2xl font-bold mb-4">Product Not Found</h1>
             <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist or has been removed.</p>
             <Button asChild>
               <Link to="/air-filters">Back to Air Filters</Link>
@@ -202,8 +202,8 @@ const ProductDetail = () => {
                   <Badge variant="outline">{size}</Badge>
                 )}
               </div>
-              <h1 className="text-3xl font-bold text-foreground mb-4">{product.title}</h1>
-              <div className="text-3xl font-bold text-primary mb-4">
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-4">{product.title}</h1>
+              <div className="text-2xl md:text-3xl font-bold text-primary mb-4">
                 {formatPrice(selectedVariant.price)}
               </div>
               {selectedVariant.available ? (
@@ -287,7 +287,7 @@ const ProductDetail = () => {
             {/* Product Features */}
             <Card>
               <CardContent className="p-6">
-                <h3 className="font-semibold mb-4">Product Features</h3>
+                <h3 className="text-base md:text-lg font-semibold mb-4">Product Features</h3>
                 <div className="space-y-3">
                   {mervRating > 0 && (
                     <div className="flex items-center gap-3">
@@ -312,7 +312,7 @@ const ProductDetail = () => {
             {/* Technical Specifications */}
             <Card>
               <CardContent className="p-6">
-                <h3 className="font-semibold mb-4">Specifications</h3>
+                <h3 className="text-base md:text-lg font-semibold mb-4">Specifications</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-muted-foreground">Brand:</span>

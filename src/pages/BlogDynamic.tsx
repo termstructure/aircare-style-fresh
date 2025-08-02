@@ -187,11 +187,11 @@ const BlogDynamic = () => {
             <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-foreground">Stay Informed with Our </span>
             <span className="text-transparent bg-clip-text bg-gradient-primary">Blog</span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Expert insights, maintenance tips, and industry knowledge to help you breathe easier
           </p>
         </div>
@@ -219,7 +219,7 @@ const BlogDynamic = () => {
       {featuredFilteredPosts.length > 0 && (
         <section className="py-12">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Featured Articles</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Featured Articles</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredFilteredPosts.map((post) => (
                 <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -234,7 +234,7 @@ const BlogDynamic = () => {
                         </Badge>
                         <Badge variant="outline">Featured</Badge>
                       </div>
-                      <h3 className="font-semibold text-lg mb-2 line-clamp-2">
+                      <h3 className="font-semibold text-base md:text-lg mb-2 line-clamp-2">
                         {post.title}
                       </h3>
                       <p className="text-muted-foreground mb-4 line-clamp-3">
@@ -270,7 +270,7 @@ const BlogDynamic = () => {
       {recentFilteredPosts.length > 0 && (
         <section className="py-12 bg-muted/30">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Recent Articles</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Recent Articles</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recentFilteredPosts.slice(0, 9).map((post) => (
                 <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -284,7 +284,7 @@ const BlogDynamic = () => {
                           {post.blog_categories?.name || 'Uncategorized'}
                         </Badge>
                       </div>
-                      <h3 className="font-semibold mb-2 line-clamp-2">
+                      <h3 className="font-semibold text-sm md:text-base mb-2 line-clamp-2">
                         {post.title}
                       </h3>
                       <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
@@ -319,8 +319,8 @@ const BlogDynamic = () => {
       {/* Newsletter Section */}
       <section className="py-12 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
+          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
             Get the latest air care tips, product updates, and expert advice delivered to your inbox
           </p>
           <form onSubmit={handleNewsletterSubscribe} className="max-w-md mx-auto flex gap-2">

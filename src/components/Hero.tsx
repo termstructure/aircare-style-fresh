@@ -11,21 +11,21 @@ const Hero = () => {
       <div className="relative container mx-auto px-6 py-24">
         <div className="max-w-6xl mx-auto text-center">
           
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
             Clean Air
             <span className="block bg-gradient-accent bg-clip-text text-transparent">Made Simple</span>
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-2xl font-body text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-body text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
             Quality air filters and helpful guidance to maintain better indoor air quality. 
             Simple solutions for your home.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <Button variant="hero" size="lg" className="text-lg font-bold" asChild>
+            <Button variant="hero" size="lg" className="text-base sm:text-lg font-bold" asChild>
               <Link to="/air-filters">Shop Air Filters</Link>
             </Button>
-            <Button variant="outline" size="lg" className="text-lg font-semibold" asChild>
+            <Button variant="outline" size="lg" className="text-base sm:text-lg font-semibold" asChild>
               <Link to="/faq">Learn More</Link>
             </Button>
           </div>

@@ -88,8 +88,8 @@ const Index = () => {
       {/* Newsletter Section */}
       <section className="py-12 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
+          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
             Get the latest air care tips, product updates, and expert advice delivered to your inbox
           </p>
           <form onSubmit={handleNewsletterSubscribe} className="max-w-md mx-auto flex gap-2">
