@@ -1,6 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 
+// Constants for Claude 4 Sonnet pricing (per 1M tokens)
+const CLAUDE_INPUT_COST_PER_MILLION = 3.00; // $3 per 1M input tokens for Claude 4 Sonnet
+const CLAUDE_OUTPUT_COST_PER_MILLION = 15.00; // $15 per 1M output tokens for Claude 4 Sonnet
+const DEFAULT_MONTHLY_BUDGET = 18.00; // $18 monthly budget (with $2 buffer)
+const DEFAULT_DAILY_REQUEST_LIMIT = 15; // 15 requests per day max
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -27,6 +33,8 @@ serve(async (req) => {
         return await generateContent(supabase, data)
       case 'auto_publish':
         return await autoPublishScheduled(supabase)
+      case 'get_usage_stats':
+        return await getUsageStats(supabase)
       default:
         throw new Error('Invalid action')
     }
@@ -136,12 +144,114 @@ Don't wait for these signs to appear. Check your filter monthly and replace it e
   )
 }
 
+// Helper function to check budget and daily limits
+async function checkBudgetLimits(supabase: any) {
+  const monthYear = new Date().toISOString().slice(0, 7); // "2025-01"
+  const today = new Date().toISOString().slice(0, 10); // "2025-01-02"
+  const monthlyBudget = parseFloat(Deno.env.get('MONTHLY_AI_BUDGET_LIMIT') || DEFAULT_MONTHLY_BUDGET.toString());
+  const dailyLimit = parseInt(Deno.env.get('DAILY_REQUEST_LIMIT') || DEFAULT_DAILY_REQUEST_LIMIT.toString());
+
+  // Check monthly budget
+  const { data: monthlyUsage, error: monthlyError } = await supabase
+    .from('ai_usage_tracking')
+    .select('total_cost_usd, total_requests')
+    .eq('month_year', monthYear)
+    .single();
+
+  if (monthlyError && monthlyError.code !== 'PGRST116') throw monthlyError;
+
+  const currentMonthlyCost = monthlyUsage?.total_cost_usd || 0;
+  if (currentMonthlyCost >= monthlyBudget) {
+    throw new Error(`Monthly budget of $${monthlyBudget} exceeded. Current usage: $${currentMonthlyCost.toFixed(4)}`);
+  }
+
+  // Check daily request limit
+  const { data: dailyRequests, error: dailyError } = await supabase
+    .from('ai_request_logs')
+    .select('id', { count: 'exact' })
+    .gte('created_at', `${today}T00:00:00Z`)
+    .lt('created_at', `${today}T23:59:59Z`);
+
+  if (dailyError) throw dailyError;
+
+  const todayRequestCount = dailyRequests?.length || 0;
+  if (todayRequestCount >= dailyLimit) {
+    throw new Error(`Daily request limit of ${dailyLimit} exceeded. Current requests today: ${todayRequestCount}`);
+  }
+
+  return {
+    remainingBudget: monthlyBudget - currentMonthlyCost,
+    remainingRequests: dailyLimit - todayRequestCount,
+    currentMonthlyCost,
+    todayRequestCount
+  };
+}
+
+// Helper function to calculate token costs
+function calculateTokenCost(inputTokens: number, outputTokens: number): number {
+  const inputCost = (inputTokens / 1000000) * CLAUDE_INPUT_COST_PER_MILLION;
+  const outputCost = (outputTokens / 1000000) * CLAUDE_OUTPUT_COST_PER_MILLION;
+  return inputCost + outputCost;
+}
+
+// Helper function to log usage
+async function logUsage(supabase: any, requestType: string, inputTokens: number, outputTokens: number, cost: number, success: boolean, errorMessage?: string) {
+  const monthYear = new Date().toISOString().slice(0, 7);
+
+  // Log individual request
+  await supabase
+    .from('ai_request_logs')
+    .insert({
+      request_type: requestType,
+      input_tokens: inputTokens,
+      output_tokens: outputTokens,
+      cost_usd: cost,
+      model_used: 'claude-sonnet-4-20250514',
+      success,
+      error_message: errorMessage
+    });
+
+  if (success) {
+    // Update monthly tracking
+    await supabase
+      .from('ai_usage_tracking')
+      .upsert({
+        month_year: monthYear,
+        total_requests: 1,
+        total_input_tokens: inputTokens,
+        total_output_tokens: outputTokens,
+        total_cost_usd: cost
+      }, {
+        onConflict: 'month_year',
+        ignoreDuplicates: false
+      });
+  }
+}
+
 async function generateContent(supabase: any, data: any) {
   const { topic, type = 'blog_post', tone = 'informative', save_to_db = false } = data
   const anthropicApiKey = Deno.env.get('ANTHROPIC_API_KEY')
 
   if (!anthropicApiKey) {
     throw new Error('Anthropic API key not configured')
+  }
+
+  // Check budget limits before proceeding
+  try {
+    const budgetStatus = await checkBudgetLimits(supabase);
+    console.log(`Budget check passed. Remaining: $${budgetStatus.remainingBudget.toFixed(4)}, Requests today: ${budgetStatus.todayRequestCount}`);
+  } catch (budgetError) {
+    return new Response(
+      JSON.stringify({ 
+        success: false, 
+        error: 'Budget limit exceeded', 
+        details: budgetError.message 
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }, 
+        status: 429 
+      }
+    );
   }
 
   try {
@@ -189,7 +299,7 @@ Make sure the content is specific to air filtration and HVAC topics, includes pr
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 4000,
         messages: [
           {
@@ -209,19 +319,30 @@ Make sure the content is specific to air filtration and HVAC topics, includes pr
     const claudeResponse = await response.json()
     const generatedText = claudeResponse.content[0].text
 
+    // Calculate token usage and cost
+    const inputTokens = claudeResponse.usage?.input_tokens || 0;
+    const outputTokens = claudeResponse.usage?.output_tokens || 0;
+    const requestCost = calculateTokenCost(inputTokens, outputTokens);
+
     // Parse the JSON response from Claude
     let generatedContent
     try {
       generatedContent = JSON.parse(generatedText)
     } catch (parseError) {
       console.error('Failed to parse Claude response as JSON:', generatedText)
+      // Log failed request
+      await logUsage(supabase, 'generate_content', inputTokens, outputTokens, requestCost, false, 'Failed to parse JSON response');
       throw new Error('Failed to parse generated content')
     }
 
     // Validate the response structure
     if (!generatedContent.title || !generatedContent.content || !generatedContent.excerpt) {
+      await logUsage(supabase, 'generate_content', inputTokens, outputTokens, requestCost, false, 'Missing required fields in response');
       throw new Error('Generated content is missing required fields')
     }
+
+    // Log successful request
+    await logUsage(supabase, 'generate_content', inputTokens, outputTokens, requestCost, true);
 
     let postId = null;
 
@@ -345,4 +466,66 @@ async function autoPublishScheduled(supabase: any) {
     }),
     { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
   )
+}
+
+async function getUsageStats(supabase: any) {
+  const monthYear = new Date().toISOString().slice(0, 7);
+  const today = new Date().toISOString().slice(0, 10);
+  const monthlyBudget = parseFloat(Deno.env.get('MONTHLY_AI_BUDGET_LIMIT') || DEFAULT_MONTHLY_BUDGET.toString());
+  const dailyLimit = parseInt(Deno.env.get('DAILY_REQUEST_LIMIT') || DEFAULT_DAILY_REQUEST_LIMIT.toString());
+
+  try {
+    // Get monthly usage
+    const { data: monthlyUsage, error: monthlyError } = await supabase
+      .from('ai_usage_tracking')
+      .select('*')
+      .eq('month_year', monthYear)
+      .single();
+
+    if (monthlyError && monthlyError.code !== 'PGRST116') throw monthlyError;
+
+    // Get daily request count
+    const { data: dailyRequests, error: dailyError } = await supabase
+      .from('ai_request_logs')
+      .select('id', { count: 'exact' })
+      .gte('created_at', `${today}T00:00:00Z`)
+      .lt('created_at', `${today}T23:59:59Z`);
+
+    if (dailyError) throw dailyError;
+
+    const currentMonthlyCost = monthlyUsage?.total_cost_usd || 0;
+    const todayRequestCount = dailyRequests?.length || 0;
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        stats: {
+          monthlyBudget,
+          currentMonthlyCost,
+          remainingBudget: monthlyBudget - currentMonthlyCost,
+          totalMonthlyRequests: monthlyUsage?.total_requests || 0,
+          dailyLimit,
+          todayRequestCount,
+          remainingDailyRequests: dailyLimit - todayRequestCount,
+          monthYear,
+          totalInputTokens: monthlyUsage?.total_input_tokens || 0,
+          totalOutputTokens: monthlyUsage?.total_output_tokens || 0,
+        }
+      }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  } catch (error) {
+    console.error('Error getting usage stats:', error);
+    return new Response(
+      JSON.stringify({ 
+        success: false, 
+        error: 'Failed to get usage stats', 
+        details: error.message 
+      }),
+      { 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }, 
+        status: 500 
+      }
+    );
+  }
 }

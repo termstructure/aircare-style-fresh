@@ -66,11 +66,12 @@ const BlogAdmin = () => {
   });
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
+  const { usageStats, getUsageStats, migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
 
   useEffect(() => {
     checkAuth();
     fetchData();
+    getUsageStats();
   }, []);
 
   const checkAuth = async () => {
@@ -372,6 +373,60 @@ const BlogAdmin = () => {
             </Button>
           </div>
         </div>
+
+        {usageStats && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>AI Usage Statistics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">
+                    ${usageStats.currentMonthlyCost.toFixed(4)}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Used of ${usageStats.monthlyBudget}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">
+                    ${usageStats.remainingBudget.toFixed(4)}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Remaining Budget
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {usageStats.todayRequestCount}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Requests Today
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600">
+                    {usageStats.remainingDailyRequests}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Remaining Today
+                  </div>
+                </div>
+              </div>
+              {usageStats.remainingBudget < 2 && (
+                <div className="mt-4 p-3 bg-destructive/10 text-destructive rounded-lg">
+                  ⚠️ Warning: Low budget remaining! Consider upgrading your monthly limit.
+                </div>
+              )}
+              {usageStats.remainingDailyRequests <= 2 && (
+                <div className="mt-4 p-3 bg-orange-100 text-orange-800 rounded-lg">
+                  ⚠️ Warning: Only {usageStats.remainingDailyRequests} daily requests remaining.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {showEditor && (
           <Card className="mb-6">

@@ -4,7 +4,35 @@ import { useToast } from '@/hooks/use-toast';
 
 export const useBlogAI = () => {
   const [loading, setLoading] = useState(false);
+  const [usageStats, setUsageStats] = useState<any>(null);
   const { toast } = useToast();
+
+  const getUsageStats = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
+        body: { action: 'get_usage_stats' }
+      });
+
+      if (error) throw error;
+
+      if (data.success) {
+        setUsageStats(data.stats);
+        return data.stats;
+      } else {
+        throw new Error(data.error || 'Failed to get usage stats');
+      }
+    } catch (error) {
+      console.error('Error getting usage stats:', error);
+      toast({
+        title: "Error",
+        description: "Failed to get usage statistics",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const migrateStaticData = async () => {
     setLoading(true);
@@ -97,6 +125,8 @@ export const useBlogAI = () => {
 
   return {
     loading,
+    usageStats,
+    getUsageStats,
     migrateStaticData,
     generateContent,
     autoPublishScheduled

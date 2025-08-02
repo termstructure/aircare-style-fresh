@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_request_logs: {
+        Row: {
+          cost_usd: number
+          created_at: string
+          error_message: string | null
+          id: string
+          input_tokens: number
+          model_used: string
+          output_tokens: number
+          request_type: string
+          success: boolean
+        }
+        Insert: {
+          cost_usd?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          input_tokens?: number
+          model_used: string
+          output_tokens?: number
+          request_type: string
+          success?: boolean
+        }
+        Update: {
+          cost_usd?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          input_tokens?: number
+          model_used?: string
+          output_tokens?: number
+          request_type?: string
+          success?: boolean
+        }
+        Relationships: []
+      }
+      ai_usage_tracking: {
+        Row: {
+          created_at: string
+          id: string
+          month_year: string
+          total_cost_usd: number
+          total_input_tokens: number
+          total_output_tokens: number
+          total_requests: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          month_year: string
+          total_cost_usd?: number
+          total_input_tokens?: number
+          total_output_tokens?: number
+          total_requests?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          month_year?: string
+          total_cost_usd?: number
+          total_input_tokens?: number
+          total_output_tokens?: number
+          total_requests?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_authors: {
         Row: {
           avatar_url: string | null
