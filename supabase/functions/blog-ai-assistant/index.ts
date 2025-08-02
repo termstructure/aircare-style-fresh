@@ -227,7 +227,7 @@ async function logUsage(supabase: any, requestType: string, inputTokens: number,
 }
 
 async function generateContent(supabase: any, data: any) {
-  const { topic, type = 'blog_post', tone = 'informative', save_to_db = false } = data
+  const { topic, type = 'blog_post', tone = 'informative', save_to_db = false, category_id = '' } = data
   const anthropicApiKey = Deno.env.get('ANTHROPIC_API_KEY')
 
   if (!anthropicApiKey) {
@@ -253,7 +253,26 @@ async function generateContent(supabase: any, data: any) {
   }
 
   try {
-    const systemPrompt = `You are an expert content writer specializing in air filtration, HVAC systems, and indoor air quality. You write for a company that sells air filters and related products.
+    // Get category information if provided for more targeted content
+    let categoryGuidance = '';
+    if (category_id) {
+      const { data: categoryData } = await supabase
+        .from('blog_categories')
+        .select('name, description')
+        .eq('id', category_id)
+        .single();
+      
+      if (categoryData) {
+        categoryGuidance = `
+
+CATEGORY-SPECIFIC GUIDANCE:
+Content Category: ${categoryData.name}
+Category Focus: ${categoryData.description}
+Ensure the content aligns with this category theme and incorporates relevant approaches from this category perspective.`;
+      }
+    }
+
+    const systemPrompt = `You are an expert content writer specializing in air filtration, HVAC systems, and indoor air quality. You write for a company that sells air filters and related products.${categoryGuidance}
 
 Your task is to create SEO-optimized blog content that is:
 - Educational and informative
@@ -363,21 +382,26 @@ Make sure the content is specific to air filtration and HVAC topics, includes pr
         if (slugError) throw slugError;
         const slug = slugData;
 
-        // Get default category and author
-        const { data: categoryData, error: categoryError } = await supabase
-          .from('blog_categories')
-          .select('id')
-          .limit(1)
-          .single();
-
+        // Get default author
         const { data: authorData, error: authorError } = await supabase
           .from('blog_authors')
           .select('id')
           .limit(1)
           .single();
 
-        if (categoryError) console.warn('No categories found:', categoryError);
         if (authorError) console.warn('No authors found:', authorError);
+
+        // Use provided category_id or get default category
+        let finalCategoryId = category_id;
+        if (!finalCategoryId) {
+          const { data: defaultCategoryData, error: categoryError } = await supabase
+            .from('blog_categories')
+            .select('id')
+            .limit(1)
+            .single();
+          if (categoryError) console.warn('No categories found:', categoryError);
+          finalCategoryId = defaultCategoryData?.id || null;
+        }
 
         // Insert the blog post
         const { data: postData, error: postError } = await supabase
@@ -389,7 +413,7 @@ Make sure the content is specific to air filtration and HVAC topics, includes pr
             content: generatedContent.content,
             meta_description: generatedContent.meta_description,
             meta_keywords: generatedContent.meta_keywords,
-            category_id: categoryData?.id || null,
+            category_id: finalCategoryId,
             author_id: authorData?.id || null,
             status: 'draft'
           })

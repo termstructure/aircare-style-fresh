@@ -62,13 +62,13 @@ export const useBlogAI = () => {
     }
   };
 
-  const generateContent = async (topic: string, type = 'blog_post', tone = 'informative', saveToDb = false) => {
+  const generateContent = async (topic: string, type = 'blog_post', tone = 'informative', saveToDb = false, categoryId = '') => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('blog-ai-assistant', {
         body: { 
           action: 'generate_content',
-          data: { topic, type, tone, save_to_db: saveToDb }
+          data: { topic, type, tone, save_to_db: saveToDb, category_id: categoryId }
         }
       });
 

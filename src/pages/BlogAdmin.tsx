@@ -62,7 +62,8 @@ const BlogAdmin = () => {
   const [generatedContent, setGeneratedContent] = useState<any>(null);
   const [generationData, setGenerationData] = useState({
     topic: "",
-    tone: "informative"
+    tone: "informative",
+    category: ""
   });
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -276,7 +277,8 @@ const BlogAdmin = () => {
         generationData.topic,
         'blog_post',
         generationData.tone,
-        false // Don't save to DB immediately, let user preview first
+        false, // Don't save to DB immediately, let user preview first
+        generationData.category
       );
       setGeneratedContent(result.content);
     } catch (error) {
@@ -314,7 +316,7 @@ const BlogAdmin = () => {
         content: generatedContent.content,
         meta_description: generatedContent.meta_description,
         meta_keywords: generatedContent.meta_keywords,
-        category_id: categories[0]?.id || null,
+        category_id: generationData.category || categories[0]?.id || null,
         author_id: authorId,
         status: 'draft'
       });
@@ -328,7 +330,7 @@ const BlogAdmin = () => {
 
       setGeneratedContent(null);
       setShowGenerator(false);
-      setGenerationData({ topic: "", tone: "informative" });
+      setGenerationData({ topic: "", tone: "informative", category: "" });
       fetchData();
     } catch (error) {
       console.error('Error saving generated content:', error);
@@ -486,20 +488,37 @@ const BlogAdmin = () => {
                 value={generationData.topic}
                 onChange={(e) => setGenerationData({ ...generationData, topic: e.target.value })}
               />
-              <Select
-                value={generationData.tone}
-                onValueChange={(value) => setGenerationData({ ...generationData, tone: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select tone" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="informative">Informative</SelectItem>
-                  <SelectItem value="casual">Casual</SelectItem>
-                  <SelectItem value="professional">Professional</SelectItem>
-                  <SelectItem value="friendly">Friendly</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Select
+                  value={generationData.category}
+                  onValueChange={(value) => setGenerationData({ ...generationData, category: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={generationData.tone}
+                  onValueChange={(value) => setGenerationData({ ...generationData, tone: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select tone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="informative">Informative</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="friendly">Friendly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               
               {generatedContent && (
                 <div className="border rounded-lg p-4 bg-muted/50">
@@ -538,7 +557,7 @@ const BlogAdmin = () => {
                 <Button variant="outline" onClick={() => {
                   setShowGenerator(false);
                   setGeneratedContent(null);
-                  setGenerationData({ topic: "", tone: "informative" });
+                  setGenerationData({ topic: "", tone: "informative", category: "" });
                 }}>
                   <X className="w-4 h-4 mr-2" />
                   Cancel
