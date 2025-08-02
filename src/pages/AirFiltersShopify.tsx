@@ -245,31 +245,31 @@ const AirFiltersShopify = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-4 text-center relative">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           {/* Decorative accent lines */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
-            <span className="px-4 text-sm font-medium text-accent uppercase tracking-wider">
+          <div className="flex items-center justify-center mb-4 sm:mb-6">
+            <div className="h-px bg-accent/30 flex-1 max-w-16 sm:max-w-24"></div>
+            <span className="px-3 sm:px-4 text-xs sm:text-sm font-medium text-accent uppercase tracking-wider">
               Air Filters
             </span>
-            <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
+            <div className="h-px bg-accent/30 flex-1 max-w-16 sm:max-w-24"></div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">
             <span className="text-foreground">Quality Air </span>
             <span className="text-transparent bg-clip-text bg-gradient-primary">Filters</span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
             Quality air filtration solutions to help maintain better indoor air quality
           </p>
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
         {!isDesktop ? (
           /* Mobile/Tablet Layout - Collapsible Filters + Products */
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6 sm:gap-8">
             <Card className="p-0">
               <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <CollapsibleTrigger asChild>

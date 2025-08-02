@@ -196,8 +196,8 @@ const BlogPostDynamic = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <article className="py-8">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <article className="py-6 sm:py-8 md:py-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           {/* Back Button */}
           <Button
             variant="ghost"
@@ -217,27 +217,27 @@ const BlogPostDynamic = () => {
               {post.featured && <Badge variant="outline">Featured</Badge>}
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
               {post.title}
             </h1>
 
             {post.excerpt && (
-              <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-lg sm:text-xl text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                 {post.excerpt}
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-6">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6">
               <div className="flex items-center gap-2">
-                <User className="w-4 h-4" />
+                <User className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{post.blog_authors?.name || 'Unknown Author'}</span>
               </div>
               <div className="flex items-center gap-2">
-                <CalendarDays className="w-4 h-4" />
+                <CalendarDays className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{formatDate(post.published_at || post.created_at)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Eye className="w-4 h-4" />
+                <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{post.view_count} views</span>
               </div>
             </div>
@@ -320,10 +320,10 @@ const BlogPostDynamic = () => {
 
       {/* Related Articles */}
       {relatedPosts.length > 0 && (
-        <section className="py-12 bg-muted/30">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <h2 className="text-2xl font-bold mb-8 text-center">Related Articles</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className="py-12 sm:py-16 md:py-20 bg-muted/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center">Related Articles</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {relatedPosts.map((relatedPost) => (
                 <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-0">

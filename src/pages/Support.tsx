@@ -70,21 +70,21 @@ const Support = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex items-center justify-center space-x-2 mb-6">
-              <div className="w-12 h-1 bg-accent rounded-full" />
-              <span className="text-primary font-medium">Customer Support</span>
-              <div className="w-12 h-1 bg-accent rounded-full" />
+            <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
+              <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
+              <span className="text-primary font-medium text-sm sm:text-base">Customer Support</span>
+              <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6">
               We're Here to
               <span className="text-primary block">Help You</span>
             </h1>
             
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
               Get expert support for all your air filtration needs. Our team of specialists 
               is ready to help you find the perfect solution and answer any questions.
             </p>
@@ -93,18 +93,18 @@ const Support = () => {
       </section>
 
       {/* Support Options */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section className="py-12 sm:py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
               Choose Your Support Channel
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-base sm:text-lg text-muted-foreground">
               Multiple ways to get the help you need, when you need it.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {supportOptions.map((option, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-all duration-300 group">
                 <CardContent className="p-4 md:p-6 text-center">

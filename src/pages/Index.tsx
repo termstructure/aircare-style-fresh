@@ -86,26 +86,26 @@ const Index = () => {
       <About />
       
       {/* Newsletter Section */}
-      <section className="py-12 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Stay Updated</h2>
+          <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
             Get the latest air care tips, product updates, and expert advice delivered to your inbox
           </p>
-          <form onSubmit={handleNewsletterSubscribe} className="max-w-md mx-auto flex gap-2">
+          <form onSubmit={handleNewsletterSubscribe} className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 sm:gap-2">
             <Input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 bg-primary-foreground text-foreground"
+              className="flex-1 bg-primary-foreground text-foreground h-12 sm:h-10 text-base sm:text-sm"
               disabled={subscribing}
             />
             <Button 
               type="submit"
               variant="secondary"
               disabled={subscribing}
-              className="px-6"
+              className="px-6 sm:px-4 h-12 sm:h-10 text-base sm:text-sm font-medium"
             >
               {subscribing ? "Subscribing..." : "Subscribe"}
             </Button>

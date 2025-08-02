@@ -33,21 +33,21 @@ const Contact = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex items-center justify-center space-x-2 mb-6">
-              <div className="w-12 h-1 bg-accent rounded-full" />
-              <span className="text-primary font-medium">Get In Touch</span>
-              <div className="w-12 h-1 bg-accent rounded-full" />
+            <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
+              <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
+              <span className="text-primary font-medium text-sm sm:text-base">Get In Touch</span>
+              <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6">
               Contact
               <span className="text-primary block">AirCare Supply Co</span>
             </h1>
             
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
               Have questions about our products or need expert advice? We're here to help you 
               find the perfect air filtration solution for your needs.
             </p>
@@ -56,9 +56,9 @@ const Contact = () => {
       </section>
 
       {/* Contact Info Cards */}
-      <section className="py-12 md:py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
+      <section className="py-12 sm:py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 md:mb-20">
             {contactInfo.map((info, index) => (
               <Card key={index} className="bg-card hover:shadow-card transition-shadow duration-300">
                 <CardContent className="p-4 md:p-6 text-center">

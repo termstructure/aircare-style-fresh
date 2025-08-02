@@ -125,14 +125,14 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-md space-y-4 sm:space-y-6">
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-2">
-            <img src={logo} alt="AirCare Supply Co" className="w-12 h-12 rounded-lg" />
+            <img src={logo} alt="AirCare Supply Co" className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg" />
             <div className="text-left">
-              <h1 className="text-lg sm:text-xl font-bold text-foreground">AirCare Supply Co</h1>
-              <p className="text-sm text-muted-foreground">Quality Air Solutions</p>
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-foreground">AirCare Supply Co</h1>
+              <p className="text-xs sm:text-sm text-muted-foreground">Quality Air Solutions</p>
             </div>
           </Link>
         </div>

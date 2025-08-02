@@ -160,21 +160,23 @@ const Account = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">My Account</h1>
-        <p className="text-muted-foreground">Manage your profile and view order history</p>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">My Account</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">Manage your profile and view order history</p>
       </div>
 
-      <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="profile" className="flex items-center gap-2">
-            <User className="w-4 h-4" />
-            Profile
+      <Tabs defaultValue="profile" className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full grid-cols-2 h-12 sm:h-10">
+          <TabsTrigger value="profile" className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+            <User className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Profile</span>
+            <span className="sm:hidden">Profile</span>
           </TabsTrigger>
-          <TabsTrigger value="orders" className="flex items-center gap-2">
-            <Package className="w-4 h-4" />
-            Order History
+          <TabsTrigger value="orders" className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+            <Package className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Order History</span>
+            <span className="sm:hidden">Orders</span>
           </TabsTrigger>
         </TabsList>
 

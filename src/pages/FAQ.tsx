@@ -186,21 +186,21 @@ const FAQ = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex items-center justify-center space-x-2 mb-6">
-              <div className="w-12 h-1 bg-accent rounded-full" />
-              <span className="text-primary font-medium">Air Filter FAQ</span>
-              <div className="w-12 h-1 bg-accent rounded-full" />
+            <div className="flex items-center justify-center space-x-2 mb-4 sm:mb-6">
+              <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
+              <span className="text-primary font-medium text-sm sm:text-base">Air Filter FAQ</span>
+              <div className="w-8 sm:w-12 h-1 bg-accent rounded-full" />
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6">
               Frequently Asked
               <span className="text-primary block">Questions</span>
             </h1>
             
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto mb-6 sm:mb-8">
               Everything you need to know about air filters, MERV ratings, sizing, 
               and maintenance. Expert answers to help you make informed decisions.
             </p>
