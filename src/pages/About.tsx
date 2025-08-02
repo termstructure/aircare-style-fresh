@@ -49,13 +49,13 @@ const About = () => {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              Revolutionizing 
-              <span className="text-primary block">Indoor Air Quality</span>
+              Quality Air Filters
+              <span className="text-primary block">For Your Home</span>
             </h1>
             
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Based in Charlotte, NC, AirCare Supply Co is a fresh, innovative company 
-              dedicated to transforming how people think about and manage their indoor air quality.
+              Based in Charlotte, NC, AirCare Supply Co provides quality air filtration products 
+              and helpful guidance to help you maintain better indoor air quality in your home.
             </p>
           </div>
         </div>
