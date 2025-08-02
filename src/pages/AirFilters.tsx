@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Search, Filter, Star, Truck, Shield, Users, X, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
@@ -562,7 +563,7 @@ const AirFilters = () => {
           <SelectTrigger className="bg-background border-input">
             <SelectValue placeholder="Select size" />
           </SelectTrigger>
-          <SelectContent className="bg-popover border border-border shadow-lg z-50">
+          <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
             {sizes.map((size) => (
               <SelectItem key={size} value={size}>{size}</SelectItem>
             ))}
@@ -623,7 +624,7 @@ const AirFilters = () => {
           <SelectTrigger className="bg-background border-input">
             <SelectValue placeholder="Select brand" />
           </SelectTrigger>
-          <SelectContent className="bg-popover border border-border shadow-lg z-50">
+          <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
             {brands.map((brand) => (
               <SelectItem key={brand} value={brand}>{brand}</SelectItem>
             ))}
@@ -638,7 +639,7 @@ const AirFilters = () => {
           <SelectTrigger className="bg-background border-input">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
-          <SelectContent className="bg-popover border border-border shadow-lg z-50">
+          <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
             {categories.map((category) => (
               <SelectItem key={category} value={category}>{category}</SelectItem>
             ))}
@@ -670,219 +671,193 @@ const AirFilters = () => {
           </p>
         </div>
 
-        {/* Filters Section - Horizontal Layout */}
+        {/* Layout with Sidebar for Desktop and Drawer for Mobile */}
         {isMobile ? (
           /* Mobile Filter Drawer */
-          <div className="mb-6">
-            <Drawer open={showFilters} onOpenChange={setShowFilters}>
-              <DrawerTrigger asChild>
-                <Button variant="outline" className="w-full justify-between">
-                  <div className="flex items-center gap-2">
-                    <SlidersHorizontal className="w-4 h-4" />
+          <div>
+            <div className="mb-6">
+              <Drawer open={showFilters} onOpenChange={setShowFilters}>
+                <DrawerTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    <div className="flex items-center gap-2">
+                      <SlidersHorizontal className="w-4 h-4" />
+                      Filters
+                      {getActiveFilterCount() > 0 && (
+                        <Badge variant="secondary" className="text-xs">
+                          {getActiveFilterCount()}
+                        </Badge>
+                      )}
+                    </div>
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="max-h-[80vh]">
+                  <DrawerHeader>
+                    <DrawerTitle>Filter Products</DrawerTitle>
+                  </DrawerHeader>
+                  <div className="px-4 pb-6 overflow-y-auto">
+                    <FiltersContent />
+                  </div>
+                </DrawerContent>
+              </Drawer>
+              
+              {/* Active Filters Chips */}
+              {getActiveFilterCount() > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {filters.search && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      Search: {filters.search}
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => setFilters({...filters, search: ""})}
+                      />
+                    </Badge>
+                  )}
+                  {filters.size && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      Size: {filters.size}
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => setFilters({...filters, size: ""})}
+                      />
+                    </Badge>
+                  )}
+                  {filters.mervRating && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      MERV {filters.mervRating}
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => setFilters({...filters, mervRating: ""})}
+                      />
+                    </Badge>
+                  )}
+                  {filters.brand && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      {filters.brand}
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => setFilters({...filters, brand: ""})}
+                      />
+                    </Badge>
+                  )}
+                  {filters.category && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      {filters.category}
+                      <X 
+                        className="w-3 h-3 cursor-pointer" 
+                        onClick={() => setFilters({...filters, category: ""})}
+                      />
+                    </Badge>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Sort and Results */}
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-muted-foreground">
+                Showing {filteredProducts.length} of {airFilters.length} results
+              </p>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-48 bg-background border-input">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
+                  <SelectItem value="popular">Most Popular</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="merv-rating">MERV Rating</SelectItem>
+                  <SelectItem value="brand">Brand A-Z</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Products Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((filter) => (
+                  <FilterCard key={filter.id} filter={filter} />
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-muted-foreground text-lg">No filters match your criteria</p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4"
+                    onClick={clearAllFilters}
+                  >
+                    Clear All Filters
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Desktop Layout with Always-Open Sidebar */
+          <div className="flex gap-6">
+            {/* Sidebar - Always Open */}
+            <div className="w-80 flex-shrink-0">
+              <Card className="sticky top-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <SlidersHorizontal className="w-5 h-5" />
                     Filters
                     {getActiveFilterCount() > 0 && (
-                      <Badge variant="secondary" className="text-xs">
+                      <Badge variant="secondary" className="text-xs ml-auto">
                         {getActiveFilterCount()}
                       </Badge>
                     )}
-                  </div>
-                  <ChevronDown className="w-4 h-4" />
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent className="max-h-[80vh]">
-                <DrawerHeader>
-                  <DrawerTitle>Filter Products</DrawerTitle>
-                </DrawerHeader>
-                <div className="px-4 pb-6 overflow-y-auto">
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0 max-h-[80vh] overflow-y-auto">
                   <FiltersContent />
-                </div>
-              </DrawerContent>
-            </Drawer>
-            
-            {/* Active Filters Chips */}
-            {getActiveFilterCount() > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {filters.search && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    Search: {filters.search}
-                    <X 
-                      className="w-3 h-3 cursor-pointer" 
-                      onClick={() => setFilters({...filters, search: ""})}
-                    />
-                  </Badge>
-                )}
-                {filters.size && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    Size: {filters.size}
-                    <X 
-                      className="w-3 h-3 cursor-pointer" 
-                      onClick={() => setFilters({...filters, size: ""})}
-                    />
-                  </Badge>
-                )}
-                {filters.mervRating && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    MERV {filters.mervRating}
-                    <X 
-                      className="w-3 h-3 cursor-pointer" 
-                      onClick={() => setFilters({...filters, mervRating: ""})}
-                    />
-                  </Badge>
-                )}
-                {filters.brand && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    {filters.brand}
-                    <X 
-                      className="w-3 h-3 cursor-pointer" 
-                      onClick={() => setFilters({...filters, brand: ""})}
-                    />
-                  </Badge>
-                )}
-                {filters.category && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    {filters.category}
-                    <X 
-                      className="w-3 h-3 cursor-pointer" 
-                      onClick={() => setFilters({...filters, category: ""})}
-                    />
-                  </Badge>
-                )}
-              </div>
-            )}
-          </div>
-        ) : (
-          /* Desktop Horizontal Filters */
-          <Card className="mb-8">
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 items-end">
-                {/* Search */}
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Search</label>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      placeholder="Search..." 
-                      className="pl-10"
-                      value={filters.search}
-                      onChange={(e) => setFilters({...filters, search: e.target.value})}
-                    />
-                  </div>
-                </div>
-
-                {/* Size */}
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Size</label>
-                  <Select value={filters.size} onValueChange={(value) => setFilters({...filters, size: value})}>
-                    <SelectTrigger className="bg-background border-input">
-                      <SelectValue placeholder="Any size" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
-                      {sizes.map((size) => (
-                        <SelectItem key={size} value={size}>{size}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* MERV Rating */}
-                <div>
-                  <label className="text-sm font-medium mb-2 block">MERV Rating</label>
-                  <Select value={filters.mervRating} onValueChange={(value) => setFilters({...filters, mervRating: value})}>
-                    <SelectTrigger className="bg-background border-input">
-                      <SelectValue placeholder="Any MERV" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
-                      {mervRatings.map((rating) => (
-                        <SelectItem key={rating} value={rating.toString()}>MERV {rating}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Brand */}
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Brand</label>
-                  <Select value={filters.brand} onValueChange={(value) => setFilters({...filters, brand: value})}>
-                    <SelectTrigger className="bg-background border-input">
-                      <SelectValue placeholder="Any brand" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
-                      {brands.map((brand) => (
-                        <SelectItem key={brand} value={brand}>{brand}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Category */}
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Category</label>
-                  <Select value={filters.category} onValueChange={(value) => setFilters({...filters, category: value})}>
-                    <SelectTrigger className="bg-background border-input">
-                      <SelectValue placeholder="Any category" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
-                      {categories.map((category) => (
-                        <SelectItem key={category} value={category}>{category}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Clear Filters */}
-                <div>
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={clearAllFilters}
-                    disabled={getActiveFilterCount() === 0}
-                  >
-                    Clear All
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Sort and Results */}
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-muted-foreground">
-            Showing {filteredProducts.length} of {airFilters.length} results
-          </p>
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-48 bg-background border-input">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
-              <SelectItem value="popular">Most Popular</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
-              <SelectItem value="merv-rating">MERV Rating</SelectItem>
-              <SelectItem value="brand">Brand A-Z</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((filter) => (
-              <FilterCard key={filter.id} filter={filter} />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-12">
-              <p className="text-muted-foreground text-lg">No filters match your criteria</p>
-              <Button 
-                variant="outline" 
-                className="mt-4"
-                onClick={clearAllFilters}
-              >
-                Clear All Filters
-              </Button>
+                </CardContent>
+              </Card>
             </div>
-          )}
-        </div>
+
+            {/* Main Content */}
+            <div className="flex-1">
+              {/* Sort and Results */}
+              <div className="flex justify-between items-center mb-6">
+                <p className="text-muted-foreground">
+                  Showing {filteredProducts.length} of {airFilters.length} results
+                </p>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-48 bg-background border-input">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover border border-border shadow-lg z-[60]">
+                    <SelectItem value="popular">Most Popular</SelectItem>
+                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                    <SelectItem value="merv-rating">MERV Rating</SelectItem>
+                    <SelectItem value="brand">Brand A-Z</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Products Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((filter) => (
+                    <FilterCard key={filter.id} filter={filter} />
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-muted-foreground text-lg">No filters match your criteria</p>
+                    <Button 
+                      variant="outline" 
+                      className="mt-4"
+                      onClick={clearAllFilters}
+                    >
+                      Clear All Filters
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Load More - only show if there are results */}
         {filteredProducts.length > 0 && (
