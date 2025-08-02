@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon, ChevronDown, ChevronUp, CheckCircle2 } from "lucide-react";
 import { useIsDesktop } from "@/hooks/use-desktop";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useProductsByCollection } from "@/hooks/useShopify";
 import { useProductsByCollectionWithFallback } from "@/hooks/useShopifyWithFallback";
@@ -32,7 +43,10 @@ const AirFiltersShopify = () => {
   const [sortBy, setSortBy] = useState("popularity");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showCartDialog, setShowCartDialog] = useState(false);
+  const [addedProduct, setAddedProduct] = useState<ShopifyProduct | null>(null);
   const isDesktop = useIsDesktop();
+  const isMobile = useIsMobile();
   const [filters, setFilters] = useState<Filters>({
     size: [],
     mervRating: [],
@@ -42,7 +56,7 @@ const AirFiltersShopify = () => {
   });
 
   const { toast } = useToast();
-  const { addToCart } = useCart();
+  const { addToCart, getCheckoutUrl } = useCart();
   
   // Fetch products from Shopify air-filters collection with fallback
   const { data: productsWithFallback, isLoading: isLoadingFallback, error: errorFallback } = useProductsByCollectionWithFallback("air-filters");
@@ -201,10 +215,20 @@ const AirFiltersShopify = () => {
     }
 
     addToCart(product, availableVariant.id, 1);
-    toast({
-      title: "Added to Cart",
-      description: `${product.title} has been added to your cart.`,
-    });
+    setAddedProduct(product);
+    setShowCartDialog(true);
+  };
+
+  const handleGoToCheckout = () => {
+    const checkoutUrl = getCheckoutUrl();
+    if (checkoutUrl) {
+      window.open(checkoutUrl, '_blank');
+    }
+    setShowCartDialog(false);
+  };
+
+  const handleContinueShopping = () => {
+    setShowCartDialog(false);
   };
 
   if (isLoading) {
@@ -831,6 +855,35 @@ const AirFiltersShopify = () => {
           </div>
         </div>
       </div>
+
+      {/* Add to Cart Confirmation Dialog */}
+      <AlertDialog open={showCartDialog} onOpenChange={setShowCartDialog}>
+        <AlertDialogContent className={isMobile ? "w-[95%] max-w-md" : ""}>
+          <AlertDialogHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <CheckCircle2 className="w-12 h-12 text-green-600" />
+            </div>
+            <AlertDialogTitle className="text-xl">Added to Cart!</AlertDialogTitle>
+            <AlertDialogDescription className="text-base">
+              1 × {addedProduct?.title} added to your cart
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className={isMobile ? "flex-col space-y-2 space-x-0" : "flex-row space-x-2"}>
+            <AlertDialogCancel 
+              onClick={handleContinueShopping}
+              className={isMobile ? "w-full h-12" : ""}
+            >
+              Continue Shopping
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleGoToCheckout}
+              className={isMobile ? "w-full h-12" : ""}
+            >
+              Go to Checkout
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>
