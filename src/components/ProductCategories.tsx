@@ -68,7 +68,7 @@ const ProductCategories = () => {
 
   return (
     <section id="products" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-subtle">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <div className="w-8 h-1 sm:w-12 sm:h-1 bg-primary rounded-full" />

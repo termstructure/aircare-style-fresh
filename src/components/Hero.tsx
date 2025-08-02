@@ -8,7 +8,7 @@ const Hero = () => {
     <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle">
       
       {/* Content */}
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24">
+      <div className="relative container mx-auto py-12 sm:py-16 md:py-20 lg:py-24">
         <div className="max-w-6xl mx-auto text-center">
           
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">

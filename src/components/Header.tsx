@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <header className="bg-card/90 backdrop-blur-sm border-b border-border sticky top-0 z-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+      <div className="container mx-auto py-3 sm:py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg overflow-hidden">

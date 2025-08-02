@@ -177,7 +177,7 @@ const BlogDynamic = () => {
       
       {/* Hero Section */}
       <section className="bg-gradient-subtle text-foreground py-20">
-        <div className="container mx-auto px-4 text-center relative">
+        <div className="container mx-auto text-center relative">
           {/* Decorative accent lines */}
           <div className="flex items-center justify-center mb-6">
             <div className="h-px bg-accent/30 flex-1 max-w-24"></div>
@@ -199,7 +199,7 @@ const BlogDynamic = () => {
 
       {/* Categories */}
       <section className="py-8 border-b">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (
               <Badge
@@ -218,7 +218,7 @@ const BlogDynamic = () => {
       {/* Featured Articles */}
       {featuredFilteredPosts.length > 0 && (
         <section className="py-12">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Featured Articles</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredFilteredPosts.map((post) => (
@@ -269,7 +269,7 @@ const BlogDynamic = () => {
       {/* Recent Articles */}
       {recentFilteredPosts.length > 0 && (
         <section className="py-12 bg-muted/30">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Recent Articles</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {recentFilteredPosts.slice(0, 9).map((post) => (
@@ -318,7 +318,7 @@ const BlogDynamic = () => {
 
       {/* Newsletter Section */}
       <section className="py-12 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated</h2>
           <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
             Get the latest air care tips, product updates, and expert advice delivered to your inbox
@@ -347,7 +347,7 @@ const BlogDynamic = () => {
       {/* No Posts Message */}
       {filteredPosts.length === 0 && (
         <section className="py-12">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto text-center">
             <h2 className="text-2xl font-bold mb-4">No posts found</h2>
             <p className="text-muted-foreground">
               {selectedCategory === "All" 
