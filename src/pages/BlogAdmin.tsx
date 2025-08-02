@@ -9,9 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useBlogAI } from "@/hooks/useBlogAI";
-import { Plus, Edit, Trash2, Eye, Save, X, Database, Sparkles, Wand2 } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Save, X, Database, Sparkles, Wand2, Clock } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SchedulingModal } from "@/components/ui/scheduling-modal";
 
 interface BlogPost {
   id: string;
@@ -65,6 +66,8 @@ const BlogAdmin = () => {
     tone: "informative",
     category: ""
   });
+  const [showSchedulingModal, setShowSchedulingModal] = useState(false);
+  const [schedulingPost, setSchedulingPost] = useState<BlogPost | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { usageStats, getUsageStats, migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
@@ -286,7 +289,7 @@ const BlogAdmin = () => {
     }
   };
 
-  const handleSaveGeneratedContent = async () => {
+  const handleSaveGeneratedContent = async (scheduledDate?: Date) => {
     if (!generatedContent) return;
 
     try {
@@ -309,7 +312,7 @@ const BlogAdmin = () => {
         authorId = authorData.id;
       }
 
-      const { error } = await supabase.from('blog_posts').insert({
+      const postData: any = {
         title: generatedContent.title,
         slug,
         excerpt: generatedContent.excerpt,
@@ -318,18 +321,27 @@ const BlogAdmin = () => {
         meta_keywords: generatedContent.meta_keywords,
         category_id: generationData.category || categories[0]?.id || null,
         author_id: authorId,
-        status: 'draft'
-      });
+        status: scheduledDate ? 'scheduled' : 'draft'
+      };
+
+      if (scheduledDate) {
+        postData.scheduled_for = scheduledDate.toISOString();
+      }
+
+      const { error } = await supabase.from('blog_posts').insert(postData);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "Generated content saved as draft"
+        description: scheduledDate 
+          ? `Blog post scheduled for publication` 
+          : "Generated content saved as draft"
       });
 
       setGeneratedContent(null);
       setShowGenerator(false);
+      setShowSchedulingModal(false);
       setGenerationData({ topic: "", tone: "informative", category: "" });
       fetchData();
     } catch (error) {
@@ -337,6 +349,36 @@ const BlogAdmin = () => {
       toast({
         title: "Error",
         description: "Failed to save generated content",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const schedulePost = async (post: BlogPost, scheduledDate: Date) => {
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .update({
+          status: 'scheduled',
+          scheduled_for: scheduledDate.toISOString()
+        })
+        .eq('id', post.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Blog post scheduled successfully"
+      });
+
+      setSchedulingPost(null);
+      setShowSchedulingModal(false);
+      fetchData();
+    } catch (error) {
+      console.error('Error scheduling post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to schedule blog post",
         variant: "destructive"
       });
     }
@@ -542,9 +584,13 @@ const BlogAdmin = () => {
                   </Button>
                 ) : (
                   <>
-                    <Button onClick={handleSaveGeneratedContent}>
+                    <Button onClick={() => handleSaveGeneratedContent()}>
                       <Save className="w-4 h-4 mr-2" />
                       Save as Draft
+                    </Button>
+                    <Button onClick={() => setShowSchedulingModal(true)}>
+                      <Clock className="w-4 h-4 mr-2" />
+                      Schedule Publication
                     </Button>
                     <Button 
                       variant="outline" 
@@ -630,13 +676,31 @@ const BlogAdmin = () => {
                         Edit
                       </Button>
                       {post.status === 'draft' && (
-                        <Button
-                          size="sm"
-                          onClick={() => publishPost(post.id)}
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          Publish
-                        </Button>
+                        <>
+                          <Button
+                            size="sm"
+                            onClick={() => publishPost(post.id)}
+                          >
+                            <Eye className="w-4 h-4 mr-2" />
+                            Publish
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setSchedulingPost(post);
+                              setShowSchedulingModal(true);
+                            }}
+                          >
+                            <Clock className="w-4 h-4 mr-2" />
+                            Schedule
+                          </Button>
+                        </>
+                      )}
+                      {post.status === 'scheduled' && post.scheduled_for && (
+                        <div className="text-sm text-muted-foreground">
+                          Scheduled for: {new Date(post.scheduled_for).toLocaleString()}
+                        </div>
                       )}
                       <Button
                         size="sm"
@@ -663,6 +727,26 @@ const BlogAdmin = () => {
         </div>
       </div>
       <Footer />
+      
+      <SchedulingModal
+        open={showSchedulingModal}
+        onOpenChange={setShowSchedulingModal}
+        onSchedule={(date) => {
+          if (schedulingPost) {
+            schedulePost(schedulingPost, date);
+          } else if (generatedContent) {
+            handleSaveGeneratedContent(date);
+          }
+        }}
+        onSaveAsDraft={() => {
+          if (generatedContent) {
+            handleSaveGeneratedContent();
+          }
+          setShowSchedulingModal(false);
+        }}
+        loading={aiLoading}
+        title={schedulingPost ? "Schedule Post" : "Schedule Generated Content"}
+      />
     </div>
   );
 };
