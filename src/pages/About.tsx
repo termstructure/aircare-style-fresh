@@ -172,20 +172,20 @@ const About = () => {
                 What Makes Us Different
               </h2>
               <p className="text-xl text-muted-foreground">
-                We're not just another HVAC supplier—we're your partners in creating healthier indoor environments.
+                We're a small business focused on providing quality products with the personal service you deserve.
               </p>
             </div>
             
             <div className="space-y-6">
               {[
-                "Expert curation of only the highest-quality air filtration products",
-                "Personalized recommendations based on your specific needs and environment",
+                "Carefully selected quality air filtration products from trusted brands",
+                "Personalized recommendations based on your specific needs",
                 "Fast, reliable shipping with same-day processing for most orders",
-                "Comprehensive customer support from real air quality experts",
-                "Educational resources to help you make informed decisions",
-                "Competitive pricing with transparent, no-surprise costs",
-                "Personal service from a local Charlotte, NC business",
-                "Comprehensive product information and guidance"
+                "Knowledgeable customer support when you need help",
+                "Clear product information and educational resources",
+                "Transparent pricing with no hidden fees",
+                "Personal service from a local Charlotte, NC small business",
+                "Small business flexibility and responsiveness"
               ].map((item, index) => (
                 <div key={index} className="flex items-start space-x-4 bg-card p-4 rounded-lg border">
                   <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
