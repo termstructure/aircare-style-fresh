@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CalendarDays, User, Tag, ArrowRight } from "lucide-react";
@@ -37,6 +40,9 @@ const BlogDynamic = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [subscribing, setSubscribing] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchBlogData();
@@ -89,6 +95,68 @@ const BlogDynamic = () => {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleNewsletterSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email.trim()) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubscribing(true);
+
+    try {
+      const { error } = await supabase
+        .from('newsletter_subscriptions')
+        .insert({ email: email.trim().toLowerCase() });
+
+      if (error) {
+        if (error.code === '23505') { // Unique constraint violation
+          toast({
+            title: "Already subscribed",
+            description: "This email is already subscribed to our newsletter",
+            variant: "destructive",
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "Successfully subscribed!",
+          description: "Thank you for subscribing to our newsletter",
+        });
+        setEmail("");
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      toast({
+        title: "Subscription failed",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubscribing(false);
+    }
   };
 
   if (loading) {
@@ -245,16 +313,24 @@ const BlogDynamic = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Get the latest air care tips, product updates, and expert advice delivered to your inbox
           </p>
-          <div className="max-w-md mx-auto flex gap-2">
-            <input
+          <form onSubmit={handleNewsletterSubscribe} className="max-w-md mx-auto flex gap-2">
+            <Input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-2 rounded-lg text-foreground"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 bg-primary-foreground text-foreground"
+              disabled={subscribing}
             />
-            <button className="bg-primary-foreground text-primary px-6 py-2 rounded-lg font-medium hover:bg-primary-foreground/90 transition-colors">
-              Subscribe
-            </button>
-          </div>
+            <Button 
+              type="submit"
+              variant="secondary"
+              disabled={subscribing}
+              className="px-6"
+            >
+              {subscribing ? "Subscribing..." : "Subscribe"}
+            </Button>
+          </form>
         </div>
       </section>
 
