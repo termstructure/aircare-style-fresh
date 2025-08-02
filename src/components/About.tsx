@@ -3,7 +3,7 @@ import { CheckCircle, Heart, Target, Zap } from "lucide-react";
 
 const stats = [
   { icon: Heart, label: "Small Business Care", value: "100%" },
-  { icon: Target, label: "Customer Satisfaction", value: "100%" },
+  { icon: Target, label: "Customer Satisfaction Goal", value: "100%" },
   { icon: Zap, label: "Same-Day Processing", value: "24hr" },
   { icon: CheckCircle, label: "Quality Focused", value: "Always" }
 ];
@@ -20,28 +20,28 @@ const About = () => {
             </div>
             
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Your Trusted Partner in 
-              <span className="text-primary block">Indoor Air Quality</span>
+              Your Source for 
+              <span className="text-primary block">Quality Air Filters</span>
             </h2>
             
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              AirCare Supply Co is a new company dedicated to exceptional customer service 
-              in air filtration. We believe that everyone deserves clean, healthy air in 
-              their homes and workplaces—and we're here to help you achieve that through 
-              proper filter maintenance and regular replacement.
+              AirCare Supply Co is a new company dedicated to quality products and helpful 
+              customer service in air filtration. We believe that everyone deserves clean, 
+              healthy air in their homes and workplaces—and we're here to help you achieve 
+              that through proper filter maintenance and regular replacement.
             </p>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Built on a foundation of outstanding service and customer support, we focus 
+              Built on a foundation of good service and customer support, we focus 
               on helping you understand the functional benefits of clean air. Our carefully 
-              selected products and expert guidance ensure you maintain optimal indoor air 
+              selected products and helpful guidance ensure you maintain optimal indoor air 
               quality through consistent filter care.
             </p>
             
             <div className="space-y-4">
               {[
-                "Certified HEPA and premium air filtration products",
-                "Expert consultation and technical support",
+                "Quality air filtration products from trusted brands",
+                "Helpful customer support and product guidance",
                 "Fast, reliable delivery nationwide",
                 "Competitive pricing with bulk discounts"
               ].map((item, index) => (
