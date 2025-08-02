@@ -87,7 +87,7 @@ const Contact = () => {
             <span className="text-primary font-medium">Get In Touch</span>
             <div className="w-12 h-1 bg-primary rounded-full" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Ready to Improve Your Air Quality?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -99,7 +99,7 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-foreground mb-6">Contact Information</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-6">Contact Information</h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {contactInfo.map((info, index) => (
@@ -125,7 +125,7 @@ const Contact = () => {
           <div>
             <Card className="bg-card">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-6">Send Us a Message</h3>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

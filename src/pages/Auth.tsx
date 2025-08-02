@@ -131,7 +131,7 @@ const Auth = () => {
           <Link to="/" className="inline-flex items-center space-x-2">
             <img src={logo} alt="AirCare Supply Co" className="w-12 h-12 rounded-lg" />
             <div className="text-left">
-              <h1 className="text-xl font-bold text-foreground">AirCare Supply Co</h1>
+              <h1 className="text-lg sm:text-xl font-bold text-foreground">AirCare Supply Co</h1>
               <p className="text-sm text-muted-foreground">Quality Air Solutions</p>
             </div>
           </Link>
@@ -260,7 +260,7 @@ const Auth = () => {
                   </div>
                   
                   <div className="border-t pt-4">
-                    <h3 className="text-sm font-medium text-foreground mb-3">Contact Information (Optional)</h3>
+                    <h3 className="text-xs sm:text-sm font-medium text-foreground mb-3">Contact Information (Optional)</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signup-phone">Phone Number</Label>

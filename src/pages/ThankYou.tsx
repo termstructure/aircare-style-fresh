@@ -18,7 +18,7 @@ const ThankYou = () => {
                 <CheckCircle className="h-16 w-16 text-green-500" />
               </div>
               
-              <h1 className="text-3xl font-bold text-foreground mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Thank You for Your Message!
               </h1>
               

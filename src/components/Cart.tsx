@@ -80,7 +80,7 @@ const Cart: React.FC<CartProps> = ({ children }) => {
                       />
                       
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-sm line-clamp-2">
+                        <h4 className="font-medium text-xs sm:text-sm line-clamp-2">
                           {item.product.title}
                         </h4>
                         <p className="text-sm text-muted-foreground">
@@ -134,7 +134,7 @@ const Cart: React.FC<CartProps> = ({ children }) => {
             <div className="border-t pt-4">
               <div className="flex justify-between items-center mb-4">
                 <span className="font-semibold">Total:</span>
-                <span className="font-bold text-lg">{formatPrice(totalPrice)}</span>
+                <span className="font-bold text-base sm:text-lg">{formatPrice(totalPrice)}</span>
               </div>
               
               <Button 

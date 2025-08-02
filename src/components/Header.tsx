@@ -31,7 +31,7 @@ const Header = () => {
               <img src={logo} alt="AirCare Supply Co Logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold text-foreground">AirCare Supply Co</h1>
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-foreground">AirCare Supply Co</h1>
               <p className="text-xs text-muted-foreground hidden sm:block">Quality Air Solutions</p>
             </div>
           </Link>
@@ -55,12 +55,12 @@ const Header = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-80">
                 <div className="flex flex-col space-y-4 mt-6">
-                  <Link to="/" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Home</Link>
-                  <Link to="/air-filters" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Air Filters</Link>
-                  <Link to="/blog" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Blog</Link>
-                  <Link to="/about" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">About</Link>
-                  <Link to="/faq" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">FAQ</Link>
-                  <Link to="/contact" onClick={closeMobileMenu} className="px-4 py-3 text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Contact</Link>
+                  <Link to="/" onClick={closeMobileMenu} className="px-4 py-3 text-base md:text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Home</Link>
+                  <Link to="/air-filters" onClick={closeMobileMenu} className="px-4 py-3 text-base md:text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Air Filters</Link>
+                  <Link to="/blog" onClick={closeMobileMenu} className="px-4 py-3 text-base md:text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Blog</Link>
+                  <Link to="/about" onClick={closeMobileMenu} className="px-4 py-3 text-base md:text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">About</Link>
+                  <Link to="/faq" onClick={closeMobileMenu} className="px-4 py-3 text-base md:text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">FAQ</Link>
+                  <Link to="/contact" onClick={closeMobileMenu} className="px-4 py-3 text-base md:text-lg text-foreground hover:text-primary hover:bg-accent/10 transition-all duration-200 rounded-lg">Contact</Link>
                   
                   <div className="border-t border-border pt-4 mt-6">
                     {user ? (

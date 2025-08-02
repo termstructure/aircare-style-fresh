@@ -27,7 +27,7 @@ const About = () => {
               <span className="text-primary font-medium">About AirCare Supply Co</span>
             </div>
             
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               Your Source for 
               <span className="text-primary block">Quality Air Filters</span>
             </h2>
@@ -55,7 +55,7 @@ const About = () => {
                   <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto mb-4">
                     <stat.icon className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <div className="text-2xl sm:text-3xl font-bold text-foreground mb-2">{stat.value}</div>
+                  <div className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">{stat.value}</div>
                   <div className="text-muted-foreground font-medium">{stat.label}</div>
                 </CardContent>
               </Card>)}

@@ -16,7 +16,7 @@ const Footer = () => {
                 <div className="w-6 h-6 bg-gradient-primary rounded-lg flex items-center justify-center">
                   <span className="text-primary-foreground font-bold text-sm">A</span>
                 </div>
-                <span className="text-base font-bold">AirCare Supply Co</span>
+                <span className="text-sm sm:text-base font-bold">AirCare Supply Co</span>
               </div>
               <p className="text-background/70 text-xs leading-relaxed mb-3">
                 Quality HVAC supplies and air filtration solutions.
@@ -71,7 +71,7 @@ const Footer = () => {
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold">A</span>
               </div>
-              <span className="text-lg lg:text-xl font-bold">AirCare Supply Co</span>
+              <span className="text-base sm:text-lg lg:text-xl font-bold">AirCare Supply Co</span>
             </div>
             <p className="text-background/70 mb-4 leading-relaxed text-sm lg:text-base">
               Your trusted partner for quality HVAC supplies and air filtration solutions. 
@@ -81,7 +81,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-base lg:text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-sm sm:text-base lg:text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-background/70 hover:text-primary transition-colors">
@@ -118,7 +118,7 @@ const Footer = () => {
 
           {/* Brands */}
           <div>
-            <h3 className="text-base lg:text-lg font-semibold mb-4">Brands</h3>
+            <h3 className="text-sm sm:text-base lg:text-lg font-semibold mb-4">Brands</h3>
             <ul className="space-y-2">
               {[
                 { name: "3M Filtrete", param: "3M Filtrete" },
@@ -140,7 +140,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-base lg:text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-sm sm:text-base lg:text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-3">
               <div className="flex items-start space-x-2 lg:space-x-3">
                 <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-primary flex-shrink-0 mt-0.5" />
