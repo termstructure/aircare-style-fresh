@@ -139,10 +139,7 @@ const ProductCategories = () => {
                       <div className={`w-full h-48 flex flex-col items-center justify-center ${mervData.bgGradient} group-hover:scale-105 transition-transform duration-300`}>
                         <mervData.icon className={`w-16 h-16 sm:w-20 sm:h-20 ${mervData.iconColor} mb-2 group-hover:scale-110 transition-transform duration-300`} />
                         <div className="text-center">
-                          <div className={`text-xs font-semibold ${mervData.iconColor} mb-1`}>{mervData.tier}</div>
-                          <div className={`text-xs px-2 py-1 rounded-full bg-background/20 ${mervData.iconColor}`}>
-                            {mervData.badgeText}
-                          </div>
+                          <div className={`text-xs font-semibold ${mervData.iconColor}`}>{mervData.tier}</div>
                         </div>
                       </div>
                     ) : (
