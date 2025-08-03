@@ -251,16 +251,12 @@ const BlogDynamic = () => {
               {featuredFilteredPosts.map((post) => (
                 <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-0">
-                    {post.featured && post.featured_image_url ? (
+                    {post.featured_image_url && (
                       <img 
                         src={post.featured_image_url} 
                         alt={post.title}
                         className="h-48 w-full object-cover"
                       />
-                    ) : (
-                      <div className="h-48 bg-gradient-to-br from-primary/10 to-primary-glow/10 flex items-center justify-center">
-                        <Tag className="w-16 h-16 text-primary/40" />
-                      </div>
                     )}
                     <div className="p-6">
                       <div className="flex items-center gap-2 mb-3">
@@ -310,16 +306,12 @@ const BlogDynamic = () => {
               {recentFilteredPosts.slice(0, 9).map((post) => (
                 <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-0">
-                    {post.featured && post.featured_image_url ? (
+                    {post.featured_image_url && (
                       <img 
                         src={post.featured_image_url} 
                         alt={post.title}
                         className="h-32 w-full object-cover"
                       />
-                    ) : (
-                      <div className="h-32 bg-gradient-to-br from-muted to-muted-foreground/10 flex items-center justify-center">
-                        <Tag className="w-12 h-12 text-muted-foreground/40" />
-                      </div>
                     )}
                     <div className="p-4">
                       <div className="flex items-center gap-2 mb-2">
