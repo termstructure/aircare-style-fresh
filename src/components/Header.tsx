@@ -31,7 +31,7 @@ const Header = () => {
             <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg overflow-hidden">
               <img src={logo} alt="AirCare Supply Co Logo" className="w-full h-full object-cover" />
             </div>
-            <div>
+            <div className="hidden md:block">
               <h1 className="text-base sm:text-lg md:text-xl font-bold text-foreground">AirCare Supply Co</h1>
               <p className="text-xs text-muted-foreground hidden sm:block">Quality Air Solutions</p>
             </div>
