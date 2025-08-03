@@ -47,7 +47,9 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <ThemeToggle />
+            <div className="hidden md:block">
+              <ThemeToggle />
+            </div>
             {/* Mobile menu button */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
