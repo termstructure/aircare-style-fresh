@@ -14,6 +14,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SchedulingModal } from "@/components/ui/scheduling-modal";
 import { TagSelector } from "@/components/ui/tag-selector";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 interface BlogPost {
   id: string;
@@ -57,7 +58,8 @@ const BlogAdmin = () => {
     excerpt: "",
     content: "",
     category_id: "",
-    featured: false
+    featured: false,
+    featured_image_url: ""
   });
   const [showEditor, setShowEditor] = useState(false);
   const [showGenerator, setShowGenerator] = useState(false);
@@ -65,7 +67,8 @@ const BlogAdmin = () => {
   const [generationData, setGenerationData] = useState({
     topic: "",
     tone: "informative",
-    category: ""
+    category: "",
+    featured_image_url: ""
   });
   const [showSchedulingModal, setShowSchedulingModal] = useState(false);
   const [schedulingPost, setSchedulingPost] = useState<BlogPost | null>(null);
@@ -163,6 +166,7 @@ const BlogAdmin = () => {
         category_id: newPost.category_id || null,
         author_id: authorId,
         featured: newPost.featured,
+        featured_image_url: newPost.featured_image_url || null,
         status: publish ? 'published' : 'draft'
       };
 
@@ -193,7 +197,7 @@ const BlogAdmin = () => {
         description: publish ? "Blog post published successfully" : "Blog post created successfully"
       });
 
-      setNewPost({ title: "", excerpt: "", content: "", category_id: "", featured: false });
+      setNewPost({ title: "", excerpt: "", content: "", category_id: "", featured: false, featured_image_url: "" });
       setSelectedTags([]);
       setShowEditor(false);
       fetchData();
@@ -237,7 +241,8 @@ const BlogAdmin = () => {
           title: post.title,
           excerpt: post.excerpt,
           content: post.content,
-          featured: post.featured
+          featured: post.featured,
+          featured_image_url: post.featured_image_url
         })
         .eq('id', post.id);
 
@@ -392,6 +397,7 @@ const BlogAdmin = () => {
         meta_keywords: generatedContent.meta_keywords,
         category_id: generationData.category || categories[0]?.id || null,
         author_id: authorId,
+        featured_image_url: generationData.featured_image_url || null,
         status: publish ? 'published' : (scheduledDate ? 'scheduled' : 'draft')
       };
 
@@ -432,7 +438,7 @@ const BlogAdmin = () => {
       setShowGenerator(false);
       setShowSchedulingModal(false);
       setGeneratedContentTags([]);
-      setGenerationData({ topic: "", tone: "informative", category: "" });
+      setGenerationData({ topic: "", tone: "informative", category: "", featured_image_url: "" });
       fetchData();
     } catch (error) {
       console.error('Error saving generated content:', error);
@@ -604,6 +610,14 @@ const BlogAdmin = () => {
                 onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                 rows={10}
               />
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Featured Image</label>
+                <ImageUpload
+                  onImageUpload={(url) => setNewPost({ ...newPost, featured_image_url: url })}
+                  currentImage={newPost.featured_image_url}
+                  onImageRemove={() => setNewPost({ ...newPost, featured_image_url: "" })}
+                />
+              </div>
               <TagSelector
                 selectedTags={selectedTags}
                 onTagsChange={setSelectedTags}
@@ -678,13 +692,22 @@ const BlogAdmin = () => {
                     <SelectItem value="friendly">Friendly</SelectItem>
                   </SelectContent>
                  </Select>
-               </div>
-               
-               <TagSelector
-                 selectedTags={generatedContentTags}
-                 onTagsChange={setGeneratedContentTags}
-                 className="mt-4"
-               />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Featured Image</label>
+                  <ImageUpload
+                    onImageUpload={(url) => setGenerationData({ ...generationData, featured_image_url: url })}
+                    currentImage={generationData.featured_image_url}
+                    onImageRemove={() => setGenerationData({ ...generationData, featured_image_url: "" })}
+                  />
+                </div>
+                
+                <TagSelector
+                  selectedTags={generatedContentTags}
+                  onTagsChange={setGeneratedContentTags}
+                  className="mt-4"
+                />
                
                {generatedContent && (
                 <div className="border rounded-lg p-4 bg-muted/50">
@@ -732,7 +755,7 @@ const BlogAdmin = () => {
                   setShowGenerator(false);
                   setGeneratedContent(null);
                   setGeneratedContentTags([]);
-                  setGenerationData({ topic: "", tone: "informative", category: "" });
+                  setGenerationData({ topic: "", tone: "informative", category: "", featured_image_url: "" });
                 }}>
                   <X className="w-4 h-4 mr-2" />
                   Cancel
@@ -762,6 +785,14 @@ const BlogAdmin = () => {
                       onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
                       rows={10}
                     />
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Featured Image</label>
+                      <ImageUpload
+                        onImageUpload={(url) => setEditingPost({ ...editingPost, featured_image_url: url })}
+                        currentImage={editingPost.featured_image_url}
+                        onImageRemove={() => setEditingPost({ ...editingPost, featured_image_url: null })}
+                      />
+                    </div>
                      <TagSelector
                        selectedTags={editingPostTags}
                        onTagsChange={setEditingPostTags}
