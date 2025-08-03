@@ -55,7 +55,7 @@ const ProductCategories = () => {
         icon: Shield,
         tier: 'Good',
         bgGradient: 'bg-gradient-to-br from-muted/20 to-muted/10',
-        iconColor: 'text-muted-foreground',
+        iconColor: 'text-primary',
         badgeText: 'Basic Protection'
       };
     }
@@ -63,7 +63,7 @@ const ProductCategories = () => {
       return {
         icon: ShieldCheck,
         tier: 'Better',
-        bgGradient: 'bg-gradient-to-br from-primary/20 to-primary/10',
+        bgGradient: 'bg-gradient-to-br from-muted/20 to-muted/10',
         iconColor: 'text-primary',
         badgeText: 'Enhanced Protection'
       };
@@ -72,8 +72,8 @@ const ProductCategories = () => {
       return {
         icon: ShieldAlert,
         tier: 'Best',
-        bgGradient: 'bg-gradient-to-br from-accent/30 to-accent/10',
-        iconColor: 'text-accent-foreground',
+        bgGradient: 'bg-gradient-to-br from-muted/20 to-muted/10',
+        iconColor: 'text-primary',
         badgeText: 'Premium Protection'
       };
     }
