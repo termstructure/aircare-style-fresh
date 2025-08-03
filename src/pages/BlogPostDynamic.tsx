@@ -24,6 +24,7 @@ interface BlogPost {
   view_count: number;
   meta_description: string | null;
   meta_keywords: string[] | null;
+  featured_image_url?: string | null;
   blog_categories?: {
     name: string;
     slug: string;
@@ -89,7 +90,8 @@ const BlogPostDynamic = () => {
           .select(`
             *,
             blog_categories!inner(name, slug),
-            blog_authors!inner(name)
+            blog_authors!inner(name),
+            featured_image_url
           `)
           .eq('blog_categories.name', postData.blog_categories.name)
           .eq('status', 'published')
@@ -327,9 +329,13 @@ const BlogPostDynamic = () => {
               {relatedPosts.map((relatedPost) => (
                 <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-0">
-                    <div className="h-32 bg-gradient-to-br from-muted to-muted-foreground/10 flex items-center justify-center">
-                      <div className="w-12 h-12 text-muted-foreground/40" />
-                    </div>
+                    {relatedPost.featured_image_url && (
+                      <img 
+                        src={relatedPost.featured_image_url} 
+                        alt={relatedPost.title}
+                        className="h-32 w-full object-cover"
+                      />
+                    )}
                     <div className="p-4">
                       <Badge variant="outline" className="text-xs mb-2">
                         {relatedPost.blog_categories?.name || 'Uncategorized'}
