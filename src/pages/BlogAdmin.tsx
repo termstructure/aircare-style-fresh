@@ -125,7 +125,7 @@ const BlogAdmin = () => {
       .trim();
   };
 
-  const createPost = async () => {
+  const createPost = async (publish = false) => {
     if (!newPost.title || !newPost.content) {
       toast({
         title: "Error",
@@ -155,7 +155,7 @@ const BlogAdmin = () => {
         authorId = authorData.id;
       }
 
-      const { data: postData, error } = await supabase.from('blog_posts').insert({
+      const postData: any = {
         title: newPost.title,
         slug,
         excerpt: newPost.excerpt,
@@ -163,15 +163,21 @@ const BlogAdmin = () => {
         category_id: newPost.category_id || null,
         author_id: authorId,
         featured: newPost.featured,
-        status: 'draft'
-      }).select().single();
+        status: publish ? 'published' : 'draft'
+      };
+
+      if (publish) {
+        postData.published_at = new Date().toISOString();
+      }
+
+      const { data: savedPost, error } = await supabase.from('blog_posts').insert(postData).select().single();
 
       if (error) throw error;
 
       // Save tag associations
-      if (selectedTags.length > 0 && postData) {
+      if (selectedTags.length > 0 && savedPost) {
         const tagAssociations = selectedTags.map(tagId => ({
-          post_id: postData.id,
+          post_id: savedPost.id,
           tag_id: tagId
         }));
         
@@ -184,7 +190,7 @@ const BlogAdmin = () => {
 
       toast({
         title: "Success",
-        description: "Blog post created successfully"
+        description: publish ? "Blog post published successfully" : "Blog post created successfully"
       });
 
       setNewPost({ title: "", excerpt: "", content: "", category_id: "", featured: false });
@@ -354,7 +360,7 @@ const BlogAdmin = () => {
     }
   };
 
-  const handleSaveGeneratedContent = async (scheduledDate?: Date) => {
+  const handleSaveGeneratedContent = async (scheduledDate?: Date, publish = false) => {
     if (!generatedContent) return;
 
     try {
@@ -386,10 +392,12 @@ const BlogAdmin = () => {
         meta_keywords: generatedContent.meta_keywords,
         category_id: generationData.category || categories[0]?.id || null,
         author_id: authorId,
-        status: scheduledDate ? 'scheduled' : 'draft'
+        status: publish ? 'published' : (scheduledDate ? 'scheduled' : 'draft')
       };
 
-      if (scheduledDate) {
+      if (publish) {
+        postData.published_at = new Date().toISOString();
+      } else if (scheduledDate) {
         postData.scheduled_for = scheduledDate.toISOString();
       }
 
@@ -413,9 +421,11 @@ const BlogAdmin = () => {
 
       toast({
         title: "Success",
-        description: scheduledDate 
-          ? `Blog post scheduled for publication` 
-          : "Generated content saved as draft"
+        description: publish 
+          ? "Generated content published successfully" 
+          : (scheduledDate 
+            ? `Blog post scheduled for publication` 
+            : "Generated content saved as draft")
       });
 
       setGeneratedContent(null);
@@ -610,9 +620,13 @@ const BlogAdmin = () => {
                 </label>
               </div>
               <div className="flex gap-2">
-                <Button onClick={createPost}>
+                <Button onClick={() => createPost(false)}>
                   <Save className="w-4 h-4 mr-2" />
                   Save Draft
+                </Button>
+                <Button onClick={() => createPost(true)}>
+                  <Eye className="w-4 h-4 mr-2" />
+                  Publish Now
                 </Button>
                 <Button variant="outline" onClick={() => setShowEditor(false)}>
                   <X className="w-4 h-4 mr-2" />
@@ -694,9 +708,13 @@ const BlogAdmin = () => {
                   </Button>
                 ) : (
                   <>
-                    <Button onClick={() => handleSaveGeneratedContent()}>
+                    <Button onClick={() => handleSaveGeneratedContent(undefined, false)}>
                       <Save className="w-4 h-4 mr-2" />
                       Save as Draft
+                    </Button>
+                    <Button onClick={() => handleSaveGeneratedContent(undefined, true)}>
+                      <Eye className="w-4 h-4 mr-2" />
+                      Publish Now
                     </Button>
                     <Button onClick={() => setShowSchedulingModal(true)}>
                       <Clock className="w-4 h-4 mr-2" />
