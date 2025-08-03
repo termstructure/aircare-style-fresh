@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Loader2, Shield, ShieldCheck, ShieldAlert } from "lucide-react";
+import { ArrowRight, Loader2, Shield, ShieldCheck } from "lucide-react";
+import ShieldPlus from "./ShieldPlus";
 import { Link } from "react-router-dom";
 import { useCollections } from "@/hooks/useShopify";
 import filtersImg from "@/assets/filters.jpg";
@@ -70,7 +71,7 @@ const ProductCategories = () => {
     }
     if (titleLower.includes('merv 13') || titleLower.includes('merv-13') || titleLower.includes('merv13')) {
       return {
-        icon: ShieldAlert,
+        icon: ShieldPlus,
         tier: 'Best',
         bgGradient: 'bg-gradient-to-br from-muted/20 to-muted/10',
         iconColor: 'text-primary',
