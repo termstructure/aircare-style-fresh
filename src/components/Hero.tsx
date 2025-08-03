@@ -5,10 +5,27 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle">
+    <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle overflow-hidden">
+      
+      {/* Floating Air Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="particle opacity-10"
+            style={{
+              left: `${Math.random() * 100}%`,
+              width: `${2 + Math.random() * 4}px`,
+              height: `${2 + Math.random() * 4}px`,
+              animation: `float-up ${15 + Math.random() * 10}s linear infinite`,
+              animationDelay: `${Math.random() * 15}s`
+            }}
+          />
+        ))}
+      </div>
       
       {/* Content */}
-      <div className="relative container mx-auto py-section-fluid-lg">
+      <div className="relative container mx-auto py-section-fluid-lg z-10">
         <div className="max-w-6xl mx-auto text-center">
           
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
