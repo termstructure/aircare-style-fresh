@@ -5,6 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { 
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
@@ -41,10 +50,13 @@ const BlogDynamic = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [subscribing, setSubscribing] = useState(false);
   const { toast } = useToast();
+
+  const postsPerPage = 9;
 
   useEffect(() => {
     fetchBlogData();
@@ -90,6 +102,26 @@ const BlogDynamic = () => {
   
   // Get recent posts (non-featured) from filtered results
   const recentFilteredPosts = filteredPosts.filter(post => !post.featured);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(recentFilteredPosts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const endIndex = startIndex + postsPerPage;
+  const currentPosts = recentFilteredPosts.slice(startIndex, endIndex);
+
+  // Reset to page 1 when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
+  // Handle page change with scroll to recent articles
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    const recentSection = document.querySelector('#recent-articles');
+    if (recentSection) {
+      recentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -299,11 +331,17 @@ const BlogDynamic = () => {
 
       {/* Recent Articles */}
       {recentFilteredPosts.length > 0 && (
-        <section className="py-section-fluid-md bg-muted/30">
+        <section id="recent-articles" className="py-section-fluid-md bg-muted/30">
           <div className="container mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Recent Articles</h2>
+            
+            {/* Article count info */}
+            <div className="text-center text-sm text-muted-foreground mb-6">
+              Showing {startIndex + 1}-{Math.min(endIndex, recentFilteredPosts.length)} of {recentFilteredPosts.length} articles
+            </div>
+            
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recentFilteredPosts.slice(0, 9).map((post) => (
+              {currentPosts.map((post) => (
                 <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-0">
                     {post.featured_image_url && (
@@ -347,6 +385,52 @@ const BlogDynamic = () => {
                 </Card>
               ))}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage > 1) handlePageChange(currentPage - 1);
+                        }}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(page);
+                          }}
+                          isActive={page === currentPage}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages) handlePageChange(currentPage + 1);
+                        }}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </div>
         </section>
       )}
