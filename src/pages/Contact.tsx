@@ -180,8 +180,8 @@ const Contact = () => {
                     description: "All our products are carefully selected for reliability and come with full technical support."
                   },
                   {
-                    title: "Competitive Pricing",
-                    description: "We offer transparent pricing with bulk discounts and no hidden fees for all customers."
+                    title: "Trusted Partnership",
+                    description: "We build lasting relationships with our customers through reliable service and ongoing support for all your air quality needs."
                   }
                 ].map((benefit, index) => (
                   <div key={index} className="flex items-start space-x-3">
