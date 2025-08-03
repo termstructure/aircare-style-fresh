@@ -305,11 +305,7 @@ const BlogPostDynamic = () => {
                 <h3 className="text-lg font-semibold mb-2">About the Author</h3>
                 <div className="flex items-start gap-4">
                   <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary-glow/20 rounded-full flex items-center justify-center">
-                    <img 
-                      src="/src/assets/logo.png" 
-                      alt="Air Care Logo" 
-                      className="w-8 h-8"
-                    />
+                    <User className="w-8 h-8 text-primary" />
                   </div>
                   <div>
                     <h4 className="font-medium mb-1">{post.blog_authors.name}</h4>
