@@ -1,21 +1,21 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, ShoppingCart, Star, Headphones, Truck } from "lucide-react";
+import { CheckCircle, Heart, Target, Zap } from "lucide-react";
 const stats = [{
-  icon: ShoppingCart,
-  label: "Easy Shopping",
-  value: "Online"
-}, {
-  icon: Star,
-  label: "Quality Products",
+  icon: Heart,
+  label: "Small Business Care",
   value: "100%"
 }, {
-  icon: Headphones,
-  label: "Helpful Support",
-  value: "24/7"
+  icon: Target,
+  label: "Customer Satisfaction Goal",
+  value: "100%"
 }, {
-  icon: Truck,
-  label: "Convenient Service",
-  value: "Fast"
+  icon: Zap,
+  label: "Same-Day Processing",
+  value: "24hr"
+}, {
+  icon: CheckCircle,
+  label: "Quality Focused",
+  value: "Always"
 }];
 const About = () => {
   return <section id="about" className="py-20 bg-background">
@@ -42,7 +42,7 @@ const About = () => {
             </p>
             
             <div className="space-y-4">
-              {["Browse our selection online or get personalized recommendations to find the right products for your home", "We carry trusted brands and reliable filters that help keep your home's air clean and fresh", "Our friendly team is here to answer questions and help you choose the best options for your needs", "From easy ordering to reliable delivery, we make it simple to maintain your home's air quality"].map((item, index) => <div key={index} className="flex items-center space-x-3">
+              {["Quality air filtration products from trusted brands", "Helpful customer support and product guidance", "Fast, reliable delivery nationwide", "Wide selection of trusted brand products"].map((item, index) => <div key={index} className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
                   <span className="text-foreground">{item}</span>
                 </div>)}
