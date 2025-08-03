@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useIsDesktop } from "@/hooks/use-desktop";
 import { useState } from "react";
 import logo from "@/assets/logo.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -46,6 +47,7 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-2 sm:space-x-3">
+            <ThemeToggle />
             {/* Mobile menu button */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
