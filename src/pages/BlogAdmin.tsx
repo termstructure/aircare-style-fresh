@@ -74,7 +74,7 @@ const BlogAdmin = () => {
   const [editingPostTags, setEditingPostTags] = useState<string[]>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { usageStats, getUsageStats, migrateStaticData, generateContent, loading: aiLoading } = useBlogAI();
+  const { usageStats, getUsageStats, migrateStaticData, generateContent, autoPublishScheduled, loading: aiLoading } = useBlogAI();
 
   useEffect(() => {
     checkAuth();
@@ -464,6 +464,21 @@ const BlogAdmin = () => {
     }
   };
 
+  const handleAutoPublish = async () => {
+    try {
+      await autoPublishScheduled();
+      fetchData(); // Refresh the posts list
+    } catch (error) {
+      console.error('Error auto-publishing:', error);
+    }
+  };
+
+  const isOverdue = (post: BlogPost) => {
+    return post.status === 'scheduled' && 
+           post.scheduled_for && 
+           new Date(post.scheduled_for) < new Date();
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -490,6 +505,10 @@ const BlogAdmin = () => {
             <Button onClick={() => setShowGenerator(true)} disabled={aiLoading} variant="outline">
               <Sparkles className="w-4 h-4 mr-2" />
               Generate with AI
+            </Button>
+            <Button onClick={handleAutoPublish} disabled={aiLoading} variant="outline">
+              <Clock className="w-4 h-4 mr-2" />
+              Publish Scheduled
             </Button>
             <Button onClick={() => setShowEditor(true)}>
               <Plus className="w-4 h-4 mr-2" />
@@ -753,15 +772,16 @@ const BlogAdmin = () => {
                   </div>
                 ) : (
                   <div>
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-xl font-semibold">{post.title}</h3>
-                      <div className="flex gap-2">
-                        <Badge variant={post.status === 'published' ? 'default' : 'secondary'}>
-                          {post.status}
-                        </Badge>
-                        {post.featured && <Badge variant="outline">Featured</Badge>}
-                      </div>
-                    </div>
+                     <div className="flex justify-between items-start mb-2">
+                       <h3 className="text-xl font-semibold">{post.title}</h3>
+                       <div className="flex gap-2">
+                         <Badge variant={post.status === 'published' ? 'default' : 'secondary'}>
+                           {post.status}
+                         </Badge>
+                         {post.featured && <Badge variant="outline">Featured</Badge>}
+                         {isOverdue(post) && <Badge variant="destructive">OVERDUE</Badge>}
+                       </div>
+                     </div>
                     <p className="text-muted-foreground mb-4">{post.excerpt}</p>
                     <div className="flex gap-2">
                       <Button
@@ -794,31 +814,42 @@ const BlogAdmin = () => {
                           </Button>
                         </>
                       )}
-                      {post.status === 'scheduled' && post.scheduled_for && (
-                        <>
-                          <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            Scheduled for: {new Date(post.scheduled_for).toLocaleString('en-US', {
-                              year: 'numeric',
-                              month: 'long', 
-                              day: 'numeric',
-                              hour: 'numeric',
-                              minute: '2-digit',
-                              timeZoneName: 'short'
-                            })}
-                          </div>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              setSchedulingPost(post);
-                              setShowSchedulingModal(true);
-                            }}
-                          >
-                            <Clock className="w-4 h-4 mr-2" />
-                            Reschedule
-                          </Button>
-                        </>
-                      )}
+                       {post.status === 'scheduled' && post.scheduled_for && (
+                         <>
+                           <div className={`text-sm flex items-center gap-2 ${isOverdue(post) ? 'text-destructive font-medium' : 'text-muted-foreground'}`}>
+                             {isOverdue(post) ? '⚠️ OVERDUE - Was scheduled for: ' : 'Scheduled for: '}
+                             {new Date(post.scheduled_for).toLocaleString('en-US', {
+                               year: 'numeric',
+                               month: 'long', 
+                               day: 'numeric',
+                               hour: 'numeric',
+                               minute: '2-digit',
+                               timeZoneName: 'short'
+                             })}
+                           </div>
+                           {isOverdue(post) && (
+                             <Button
+                               size="sm"
+                               onClick={() => publishPost(post.id)}
+                               className="bg-destructive hover:bg-destructive/90"
+                             >
+                               <Eye className="w-4 h-4 mr-2" />
+                               Publish Now
+                             </Button>
+                           )}
+                           <Button
+                             size="sm"
+                             variant="outline"
+                             onClick={() => {
+                               setSchedulingPost(post);
+                               setShowSchedulingModal(true);
+                             }}
+                           >
+                             <Clock className="w-4 h-4 mr-2" />
+                             Reschedule
+                           </Button>
+                         </>
+                       )}
                       <Button
                         size="sm"
                         variant="outline"
