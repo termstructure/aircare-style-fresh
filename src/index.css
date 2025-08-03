@@ -78,9 +78,6 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* Air particles */
-    --particle-color: 200 84% 60%;
   }
 
   .dark {
@@ -119,38 +116,6 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-/* Floating particles animation */
-@keyframes float-up {
-  0% {
-    transform: translateY(100vh) translateX(0px);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.4;
-  }
-  90% {
-    opacity: 0.4;
-  }
-  100% {
-    transform: translateY(-100px) translateX(20px);
-    opacity: 0;
-  }
-}
-
-.particle {
-  position: absolute;
-  background: hsl(var(--particle-color));
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .particle {
-    animation: none;
   }
 }
 
