@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useIsDesktop } from "@/hooks/use-desktop";
 import { useState } from "react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/LogoLetter.png";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Header = () => {
