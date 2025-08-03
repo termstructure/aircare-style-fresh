@@ -164,20 +164,20 @@ const Contact = () => {
               <div className="space-y-6">
                 {[
                   {
-                    title: "Expert Consultation",
-                    description: "Our air quality specialists provide personalized recommendations based on your specific needs and environment."
+                    title: "Easy Shopping Experience",
+                    description: "Browse our selection online or get personalized recommendations to find the right products for your home."
                   },
                   {
-                    title: "Fast Response",
-                    description: "We respond to all inquiries within 4 hours during business hours, ensuring you get the help you need quickly."
+                    title: "Quality Products",
+                    description: "We carry trusted brands and reliable filters that help keep your home's air clean and fresh."
                   },
                   {
-                    title: "Comprehensive Solutions",
-                    description: "From residential homes to large commercial facilities, we have the expertise and products for any project."
+                    title: "Helpful Support",
+                    description: "Our friendly team is here to answer questions and help you choose the best options for your needs."
                   },
                   {
-                    title: "Quality Focused",
-                    description: "All our products are carefully selected for reliability and come with full technical support."
+                    title: "Convenient Service",
+                    description: "From easy ordering to reliable delivery, we make it simple to maintain your home's air quality."
                   },
                   {
                     title: "Trusted Partnership",
