@@ -5,16 +5,31 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle">
+    <section id="home" className="relative min-h-[68vh] flex items-center bg-gradient-subtle overflow-hidden">
+      
+      {/* Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 20 }, (_, i) => (
+          <div
+            key={i}
+            className="floating-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 12}s`,
+            }}
+          />
+        ))}
+      </div>
       
       {/* Content */}
       <div className="relative container mx-auto py-section-fluid-lg">
-        <div className="max-w-6xl mx-auto text-center">
-          
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
-            Clean Air
-            <span className="block bg-gradient-accent bg-clip-text text-transparent">Made Simple</span>
-          </h1>
+        <div className="hero-content p-6 sm:p-8 md:p-12">
+          <div className="max-w-6xl mx-auto text-center">
+            
+            <h1 className="hero-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground mb-8 leading-[0.85] tracking-tight">
+              Clean Air
+              <span className="block bg-gradient-accent bg-clip-text text-transparent">Made Simple</span>
+            </h1>
           
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-body text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
             Quality air filters and helpful guidance to maintain better indoor air quality. 
@@ -49,6 +64,7 @@ const Hero = () => {
                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-accent" />
               </div>
               <span className="font-semibold text-sm sm:text-base md:text-lg">Fast Delivery</span>
+            </div>
             </div>
           </div>
         </div>
