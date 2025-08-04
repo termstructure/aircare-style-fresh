@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -522,7 +523,16 @@ const AirFiltersShopify = () => {
                       <CardContent className="p-0">
                         <Link to={`/product/${product.handle}`} className="block">
                           <div className="relative overflow-hidden rounded-t-lg">
-                            <img src={getProductImageUrl(product)} alt={product.title} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                            <AspectRatio ratio={1}>
+                              <img 
+                                src={getProductImageUrl(product)} 
+                                alt={product.title} 
+                                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  e.currentTarget.src = '/placeholder.svg';
+                                }}
+                              />
+                            </AspectRatio>
                             {!isAvailable && <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                                 <Badge variant="destructive">Out of Stock</Badge>
                               </div>}
@@ -821,7 +831,16 @@ const AirFiltersShopify = () => {
                       <CardContent className="p-0">
                         <Link to={`/product/${product.handle}`} className="block">
                           <div className="relative overflow-hidden rounded-t-lg">
-                            <img src={getProductImageUrl(product)} alt={product.title} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                            <AspectRatio ratio={1}>
+                              <img 
+                                src={getProductImageUrl(product)} 
+                                alt={product.title} 
+                                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  e.currentTarget.src = '/placeholder.svg';
+                                }}
+                              />
+                            </AspectRatio>
                             {!isAvailable && <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                                 <Badge variant="destructive">Out of Stock</Badge>
                               </div>}

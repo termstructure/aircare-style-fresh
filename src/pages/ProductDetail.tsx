@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useToast } from '@/hooks/use-toast';
 import { useProductsByCollectionWithFallback } from '@/hooks/useShopifyWithFallback';
 import { useCart } from '@/contexts/CartContext';
@@ -166,24 +167,34 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="aspect-square bg-muted rounded-lg overflow-hidden">
-              <img
-                src={getProductImageUrl(product)}
-                alt={product.title}
-                className="w-full h-full object-cover"
-              />
+            <div className="bg-muted rounded-lg overflow-hidden">
+              <AspectRatio ratio={1}>
+                <img
+                  src={getProductImageUrl(product)}
+                  alt={product.title}
+                  className="w-full h-full object-cover object-center"
+                  onError={(e) => {
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
+                />
+              </AspectRatio>
             </div>
             
             {/* Additional images if available */}
             {product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {product.images.slice(1, 5).map((image, index) => (
-                  <div key={image.id} className="aspect-square bg-muted rounded overflow-hidden">
-                    <img
-                      src={image.src}
-                      alt={`${product.title} ${index + 2}`}
-                      className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
-                    />
+                  <div key={image.id} className="bg-muted rounded overflow-hidden">
+                    <AspectRatio ratio={1}>
+                      <img
+                        src={image.src}
+                        alt={`${product.title} ${index + 2}`}
+                        className="w-full h-full object-cover object-center cursor-pointer hover:opacity-80 transition-opacity"
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder.svg';
+                        }}
+                      />
+                    </AspectRatio>
                   </div>
                 ))}
               </div>
