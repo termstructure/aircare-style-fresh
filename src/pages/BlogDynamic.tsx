@@ -281,48 +281,47 @@ const BlogDynamic = () => {
             <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Featured Articles</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredFilteredPosts.map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    {post.featured_image_url && (
-                      <img 
-                        src={post.featured_image_url} 
-                        alt={post.title}
-                        className="h-48 w-full object-cover"
-                      />
-                    )}
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Badge variant="secondary">
-                          {post.blog_categories?.name || 'Uncategorized'}
-                        </Badge>
-                        <Badge variant="outline">Featured</Badge>
-                      </div>
-                      <h3 className="font-semibold text-base md:text-lg mb-2 line-clamp-2">
-                        {post.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-4 line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                        <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          <span>{post.blog_authors?.name || 'Unknown Author'}</span>
+                <Link key={post.id} to={`/blog/${post.slug}`} className="block">
+                  <Card className="overflow-hidden hover:shadow-lg hover:scale-105 transform-gpu transition-all duration-300 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    <CardContent className="p-0">
+                      {post.featured_image_url && (
+                        <img 
+                          src={post.featured_image_url} 
+                          alt={post.title}
+                          className="h-48 w-full object-cover"
+                        />
+                      )}
+                      <div className="p-6">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Badge variant="secondary">
+                            {post.blog_categories?.name || 'Uncategorized'}
+                          </Badge>
+                          <Badge variant="outline">Featured</Badge>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <CalendarDays className="w-4 h-4" />
-                          <span>{formatDate(post.published_at || post.created_at)}</span>
+                        <h3 className="font-semibold text-base md:text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4 line-clamp-3">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                          <div className="flex items-center gap-1">
+                            <User className="w-4 h-4" />
+                            <span>{post.blog_authors?.name || 'Unknown Author'}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <CalendarDays className="w-4 h-4" />
+                            <span>{formatDate(post.published_at || post.created_at)}</span>
+                          </div>
+                        </div>
+                        <div className="inline-flex items-center gap-1 text-primary font-medium">
+                          <span>Read More</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="inline-flex items-center gap-1 text-primary hover:text-primary-glow font-medium"
-                      >
-                        Read More
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
@@ -342,47 +341,46 @@ const BlogDynamic = () => {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {currentPosts.map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    {post.featured_image_url && (
-                      <img 
-                        src={post.featured_image_url} 
-                        alt={post.title}
-                        className="h-32 w-full object-cover"
-                      />
-                    )}
-                    <div className="p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge variant="outline" className="text-xs">
-                          {post.blog_categories?.name || 'Uncategorized'}
-                        </Badge>
-                      </div>
-                      <h3 className="font-semibold text-sm md:text-base mb-2 line-clamp-2">
-                        {post.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                        <div className="flex items-center gap-1">
-                          <User className="w-3 h-3" />
-                          <span>{post.blog_authors?.name || 'Unknown Author'}</span>
+                <Link key={post.id} to={`/blog/${post.slug}`} className="block">
+                  <Card className="overflow-hidden hover:shadow-lg hover:scale-105 transform-gpu transition-all duration-300 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    <CardContent className="p-0">
+                      {post.featured_image_url && (
+                        <img 
+                          src={post.featured_image_url} 
+                          alt={post.title}
+                          className="h-32 w-full object-cover"
+                        />
+                      )}
+                      <div className="p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge variant="outline" className="text-xs">
+                            {post.blog_categories?.name || 'Uncategorized'}
+                          </Badge>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <CalendarDays className="w-3 h-3" />
-                          <span>{formatDate(post.published_at || post.created_at)}</span>
+                        <h3 className="font-semibold text-sm md:text-base mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                          <div className="flex items-center gap-1">
+                            <User className="w-3 h-3" />
+                            <span>{post.blog_authors?.name || 'Unknown Author'}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <CalendarDays className="w-3 h-3" />
+                            <span>{formatDate(post.published_at || post.created_at)}</span>
+                          </div>
+                        </div>
+                        <div className="inline-flex items-center gap-1 text-primary font-medium text-sm">
+                          <span>Read More</span>
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="inline-flex items-center gap-1 text-primary hover:text-primary-glow font-medium text-sm"
-                      >
-                        Read More
-                        <ArrowRight className="w-3 h-3" />
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
 
