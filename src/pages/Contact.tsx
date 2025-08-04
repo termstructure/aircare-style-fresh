@@ -55,24 +55,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Info Cards */}
-      <section className="py-section-fluid-lg bg-background">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 md:mb-20">
-            {contactInfo.map((info, index) => (
-              <Card key={index} className="bg-card hover:shadow-card transition-shadow duration-300">
-                <CardContent className="p-4 md:p-6 text-center">
-                  <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <info.icon className="w-8 h-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">{info.title}</h3>
-                  <p className="text-lg text-foreground font-medium">{info.content}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Contact Form Section */}
       <section className="py-section-fluid-md bg-muted/30">
