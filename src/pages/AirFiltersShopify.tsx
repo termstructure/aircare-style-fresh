@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Loader2, Filter, SortAsc, Star, Truck, Shield, HeadphonesIcon, ChevronDown, ChevronUp, CheckCircle2 } from "lucide-react";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from "@/components/ui/pagination";
 import { useIsDesktop } from "@/hooks/use-desktop";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
@@ -34,8 +35,12 @@ const AirFiltersShopify = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showCartDialog, setShowCartDialog] = useState(false);
   const [addedProduct, setAddedProduct] = useState<ShopifyProduct | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const isDesktop = useIsDesktop();
   const isMobile = useIsMobile();
+  
+  // Pagination settings
+  const itemsPerPage = isDesktop ? 12 : 8;
   const [filters, setFilters] = useState<Filters>({
     size: [],
     mervRating: [],
@@ -185,6 +190,18 @@ const AirFiltersShopify = () => {
     return filtered;
   };
   const filteredProducts = getFilteredAndSortedProducts();
+  
+  // Pagination calculations
+  const totalProducts = filteredProducts.length;
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+  
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, searchTerm, sortBy]);
 
   // Get unique values for filter options
   const getUniqueValues = () => {
@@ -230,6 +247,34 @@ const AirFiltersShopify = () => {
   };
   const handleContinueShopping = () => {
     setShowCartDialog(false);
+  };
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+    
+    let startPage = Math.max(1, currentPage - halfVisible);
+    let endPage = Math.min(totalPages, currentPage + halfVisible);
+    
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      if (startPage === 1) {
+        endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      } else {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    
+    return pages;
   };
   if (isLoading) {
     return <div className="min-h-screen">
@@ -446,7 +491,7 @@ const AirFiltersShopify = () => {
               {/* Sort and Results Count */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <p className="text-muted-foreground">
-                  Showing {filteredProducts.length} of {products?.length || 0} products
+                  Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
                 </p>
                 
                 <div className="flex items-center gap-2">
@@ -468,7 +513,7 @@ const AirFiltersShopify = () => {
 
               {/* Products */}
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredProducts.map(product => {
+                {currentProducts.map(product => {
               const mervRating = getMervRating(product);
               const size = getSize(product);
               const mainVariant = product.variants[0];
@@ -517,6 +562,61 @@ const AirFiltersShopify = () => {
                     </Card>;
             })}
               </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-8 flex justify-center">
+                  <Pagination>
+                    <PaginationContent>
+                      {currentPage > 1 && (
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(currentPage - 1);
+                            }}
+                          />
+                        </PaginationItem>
+                      )}
+                      
+                      {generatePageNumbers().map((page, index, array) => (
+                        <div key={page}>
+                          {index > 0 && page > array[index - 1] + 1 && (
+                            <PaginationItem>
+                              <PaginationEllipsis />
+                            </PaginationItem>
+                          )}
+                          <PaginationItem>
+                            <PaginationLink
+                              href="#"
+                              isActive={currentPage === page}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handlePageChange(page);
+                              }}
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        </div>
+                      ))}
+                      
+                      {currentPage < totalPages && (
+                        <PaginationItem>
+                          <PaginationNext 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(currentPage + 1);
+                            }}
+                          />
+                        </PaginationItem>
+                      )}
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
 
               {filteredProducts.length === 0 && <div className="text-center py-fluid-lg">
                   <p className="text-muted-foreground mb-4">No products match your filters</p>
@@ -690,7 +790,7 @@ const AirFiltersShopify = () => {
               {/* Sort and Results Count */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <p className="text-muted-foreground">
-                  Showing {filteredProducts.length} of {products?.length || 0} products
+                  Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
                 </p>
                 
                 <div className="flex items-center gap-2">
@@ -712,7 +812,7 @@ const AirFiltersShopify = () => {
 
               {/* Products */}
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredProducts.map(product => {
+                {currentProducts.map(product => {
               const mervRating = getMervRating(product);
               const size = getSize(product);
               const mainVariant = product.variants[0];
@@ -761,6 +861,61 @@ const AirFiltersShopify = () => {
                     </Card>;
             })}
               </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-8 flex justify-center">
+                  <Pagination>
+                    <PaginationContent>
+                      {currentPage > 1 && (
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(currentPage - 1);
+                            }}
+                          />
+                        </PaginationItem>
+                      )}
+                      
+                      {generatePageNumbers().map((page, index, array) => (
+                        <div key={page}>
+                          {index > 0 && page > array[index - 1] + 1 && (
+                            <PaginationItem>
+                              <PaginationEllipsis />
+                            </PaginationItem>
+                          )}
+                          <PaginationItem>
+                            <PaginationLink
+                              href="#"
+                              isActive={currentPage === page}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handlePageChange(page);
+                              }}
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        </div>
+                      ))}
+                      
+                      {currentPage < totalPages && (
+                        <PaginationItem>
+                          <PaginationNext 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(currentPage + 1);
+                            }}
+                          />
+                        </PaginationItem>
+                      )}
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
 
               {filteredProducts.length === 0 && <div className="text-center py-fluid-lg">
                   <p className="text-muted-foreground mb-4">No products match your filters</p>
