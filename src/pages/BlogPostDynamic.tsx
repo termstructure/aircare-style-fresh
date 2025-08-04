@@ -327,35 +327,34 @@ const BlogPostDynamic = () => {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center">Related Articles</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {relatedPosts.map((relatedPost) => (
-                <Card key={relatedPost.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    {relatedPost.featured_image_url && (
-                      <img 
-                        src={relatedPost.featured_image_url} 
-                        alt={relatedPost.title}
-                        className="h-32 w-full object-cover"
-                      />
-                    )}
-                    <div className="p-4">
-                      <Badge variant="outline" className="text-xs mb-2">
-                        {relatedPost.blog_categories?.name || 'Uncategorized'}
-                      </Badge>
-                      <h3 className="font-semibold mb-2 line-clamp-2">
-                        {relatedPost.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                        {relatedPost.excerpt}
-                      </p>
-                      <Link
-                        to={`/blog/${relatedPost.slug}`}
-                        className="inline-flex items-center gap-1 text-primary hover:text-primary-glow font-medium text-sm"
-                      >
-                        Read More
-                        <ArrowRight className="w-3 h-3" />
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
+                <Link
+                  key={relatedPost.id}
+                  to={`/blog/${relatedPost.slug}`}
+                  className="block group hover:scale-105 hover:shadow-lg transform-gpu transition-all duration-300 ease-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                >
+                  <Card className="overflow-hidden h-full">
+                    <CardContent className="p-0">
+                      {relatedPost.featured_image_url && (
+                        <img 
+                          src={relatedPost.featured_image_url} 
+                          alt={relatedPost.title}
+                          className="h-32 w-full object-cover"
+                        />
+                      )}
+                      <div className="p-4">
+                        <Badge variant="outline" className="text-xs mb-2">
+                          {relatedPost.blog_categories?.name || 'Uncategorized'}
+                        </Badge>
+                        <h3 className="font-semibold mb-2 line-clamp-2">
+                          {relatedPost.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                          {relatedPost.excerpt}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
