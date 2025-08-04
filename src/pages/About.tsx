@@ -61,24 +61,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-section-fluid-lg bg-background">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            {stats.map((stat, index) => (
-              <Card key={index} className="bg-card hover:shadow-card transition-shadow duration-300">
-                <CardContent className="p-4 md:p-6 text-center">
-                  <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <stat.icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
-                  <div className="text-muted-foreground font-medium text-sm">{stat.label}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Our Story Section */}
       <section className="py-section-fluid-md bg-muted/30">
