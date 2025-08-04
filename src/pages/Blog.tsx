@@ -1064,8 +1064,8 @@ const Blog = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {featuredFilteredPosts.map((post) => (
-                <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group overflow-hidden">
-                  <Link to={`/blog/${post.slug}`}>
+                <Link key={post.id} to={`/blog/${post.slug}`} className="block">
+                  <Card className="bg-card hover:shadow-lg hover:scale-105 transform-gpu transition-all duration-300 ease-out cursor-pointer group overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                     <CardContent className="p-6">
                       <div className="flex items-center space-x-3 mb-4">
                         <Badge variant="outline" className="text-xs">
@@ -1096,8 +1096,8 @@ const Blog = () => {
                         <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
                       </div>
                     </CardContent>
-                  </Link>
-                </Card>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
@@ -1113,8 +1113,8 @@ const Blog = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recentFilteredPosts.map((post) => (
-              <Card key={post.id} className="bg-card hover:shadow-card transition-all duration-300 group">
-                <Link to={`/blog/${post.slug}`}>
+              <Link key={post.id} to={`/blog/${post.slug}`} className="block">
+                <Card className="bg-card hover:shadow-lg hover:scale-105 transform-gpu transition-all duration-300 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                   <CardContent className="p-6">
                     <div className="flex items-center space-x-3 mb-4">
                       <Badge variant="outline" className="text-xs">
@@ -1140,8 +1140,8 @@ const Blog = () => {
                       <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
                     </div>
                   </CardContent>
-                </Link>
-              </Card>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
