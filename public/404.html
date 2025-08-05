@@ -19,8 +19,10 @@
       }
     }(window.location))
     
-    // Redirect to index.html for SPA
-    window.location.replace('/aircare-style-fresh/');
+    // Redirect to index.html for SPA - force explicit path
+    if (window.location.pathname === '/aircare-style-fresh/' || window.location.pathname === '/aircare-style-fresh/404.html') {
+      window.location.replace('/aircare-style-fresh/index.html');
+    }
   </script>
 </head>
 <body>

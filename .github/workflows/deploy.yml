@@ -29,6 +29,18 @@ jobs:
     - name: Build
       run: npm run build
       
+    - name: Debug build output
+      run: |
+        echo "Contents of dist folder:"
+        ls -la ./dist/
+        echo "Checking for index.html:"
+        if [ -f "./dist/index.html" ]; then
+          echo "index.html found"
+          head -20 ./dist/index.html
+        else
+          echo "index.html NOT found"
+        fi
+      
     - name: Setup Pages
       uses: actions/configure-pages@v5
       
