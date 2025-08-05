@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Air Care Supply Co.</title>
+  <title>AirCare Supply Co - Quality Air Filters & HVAC Solutions</title>
   <script>
     // Single Page Apps for GitHub Pages
     // https://github.com/rafgraph/spa-github-pages
-    // Start single page app
+    // Start single page app redirect
     (function(l) {
       if (l.search[1] === '/' ) {
         var decoded = l.search.slice(1).split('&').map(function(s) { 
@@ -18,10 +18,12 @@
         )
       }
     }(window.location))
+    
+    // Redirect to index.html for SPA
+    window.location.replace('/aircare-style-fresh/');
   </script>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+  <div>Redirecting...</div>
 </body>
 </html>
