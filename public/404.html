@@ -5,18 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AirCare Supply Co - Quality Air Filters & HVAC Solutions</title>
   <script>
-    // Simple redirect for HashRouter on GitHub Pages
-    var currentPath = window.location.pathname;
-    var basePath = '/aircare-style-fresh/';
-    
-    // If we're not at the base path, redirect to index.html with hash
-    if (currentPath !== basePath) {
-      var newPath = currentPath.replace(basePath, '');
-      window.location.replace(basePath + '#/' + newPath);
-    } else {
-      // Just redirect to the base with hash
-      window.location.replace(basePath + '#/');
-    }
+    // Redirect 404s to the React app's router
+    window.location.replace('/');
   </script>
 </head>
 <body>

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Redirect Theme",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headless Storefront Redirect"
+      },
+      {
+        "type": "paragraph",
+        "content": "This theme redirects all traffic to your headless storefront."
+      }
+    ]
+  }
+]
