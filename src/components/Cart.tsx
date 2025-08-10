@@ -20,7 +20,7 @@ const Cart: React.FC<CartProps> = ({ children }) => {
     const checkoutUrl = await getCheckoutUrl();
     if (checkoutUrl) {
       console.log('Redirecting to Shopify checkout:', checkoutUrl);
-      window.open(checkoutUrl, '_blank');
+      window.location.assign(checkoutUrl);
       toast({
         title: "Redirecting to Checkout",
         description: "Opening Shopify checkout in a new tab...",

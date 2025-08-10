@@ -242,7 +242,7 @@ const AirFiltersShopify = () => {
   const handleGoToCheckout = async () => {
     const checkoutUrl = await getCheckoutUrl();
     if (checkoutUrl) {
-      window.open(checkoutUrl, '_blank');
+      window.location.assign(checkoutUrl);
     }
     setShowCartDialog(false);
   };

@@ -13,6 +13,7 @@ interface CartContextType {
   items: CartItem[];
   totalItems: number;
   totalPrice: string;
+  isSyncing: boolean;
   addToCart: (product: ShopifyProduct, variantId: string, quantity?: number) => void;
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
@@ -32,6 +33,60 @@ export const useCart = () => {
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = React.useState<CartItem[]>([]);
+  const [checkoutId, setCheckoutId] = React.useState<string | null>(() => (typeof window !== 'undefined' ? localStorage.getItem('checkoutId') : null));
+  const [checkoutUrl, setCheckoutUrl] = React.useState<string>(() => ((typeof window !== 'undefined' ? localStorage.getItem('checkoutUrl') : '') || ''));
+  const [isSyncing, setIsSyncing] = React.useState<boolean>(false);
+
+  const toStorefrontId = React.useCallback((id: string) => {
+    if (!id) return id;
+    if (id.startsWith('gid://')) {
+      try {
+        return btoa(id);
+      } catch {
+        return id;
+      }
+    }
+    return id;
+  }, []);
+
+  const createCheckoutFromItems = React.useCallback(async () => {
+    if (items.length === 0) {
+      setCheckoutId(null);
+      setCheckoutUrl('');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('checkoutId');
+        localStorage.removeItem('checkoutUrl');
+      }
+      return '';
+    }
+    try {
+      setIsSyncing(true);
+      const lineItems = items.map(item => ({
+        variantId: toStorefrontId(item.variantId),
+        quantity: item.quantity,
+      }));
+      const checkout = await shopifyClient.checkout.create({ lineItems });
+      const url = checkout?.webUrl || '';
+      const id = checkout?.id || null;
+      setCheckoutUrl(url);
+      setCheckoutId(id);
+      if (typeof window !== 'undefined') {
+        if (id) localStorage.setItem('checkoutId', id);
+        if (url) localStorage.setItem('checkoutUrl', url);
+      }
+      return url;
+    } catch (err) {
+      console.error('Failed to sync Shopify checkout, falling back later.', err);
+      return '';
+    } finally {
+      setIsSyncing(false);
+    }
+  }, [items, toStorefrontId]);
+
+  React.useEffect(() => {
+    // Pre-create checkout whenever cart changes
+    void createCheckoutFromItems();
+  }, [createCheckoutFromItems]);
 
   const addToCart = React.useCallback((product: ShopifyProduct, variantId: string, quantity = 1) => {
     const variant = product.variants.find(v => v.id === variantId);
@@ -80,6 +135,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearCart = React.useCallback(() => {
     setItems([]);
+    setCheckoutId(null);
+    setCheckoutUrl('');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('checkoutId');
+      localStorage.removeItem('checkoutUrl');
+    }
   }, []);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -88,34 +149,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return sum + (parseFloat(item.price) * item.quantity);
   }, 0).toFixed(2);
 
-  // Create Shopify Checkout via Buy SDK and return the webUrl
+  // Return a ready checkout URL, creating one if missing, with graceful fallback
   const getCheckoutUrl = React.useCallback(async () => {
     try {
       if (items.length === 0) return '';
 
-      const toStorefrontId = (id: string) => {
-        if (!id) return id;
-        // If ID looks like a gid URI, base64-encode it for Storefront
-        if (id.startsWith('gid://')) {
-          try {
-            return btoa(id);
-          } catch {
-            return id;
-          }
-        }
-        return id;
-      };
+      if (checkoutUrl) {
+        return checkoutUrl;
+      }
 
-      const lineItems = items.map(item => ({
-        variantId: toStorefrontId(item.variantId),
-        quantity: item.quantity,
-      }));
+      const url = await createCheckoutFromItems();
+      if (url) return url;
 
-      const checkout = await shopifyClient.checkout.create({ lineItems });
-      console.log('Shopify checkout created:', checkout?.webUrl, checkout?.id);
-      return checkout?.webUrl || '';
-    } catch (err) {
-      console.error('Failed to create Shopify checkout, falling back to cart permalink.', err);
       // Fallback to old cart permalink approach
       const cartString = items
         .map(item => {
@@ -124,13 +169,23 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         })
         .join(',');
       return `https://aircaresupplyco.myshopify.com/cart/${cartString}`;
+    } catch (err) {
+      console.error('Failed to get Shopify checkout URL, falling back to cart permalink.', err);
+      const cartString = items
+        .map(item => {
+          const numericId = item.variantId.split('/').pop();
+          return `${numericId}:${item.quantity}`;
+        })
+        .join(',');
+      return `https://aircaresupplyco.myshopify.com/cart/${cartString}`;
     }
-  }, [items]);
+  }, [items, checkoutUrl, createCheckoutFromItems]);
 
   const value: CartContextType = {
     items,
     totalItems,
     totalPrice,
+    isSyncing,
     addToCart,
     removeFromCart,
     updateQuantity,
