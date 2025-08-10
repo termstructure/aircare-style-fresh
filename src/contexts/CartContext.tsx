@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ShopifyProduct } from '@/lib/shopify';
+import { ShopifyProduct, shopifyClient } from '@/lib/shopify';
 
 export interface CartItem {
   id: string;
@@ -17,7 +17,7 @@ interface CartContextType {
   removeFromCart: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   clearCart: () => void;
-  getCheckoutUrl: () => string;
+  getCheckoutUrl: () => Promise<string>;
 }
 
 const CartContext = React.createContext<CartContextType | undefined>(undefined);
@@ -88,19 +88,43 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return sum + (parseFloat(item.price) * item.quantity);
   }, 0).toFixed(2);
 
-  // Generate Shopify cart permalink URL
-  const getCheckoutUrl = React.useCallback(() => {
-    if (items.length === 0) return '';
-    
-    const cartString = items
-      .map(item => {
-        // Extract numeric ID from GraphQL ID (gid://shopify/ProductVariant/ID)
-        const numericId = item.variantId.split('/').pop();
-        return `${numericId}:${item.quantity}`;
-      })
-      .join(',');
-    
-    return `https://aircaresupplyco.myshopify.com/cart/${cartString}`;
+  // Create Shopify Checkout via Buy SDK and return the webUrl
+  const getCheckoutUrl = React.useCallback(async () => {
+    try {
+      if (items.length === 0) return '';
+
+      const toStorefrontId = (id: string) => {
+        if (!id) return id;
+        // If ID looks like a gid URI, base64-encode it for Storefront
+        if (id.startsWith('gid://')) {
+          try {
+            return btoa(id);
+          } catch {
+            return id;
+          }
+        }
+        return id;
+      };
+
+      const lineItems = items.map(item => ({
+        variantId: toStorefrontId(item.variantId),
+        quantity: item.quantity,
+      }));
+
+      const checkout = await shopifyClient.checkout.create({ lineItems });
+      console.log('Shopify checkout created:', checkout?.webUrl, checkout?.id);
+      return checkout?.webUrl || '';
+    } catch (err) {
+      console.error('Failed to create Shopify checkout, falling back to cart permalink.', err);
+      // Fallback to old cart permalink approach
+      const cartString = items
+        .map(item => {
+          const numericId = item.variantId.split('/').pop();
+          return `${numericId}:${item.quantity}`;
+        })
+        .join(',');
+      return `https://aircaresupplyco.myshopify.com/cart/${cartString}`;
+    }
   }, [items]);
 
   const value: CartContextType = {

@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ shop.name }}</title>
   <script>
-    // Redirect all traffic to the headless storefront
-    window.location.replace('https://aircaresupplyco.com');
+    // Redirect to headless storefront except for Shopify-native routes like /cart and /checkout
+    (function() {
+      var path = window.location.pathname;
+      var allow = [/^\/cart(\/|$)/, /^\/checkout(\/|$)/, /^\/account(\/|$)/];
+      var isAllowed = allow.some(function(re){ return re.test(path); });
+      if (!isAllowed) {
+        var dest = 'https://aircaresupplyco.com' + window.location.pathname + window.location.search + window.location.hash;
+        window.location.replace(dest);
+      }
+    })();
   </script>
 </head>
 <body>

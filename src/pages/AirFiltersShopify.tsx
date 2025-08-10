@@ -239,8 +239,8 @@ const AirFiltersShopify = () => {
     setAddedProduct(product);
     setShowCartDialog(true);
   };
-  const handleGoToCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
+  const handleGoToCheckout = async () => {
+    const checkoutUrl = await getCheckoutUrl();
     if (checkoutUrl) {
       window.open(checkoutUrl, '_blank');
     }

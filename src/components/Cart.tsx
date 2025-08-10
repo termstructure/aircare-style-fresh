@@ -16,8 +16,8 @@ const Cart: React.FC<CartProps> = ({ children }) => {
   const { items, totalItems, totalPrice, updateQuantity, removeFromCart, getCheckoutUrl } = useCart();
   const { toast } = useToast();
 
-  const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
+  const handleCheckout = async () => {
+    const checkoutUrl = await getCheckoutUrl();
     if (checkoutUrl) {
       console.log('Redirecting to Shopify checkout:', checkoutUrl);
       window.open(checkoutUrl, '_blank');
